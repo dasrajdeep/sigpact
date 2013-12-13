@@ -4,12 +4,12 @@ var registry={
 	views:{}
 };
 
-function boot() {
+function boot_system() {
 	loadPageView('startView');
 	loadStylesheet('mainStyle');
 	loadScript('mainScript');
 }
 
 $(document).ready(function() {
-	boot();
+	boot_system();
 });
