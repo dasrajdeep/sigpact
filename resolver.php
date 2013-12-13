@@ -22,6 +22,10 @@
 			$scriptName=$_REQUEST['script_name'].'.js';
 			if(!file_exists($script_path.$scriptName)) die('specified script does not exist');
 			header('Location: '.$script_path.$scriptName);
+		} else if($action==='loadimage') {
+			//To be defined.
+		} else if($action==='rpc') {
+			//To be defined.
 		} else {
 			echo 'invalid command';
 		}
