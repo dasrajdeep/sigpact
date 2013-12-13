@@ -1,0 +1,1 @@
+Contains external software to be interfaced with the app.

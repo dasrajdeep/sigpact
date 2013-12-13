@@ -1,0 +1,1 @@
+Contains the views for this application. Views are created in HTML. All views must be registered for the system to recognize them.
