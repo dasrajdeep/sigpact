@@ -25,6 +25,16 @@
 	
 	Registry::loadRegistry();
 	
+	if(count($requestParams)>0) {
+		$info=pathinfo($requestParams[count($requestParams)-1]);
+		if(isset($info['extension'])) {
+			$info['extension']=strtolower($info['extension']);
+			if(in_array($info['extension'],array('js','css','jpg','jpeg','png','gif','bmp','svg'))) require_once('static.php');
+		}
+	}
+	
+	build_view_registry();
+	
 	if(count($requestParams)==0) require_once('container.php');
 	else {
 		$action=$requestParams[0];

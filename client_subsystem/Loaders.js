@@ -1,6 +1,6 @@
 function loadPageView(viewName) {
 	showMainLoader();
-	$.get('index.php',{'action':'loadview','view_name':viewName}, function(viewData) {
+	$.get(rootPath+'view/'+viewName,{}, function(viewData) {
 		hideMainLoader();
 		$('body').html(viewData);
 	});

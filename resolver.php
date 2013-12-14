@@ -2,10 +2,12 @@
 	
 	if($action) {
 		if($action==='view') {
-			if(!isset($_REQUEST['view_name'])) die('view name not specified');
-			$viewName=$_REQUEST['view_name'].'.php';
-			if(!file_exists($path_views.$viewName)) die('specified view does not exist');
-			require_once($path_views.$viewName);
+			if(!isset($requestParams[0])) die('view name not specified');
+			$viewName=$requestParams[0].'.php';
+			$view_registry=parse_ini_file($path_views.'.views',true);
+			$view_registry=$view_registry['view_registry'];
+			if(!isset($view_registry[$requestParams[0]])) die('specified view does not exist');
+			require_once($view_registry[$requestParams[0]]);
 		} else if($action==='rpc') {
 			require_once('app/Dispatcher.php');
 			$dispatcher=new Dispatcher();

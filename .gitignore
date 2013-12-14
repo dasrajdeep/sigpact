@@ -1,4 +1,13 @@
 app/styles/*.css
 app/scripts/*.js
-app/views/*.php
+app/views/*
 app/external/*
+
+*.ini
+*.png
+*.gif
+*.jpeg
+*.jpg
+*.bmp
+*.svg
+

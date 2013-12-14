@@ -5,6 +5,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo $app_title; ?></title>
+	<script>
+		var rootPath='<?php echo $rootPath; ?>';
+	</script>
 	<script src="<?php echo $rootPath; ?>lib/jquery-1.10.2.js"></script>
 	<script src="<?php echo $rootPath; ?>client_subsystem/Main.js"></script>
 	<script src="<?php echo $rootPath; ?>client_subsystem/DisplayManager.js"></script>

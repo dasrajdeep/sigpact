@@ -39,7 +39,7 @@ class ContentManager {
 			} else $contentFound=false;
 		}
 		
-		if($contentFound) header('Location: '.$GLOBALS['rootPath'].$cache_location.$contentName);
+		if($contentFound) header('Location: '.$GLOBALS['rootPath'].$this->cache_location.$contentName);
 		else header('HTTP/1.1 404 Not Found');
 	}
 	

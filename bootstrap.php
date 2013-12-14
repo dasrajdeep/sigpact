@@ -1,5 +1,24 @@
 <?php
 
+function build_view_registry() {
+	
+	global $path_views;
+	
+	$dir_listing=scandir($path_views);
+	
+	$registry_file=$path_views.'.views';
+	
+	$view_registry="[view_registry]\n\n";
+	
+	foreach($dir_listing as $entry) {
+		if(is_file($path_views.$entry) || $entry==='.' || $entry==='..') continue;
+		$view_files=scandir($path_views.$entry);
+		foreach($view_files as $file) if(strpos($file,'.php')>0) $view_registry.=sprintf("%s=%s/%s\n",substr($file,0,strpos($file,'.php')),$path_views.$entry,$file);
+	}
+	
+	file_put_contents($registry_file,$view_registry);
+}
+
 function load_module($moduleName) {
 	
 	$moduleFile=$moduleName.'.php';
@@ -46,8 +65,15 @@ function get_style_link($stylesheetFileName) {
 }
 
 function add_view_component($componentName) {
-
-	$path=$GLOBALS['path_views'].$componentName.'.php';
+	
+	if(!isset($GLOBALS['view_registry'])) {
+		$reg=parse_ini_file($GLOBALS['path_views'].'.views');
+		$GLOBALS['view_registry']=$reg['view_registry'];
+	}
+	
+	if(!isset($GLOBALS['view_registry'][$componentName])) return false;
+	
+	$path=$GLOBALS['view_registry'][$componentName];
 	
 	if(file_exists($path)) {
 		require_once($path);
