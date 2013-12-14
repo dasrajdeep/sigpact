@@ -16,16 +16,20 @@
 			if(!isset($_REQUEST['style_name'])) die('style name not specified');
 			$styleName=$_REQUEST['style_name'].'.css';
 			if(!file_exists($style_path.$styleName)) die('specified stylesheet does not exist');
-			header('Location: '.$style_path.$styleName);
+			header('Location: '.$rootPath.$style_path.$styleName);
 		} else if($action==='loadscript') {
 			if(!isset($_REQUEST['script_name'])) die('script name not specified');
 			$scriptName=$_REQUEST['script_name'].'.js';
 			if(!file_exists($script_path.$scriptName)) die('specified script does not exist');
-			header('Location: '.$script_path.$scriptName);
+			header('Location: '.$rootPath.$script_path.$scriptName);
 		} else if($action==='loadimage') {
 			//To be defined.
 		} else if($action==='rpc') {
-			//To be defined.
+			require_once('app/Dispatcher.php');
+			$dispatcher=new Dispatcher();
+			$dispatcher->dispatch();
+			$result=call_user_func_array(array($dispatcher,'dispatch'),$requestParams);
+			echo json_encode($result);
 		} else {
 			echo 'invalid command';
 		}
