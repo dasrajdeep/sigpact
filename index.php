@@ -8,6 +8,7 @@
 
 	for($i=0;$i<sizeof($scriptName);$i++) { if ($requestURI[$i]==$scriptName[$i]) unset($requestURI[$i]); }
 	
+	$requestURI=array_filter($requestURI);
 	$requestParams=array_values($requestURI);
 	
 	define('DS',DIRECTORY_SEPARATOR);
@@ -24,7 +25,12 @@
 	
 	Registry::loadRegistry();
 	
-	if(isset($_REQUEST['action'])) require_once('resolver.php');
-	else require_once('container.php');
+	if(count($requestParams)==0) require_once('container.php');
+	else {
+		$action=$requestParams[0];
+		$requestParams=array_slice($requestParams,1);
+		
+		require_once('resolver.php');
+	}
 
 ?>

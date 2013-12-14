@@ -18,6 +18,15 @@ function add_image_link($imageFileName) {
 	else echo ''; // To be replaced by broken content inline image.
 }
 
+function get_image_link($imageFileName) {
+	
+	$path=$GLOBALS['path_graphics'].$imageFileName;
+	
+	if(file_exists($path)) return $path;
+	else if(Registry::lookupGraphics($imageFileName)) return Registry::lookupGraphics($imageFileName);
+	else return ''; 
+}
+
 function get_script_link($scriptFileName) {
 	
 	$path=$GLOBALS['path_scripts'].$scriptFileName;

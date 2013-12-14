@@ -5,9 +5,9 @@ var registry={
 };
 
 function boot_system() {
-	loadPageView('startView');
-	loadStylesheet('mainStyle');
-	loadScript('mainScript');
+	//loadPageView('startView');
+	//loadStylesheet('mainStyle');
+	//loadScript('mainScript');
 }
 
 $(document).ready(function() {

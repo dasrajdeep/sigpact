@@ -5,7 +5,7 @@ $app_header='This is my new App!';
 $app_footer='This App was created by me.';
 
 $rootDirectory=getcwd().'/';
-$rootPath='/os_arch/';
+$rootPath='/stream_arch/';
 
 $path_modules='app/modules/';
 $path_views='app/views/';
