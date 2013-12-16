@@ -4,39 +4,55 @@ class ContentManager {
 	
 	private $cache_location='cache/';
 	
+	private $cdn_url='';
+	
 	private $contentTypes=array(
 		'graphics'=>array('jpg','jpeg','png','gif','bmp','svg'),
 		'stylesheets'=>array('css'),
-		'scripts'=>array('js')
+		'scripts'=>array('js'),
+		'fonts'=>array('eot','ttf','woff')
 	);
+	
+	public function getResourceLink($resourceName) {
+		
+		$contentInfo=pathinfo($resourceName);
+		
+		if(!isset($contentInfo['extension'])) return '';
+		
+		$ext=$contentInfo['extension'];
+		
+		if(in_array($ext,$this->contentTypes['graphics'])) {
+			if($GLOBALS['production']) return $this->cdn_url.'graphics/'.$resourceName;
+			else return Registry::lookupGraphics($resourceName);
+		} else if(in_array($ext,$this->contentTypes['stylesheets'])) {
+			if($GLOBALS['production']) return $this->cdn_url.'stylesheets/'.$resourceName;
+			else return Registry::lookupStyle($resourceName);
+		} else if(in_array($ext,$this->contentTypes['scripts'])) {
+			if($GLOBALS['production']) return $this->cdn_url.'scripts/'.$resourceName;
+			else return Registry::lookupScript($resourceName);
+		} else if(in_array($ext,$this->contentTypes['fonts'])) {
+			if($GLOBALS['production']) return $this->cdn_url.'fonts/'.$resourceName;
+			else return $GLOBALS['rootPath'].$GLOBALS['path_fonts'].$resourceName;
+		} else return '';
+	}
 	
 	public function serveContent($contentName) {
 		
+		global $vendor_content;
+		
 		$fileInfo=pathinfo($contentName);
 		
-		$content_type=$fileInfo['extension'];
-		
-		if(in_array($content_type,$this->contentTypes['graphics'])) $content_type='graphics';
-		else if(in_array($content_type,$this->contentTypes['stylesheets'])) $content_type='stylesheets';
-		else if(in_array($content_type,$this->contentTypes['scripts'])) $content_type='scripts';
-		else $content_type='unknown';
+		if(in_array($fileInfo['basename'],array_keys($vendor_content))) {
+			header('Location: '.$vendor_content[$fileInfo['basename']]);
+			return;
+		}
 		
 		$contentFound=true;
 		
 		if(!file_exists($this->cache_location.$contentName)) {
-			if($content_type==='graphics') {
-				$path_to_file=get_image_link($contentName);
-				if($path_to_file) copy($path_to_file,$this->cache_location.$contentName);
-				else $contentFound=false;
-			} else if($content_type==='stylesheets') {
-				$path_to_file=get_style_link($contentName);
-				if($path_to_file) copy($path_to_file,$this->cache_location.$contentName);
-				else $contentFound=false;
-			} else if($content_type==='scripts') {
-				$path_to_file=get_script_link($contentName);
-				if($path_to_file) copy($path_to_file,$this->cache_location.$contentName);
-				else $contentFound=false;
-			} else $contentFound=false;
+			$location=$this->getResourceLink($contentName);
+			if($location && file_exists($location)) copy($location,$this->cache_location.$contentName);
+			else $contentFound=false; 
 		}
 		
 		if($contentFound) header('Location: '.$GLOBALS['rootPath'].$this->cache_location.$contentName);
