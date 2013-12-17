@@ -20,7 +20,11 @@ class ExampleController {
 		
 		$this->rpcExample();
 		
-		ViewManager::renderView('example',array('variable'=>'This is a view variable.'));
+		load_modules(array('ExampleModule'));
+		
+		$module=new ExampleModule();
+		
+		ViewManager::renderView('example',array('variable'=>$module->exampleMethod()));
 	}
 }
 

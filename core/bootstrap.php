@@ -1,5 +1,9 @@
 <?php
-
+	
+	require_once('core/errorhandler.php');
+	
+	set_error_handler('global_error_handler');
+	
 	require_once('core/globals.php');
 	require_once('core/audit.php');
 	require_once('core/registry.php');

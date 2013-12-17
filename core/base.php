@@ -46,6 +46,11 @@
 		require_once($path);
 	}
 	
+	function load_modules($moduleNames) {
+		
+		foreach($moduleNames as $mod) load_module($mod);
+	}
+	
 	function add_libraries() {
 		
 		global $libraries;
