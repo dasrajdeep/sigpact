@@ -31,7 +31,7 @@
 		
 		$pathInfo=pathinfo($dependancyName);
 		
-		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array());
+		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array(),'vars'=>array());
 		
 		if(!isset($pathInfo['extension'])) {
 			array_push($GLOBALS['view_config']['lib'],$dependancyName);

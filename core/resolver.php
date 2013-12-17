@@ -2,24 +2,24 @@
 	
 	function resolve($action,$uriParams) {
 		
-		global $path_views;
-		
-		$ports=array();
-		
 		if($action) {
 			if($action==='view') {
 				if(!isset($uriParams[0])) die('view name not specified');
-				require_once('app/ViewManager.php');
-				$viewManager=new ViewManager();
-				$viewManager->renderView($uriParams[0]);
+				require_once('app/Dispatcher.php');
+				$dispatcher=new Dispatcher();
+				if($uriParams[0]==='default') $uriParams[0]=Registry::lookupConfig('default_view');
+				call_user_func_array(array($dispatcher,'handleViewRequest'),$uriParams);
 			} else if($action==='rpc') {
 				require_once('app/Dispatcher.php');
 				$dispatcher=new Dispatcher();
-				$dispatcher->dispatch();
-				$result=call_user_func_array(array($dispatcher,'dispatch'),$uriParams);
+				$result=call_user_func_array(array($dispatcher,'invokeRPC'),$uriParams);
 				echo json_encode($result);
-			} else if(in_array($action,$ports)) {
-				//Define ports here.
+			} else if(in_array($action,Registry::getPortNames())) {
+				require_once('app/Dispatcher.php');
+				$dispatcher=new Dispatcher();
+				$params=array($action);
+				array_push($params,$uriParams);
+				call_user_func_array(array($dispatcher,'handlePortRequest'),$params);
 			} else {
 				die('invalid command');
 			}

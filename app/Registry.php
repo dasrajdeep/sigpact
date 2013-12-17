@@ -21,10 +21,22 @@ class Registry {
 	private static $graphics_registry=array();
 	
 	/**
-		Contains registry entries of the form:
-		(<controller_name>,<method_name>)
-	*/
+	 * Contains registry entries of the form:
+	 * (<controller_name>,<method_name>)
+	 */
+	private static $port_registry=array();
+	
+	/**
+	 * Contains registry entries of the form:
+	 * <method_name>=<controller_class_name>
+	 */
 	private static $rpc_registry=array();
+	
+	/**
+	 * Contains registry entries of the form:
+	 * <view_name>=<controller_class_name>
+	 */
+	private static $view_registry=array();
 	
 	/**
 	 * Contains registry entries of the form:
@@ -37,13 +49,16 @@ class Registry {
 		$config_app=parse_ini_file('app/app.ini',true);
 		$config_content=parse_ini_file('app/content.ini',true);
 		
-		$routes=$config_app['routes'];
-		
+		$routes=$config_app['ports'];
 		foreach(array_keys($routes) as $command) {
 			$routeConfig=$routes[$command];
 			$routeConfig=explode(':',$routeConfig);
-			self::$rpc_registry[$command]=array($routeConfig[0],$routeConfig[1]);
+			self::$port_registry[$command]=array($routeConfig[0],$routeConfig[1]);
 		}
+		
+		self::$rpc_registry=$config_app['rpc'];
+		
+		self::$view_registry=$config_app['view'];
 		
 		self::$app_config=$config_app['config'];
 		
@@ -52,9 +67,26 @@ class Registry {
 		self::$graphics_registry=$config_content['graphics'];
 	}
 	
+	public static function getPortNames() {
+		
+		return array_keys(self::$port_registry);
+	}
+	
+	public static function lookupPort($portName) {
+		
+		if(isset(self::$port_registry[$portName])) return self::$port_registry[$portName];
+		else return null;
+	}
+	
 	public static function lookupRPC($rpcName) {
 	
 		if(isset(self::$rpc_registry[$rpcName])) return self::$rpc_registry[$rpcName];
+		else return null;
+	}
+	
+	public static function lookupView($viewName) {
+		
+		if(isset(self::$view_registry[$viewName])) return self::$view_registry[$viewName];
 		else return null;
 	}
 	

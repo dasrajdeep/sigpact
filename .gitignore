@@ -1,7 +1,7 @@
-app/styles/*.css
-app/scripts/*.js
-app/views/*
 app/external/*
+!app/external/readme.txt
+data/*
+!data/readme.txt
 cache/*
 
 *.ini
@@ -11,4 +11,7 @@ cache/*
 *.jpg
 *.bmp
 *.svg
+
+.views
+.audit
 

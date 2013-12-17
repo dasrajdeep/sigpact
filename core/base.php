@@ -8,10 +8,12 @@
 		$requestURI=explode('/',$uriResource[0]);
 		$scriptName=explode('/',$scriptResource[0]);
 
-		for($i=0;$i<sizeof($scriptName);$i++) { if ($requestURI[$i]==$scriptName[$i]) unset($requestURI[$i]); }
+		for($i=0;$i<sizeof($scriptName);$i++) { if($requestURI[$i]==$scriptName[$i]) unset($requestURI[$i]); }
 		
 		$requestURI=array_filter($requestURI);
 		$requestParams=array_values($requestURI);
+		
+		$requestParams=array_merge($requestParams,$_REQUEST);
 		
 		return $requestParams;
 	}
