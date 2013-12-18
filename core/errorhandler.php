@@ -1,5 +1,7 @@
 <?php
 
+defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+
 function global_error_handler($error_level,$error_message,$error_file,$error_line,$error_context) {
 	
 	if(!file_exists('errors.log')) file_put_contents('errors.log','');

@@ -5,7 +5,9 @@
 	 * GLOBAL REGISTRY FOR STATIC CONTENT.
 	 * -----------------------------------
 	 */
-
+	
+	defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+	
 	$runtime_scripts=array(
 		'Main.js',
 		'DisplayManager.js',
@@ -26,21 +28,21 @@
 	
 	$libraries=array(
 		'jquery'=>array(
-			'local'=>array($rootPath.'lib/jquery-1.10.2.js'),
+			'local'=>array(BASE_URI.'lib/jquery-1.10.2.js'),
 			'cdn'=>array('http://code.jquery.com/jquery-1.10.1.min.js')
 		),
 		'jquery-ui'=>array(
-			'local'=>array($rootPath.'lib/jquery-ui-1.10.3.js'),
+			'local'=>array(BASE_URI.'lib/jquery-ui-1.10.3.js'),
 			'cdn'=>array('//code.jquery.com/ui/1.10.3/jquery-ui.js')
 		),
 		'bootstrap'=>array(
 			'local'=>array(
-				$rootPath.'lib/bootstrap-3.0.3/packed/boostrap.complete.min.css',
-				$rootPath.'lib/bootstrap-3.0.3/packed/bootstrap.min.js',
-				$rootPath.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.eot',
-				$rootPath.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.svg',
-				$rootPath.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.ttf',
-				$rootPath.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.woff'
+				BASE_URI.'lib/bootstrap-3.0.3/packed/boostrap.complete.min.css',
+				BASE_URI.'lib/bootstrap-3.0.3/packed/bootstrap.min.js',
+				BASE_URI.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.eot',
+				BASE_URI.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.svg',
+				BASE_URI.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.ttf',
+				BASE_URI.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.woff'
 			),
 			'cdn'=>array(
 				'//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css',

@@ -1,5 +1,7 @@
 <?php
 	
+	defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+	
 	function get_content_link($contentName) {
 		
 		if(!isset($GLOBALS['content_manager'])) $GLOBALS['content_manager']=new ContentManager();

@@ -1,6 +1,8 @@
 <?php
 
-if($production) {
+defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+
+if(PRODUCTION) {
 	
 	$client_address=$_SERVER['REMOTE_ADDR'];
 	$request_uri=$_SERVER['REQUEST_URI'];
