@@ -1,17 +1,27 @@
 <?php
 	
-	$production=false;
-
-	$rootDirectory=getcwd().'/';
-	$rootPath='/stream_arch/';
+	/**
+	 * ----------------------------------
+	 * GLOBAL CONSTANTS ARE DEFINED HERE.
+	 * ----------------------------------
+	 */
 	
-	$path_modules='app/modules/';
-	$path_external='app/external/';
-	$path_views='app/views/';
-	$path_scripts='app/scripts/';
-	$path_styles='app/styles/';
-	$path_graphics='app/images/';
-	$path_fonts='app/fonts/';
-	$path_appdata='data/';
+	defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+	
+	define('DS',DIRECTORY_SEPARATOR);
+	
+	define('PRODUCTION',false);
+	
+	define('BASE_DIR',getcwd().'/');
+	define('BASE_URI','http://localhost/stream_arch/');	
+	
+	define('PATH_MODULES','app/modules/');
+	define('PATH_THIRD_PARTY','app/external/');
+	define('PATH_VIEWS','app/views/');
+	define('PATH_SCRIPTS','app/scripts/');
+	define('PATH_STYLES','app/styles/');
+	define('PATH_GRAPHICS','app/images/');
+	define('PATH_FONTS','app/fonts/');
+	define('PATH_APPDATA','data/');
 	
 ?>

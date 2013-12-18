@@ -2,14 +2,17 @@
 	
 	session_start();
 	
-	define('DS',DIRECTORY_SEPARATOR);
+	define('SYSTEM_STARTED', TRUE);
 	
 	require_once('core/bootstrap.php');
 	
-	if($production) ini_set('display_errors',false);
+	if(PRODUCTION) ini_set('display_errors',false);
 	
 	$uriParams=getURIParameters(); 
 	
+	/**
+	 * Handle static content separately.
+	 */
 	if(count($uriParams)>0) {
 		$info=pathinfo($uriParams[count($uriParams)-1]);
 		if(isset($info['extension'])) {
@@ -18,6 +21,9 @@
 		}
 	}
 	
+	/**
+	 * Explicitly set command for default view.
+	 */
 	if(count($uriParams)==0) {
 		$action='view';
 		$uriParams=array('default');
@@ -26,6 +32,9 @@
 		$uriParams=array_slice($uriParams,1);
 	}
 	
+	/**
+	 * Resolve URI request.
+	 */
 	resolve($action,$uriParams);
 
 ?>

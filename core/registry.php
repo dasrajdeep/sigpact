@@ -1,4 +1,10 @@
 <?php
+	
+	/**
+	 * -----------------------------------
+	 * GLOBAL REGISTRY FOR STATIC CONTENT.
+	 * -----------------------------------
+	 */
 
 	$runtime_scripts=array(
 		'Main.js',

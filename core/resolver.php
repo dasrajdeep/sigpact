@@ -21,9 +21,9 @@
 				array_push($params,$uriParams);
 				call_user_func_array(array($dispatcher,'handlePortRequest'),$params);
 			} else {
-				die('invalid command');
+				die('Your request cannot be resolved.');
 			}
-		} else die('invalid command');
+		} else die('Your request cannot be resolved.');
 		
 	}
 

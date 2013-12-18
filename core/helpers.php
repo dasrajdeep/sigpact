@@ -6,14 +6,14 @@
 		
 		$rel_link=$GLOBALS['content_manager'].getResourceLink($contentName);
 		
-		if($rel_link) return $GLOBALS['rootPath'].$rel_link;
+		if($rel_link) return BASE_URI.$rel_link;
 		else return $rel_link;
 	}
 
 	function add_view_component($componentName) {
 		
 		if(!isset($GLOBALS['view_registry'])) {
-			$reg=parse_ini_file($GLOBALS['path_views'].'.views',true);
+			$reg=parse_ini_file(PATH_VIEWS.'.views',true);
 			$GLOBALS['view_registry']=$reg['view_registry'];
 		}
 		
@@ -31,7 +31,7 @@
 		
 		$pathInfo=pathinfo($dependancyName);
 		
-		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array(),'vars'=>array());
+		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array());
 		
 		if(!isset($pathInfo['extension'])) {
 			array_push($GLOBALS['view_config']['lib'],$dependancyName);

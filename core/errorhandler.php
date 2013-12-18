@@ -16,7 +16,7 @@ function global_error_handler($error_level,$error_message,$error_file,$error_lin
 	
 	$log_message.=sprintf(' "%s" (on file %s at line %s)',$error_message,$error_file,$error_line);
 	
-	error_log($log_message,3,'errors.log');
+	error_log($log_message."\n",3,'errors.log');
 	
 	die('An error occurred. Could not continue.');
 }

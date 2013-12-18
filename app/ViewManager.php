@@ -4,11 +4,9 @@ class ViewManager {
 	
 	public static function renderView($viewName,$view_vars=null) {
 		
-		global $path_views;
-		
 		$GLOBALS['view_type']='partial';
 		
-		$view_registry=parse_ini_file($path_views.'.views',true);
+		$view_registry=parse_ini_file(PATH_VIEWS.'.views',true);
 		$view_registry=$view_registry['view_registry'];
 		
 		if(isset($view_registry[$viewName])) {

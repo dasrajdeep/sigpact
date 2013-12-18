@@ -92,21 +92,21 @@ class Registry {
 	
 	public static function lookupGraphics($graphicsName) {
 		
-		if(file_exists($GLOBALS['path_graphics'].$graphicsName)) return $GLOBALS['path_graphics'].$graphicsName;
+		if(file_exists(PATH_GRAPHICS.$graphicsName)) return PATH_GRAPHICS.$graphicsName;
 		else if(isset(self::$graphics_registry[$graphicsName])) return self::$graphics_registry[$graphicsName];
 		else return null;
 	}
 	
 	public static function lookupStyle($stylesheetName) {
 	
-		if(file_exists($GLOBALS['path_styles'].$stylesheetName)) return $GLOBALS['path_styles'].$stylesheetName;
+		if(file_exists(PATH_STYLES.$stylesheetName)) return PATH_STYLES.$stylesheetName;
 		else if(isset(self::$style_registry[$stylesheetName])) return self::$style_registry[$stylesheetName];
 		else return null;
 	}
 	
 	public static function lookupScript($scriptName) {
 	
-		if(file_exists($GLOBALS['path_scripts'].$scriptName)) return $GLOBALS['path_scripts'].$scriptName;
+		if(file_exists(PATH_SCRIPTS.$scriptName)) return PATH_SCRIPTS.$scriptName;
 		else if(isset(self::$script_registry[$scriptName])) return self::$script_registry[$scriptName];
 		else return null;
 	}

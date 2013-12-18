@@ -1,4 +1,6 @@
 <?php
+	
+	defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
 
 	function getURIParameters() {
 		
@@ -20,18 +22,16 @@
 	
 	function build_view_registry() {
 		
-		global $path_views;
+		$dir_listing=scandir(PATH_VIEWS);
 		
-		$dir_listing=scandir($path_views);
-		
-		$registry_file=$path_views.'.views';
+		$registry_file=PATH_VIEWS.'.views';
 		
 		$view_registry="[view_registry]\n\n";
 		
 		foreach($dir_listing as $entry) {
-			if(is_file($path_views.$entry) || $entry==='.' || $entry==='..') continue;
-			$view_files=scandir($path_views.$entry);
-			foreach($view_files as $file) if(strpos($file,'.php')>0) $view_registry.=sprintf("%s=%s/%s\n",substr($file,0,strpos($file,'.php')),$path_views.$entry,$file);
+			if(is_file(PATH_VIEWS.$entry) || $entry==='.' || $entry==='..') continue;
+			$view_files=scandir(PATH_VIEWS.$entry);
+			foreach($view_files as $file) if(strpos($file,'.php')>0) $view_registry.=sprintf("%s=%s/%s\n",substr($file,0,strpos($file,'.php')),PATH_VIEWS.$entry,$file);
 		}
 		
 		file_put_contents($registry_file,$view_registry);
@@ -41,7 +41,7 @@
 		
 		$moduleFile=$moduleName.'.php';
 		
-		$path=$GLOBALS['path_modules'].$moduleFile;
+		$path=PATH_MODULES.$moduleFile;
 		
 		require_once($path);
 	}
@@ -64,7 +64,7 @@
 			if(isset($libraries[$lib])) {
 				$lib_link=$libraries[$lib];
 				
-				if($GLOBALS['production']) $lib_link=$lib_link['cdn'];
+				if(PRODUCTION) $lib_link=$lib_link['cdn'];
 				else $lib_link=$lib_link['local'];
 				
 				foreach($lib_link as $link) {
@@ -78,22 +78,20 @@
 	
 	function add_dependancies() {
 		
-		global $path_styles,$path_scripts;
-		
 		if(!isset($GLOBALS['view_config'])) return;
 		
 		$view_config=$GLOBALS['view_config'];
 		
 		foreach($view_config['styles'] as $dep) {
 			
-			if(!file_exists($path_styles.$dep)) continue;
+			if(!file_exists(PATH_STYLES.$dep)) continue;
 			
 			echo sprintf('<link rel="stylesheet" href="%s" />',$dep);
 		}
 		
 		foreach($view_config['scripts'] as $dep) {
 			
-			if(!file_exists($path_scripts.$dep)) continue;
+			if(!file_exists(PATH_SCRIPTS.$dep)) continue;
 			
 			echo sprintf('<script type="text/javascript" src="%s"></script>',$dep);
 		}
@@ -102,10 +100,10 @@
 	function add_bootscript() {
 		
 		$bootScript="
-			var rootPath='%s';
+			var baseURI='%s';
 		";
 		
-		$bootScript=sprintf($bootScript,$GLOBALS['rootPath']);
+		$bootScript=sprintf($bootScript,BASE_URI);
 		
 		echo sprintf('<script type="text/javascript">%s</script>',$bootScript);
 	}
