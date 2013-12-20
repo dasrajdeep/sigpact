@@ -9,7 +9,7 @@ class ExampleController {
 	
 	public function rpcExample() {
 		
-		$dataFolder=$GLOBALS['path_appdata'];
+		$dataFolder=PATH_APPDATA;
 		
 		file_put_contents($dataFolder.'example.txt','This is sample data.');
 		

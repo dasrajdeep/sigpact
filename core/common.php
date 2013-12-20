@@ -15,7 +15,7 @@
 		$requestURI=array_filter($requestURI);
 		$requestParams=array_values($requestURI);
 		
-		$requestParams=array_merge($requestParams,$_REQUEST);
+		//$requestParams=array_merge($requestParams,$_REQUEST);
 		
 		return $requestParams;
 	}

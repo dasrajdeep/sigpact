@@ -8,7 +8,7 @@
 	
 	if(PRODUCTION) ini_set('display_errors',false);
 	
-	$uriParams=getURIParameters(); 
+	$uriParams=getURIParameters();
 	
 	/**
 	 * Handle static content separately.
