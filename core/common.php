@@ -20,6 +20,11 @@
 		return $requestParams;
 	}
 	
+	function shutdown_system() {
+		
+		if(class_exists('DataStore',false)) DataStore::disconnectFromDatabase();
+	}
+	
 	function build_view_registry() {
 		
 		$dir_listing=scandir(PATH_VIEWS);
@@ -35,20 +40,6 @@
 		}
 		
 		file_put_contents($registry_file,$view_registry);
-	}
-
-	function load_module($moduleName) {
-		
-		$moduleFile=$moduleName.'.php';
-		
-		$path=PATH_MODULES.$moduleFile;
-		
-		require_once($path);
-	}
-	
-	function load_modules($moduleNames) {
-		
-		foreach($moduleNames as $mod) load_module($mod);
 	}
 	
 	function add_libraries() {

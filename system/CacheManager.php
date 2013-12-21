@@ -5,7 +5,7 @@ class CacheManager {
 	
 	private static $cacheRegistry;
 	
-	public static function loadCacheRegistry() {}
+	public static function init() {}
 	
 	public static function moveToCache($filePath) {}
 		

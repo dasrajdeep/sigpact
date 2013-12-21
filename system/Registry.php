@@ -44,7 +44,7 @@ class Registry {
 	 */
 	private static $app_config=array();
 	
-	public static function loadRegistry() {
+	public static function init() {
 		
 		$config_app=parse_ini_file('app/app.ini',true);
 		$config_content=parse_ini_file('app/content.ini',true);

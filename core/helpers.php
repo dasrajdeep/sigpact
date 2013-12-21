@@ -4,9 +4,7 @@
 	
 	function get_content_link($contentName) {
 		
-		if(!isset($GLOBALS['content_manager'])) $GLOBALS['content_manager']=new ContentManager();
-		
-		$rel_link=$GLOBALS['content_manager'].getResourceLink($contentName);
+		$rel_link=ContentManager::getResourceLink($contentName);
 		
 		if($rel_link) return BASE_URI.$rel_link;
 		else return $rel_link;

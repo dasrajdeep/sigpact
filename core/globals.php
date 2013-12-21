@@ -15,7 +15,10 @@
 	define('BASE_DIR',getcwd().'/');
 	define('BASE_URI','http://localhost/stream_arch/');	
 	
+	define('PATH_SYSTEM','system/');
 	define('PATH_MODULES','app/modules/');
+	define('PATH_CONTROLLERS','app/controllers/');
+	define('PATH_BEANS','app/beans/');
 	define('PATH_THIRD_PARTY','app/external/');
 	define('PATH_VIEWS','app/views/');
 	define('PATH_SCRIPTS','app/scripts/');
