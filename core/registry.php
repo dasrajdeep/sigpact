@@ -52,7 +52,7 @@
 	);
 	
 	$php_libraries=array(
-		'redbean'=>array('lib/redbeanphp-3.5.4/rb.php');
+		'redbean'=>array('lib/redbeanphp-3.5.4/rb.php')
 	);
 
 ?>
