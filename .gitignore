@@ -3,6 +3,7 @@ app/external/*
 data/*
 !data/readme.txt
 cache/*
+app/app.ini
 
 *.log
 *.ini
