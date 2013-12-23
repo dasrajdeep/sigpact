@@ -6,7 +6,7 @@ function global_error_handler($error_level,$error_message,$error_file,$error_lin
 	
 	if(!file_exists('errors.log')) file_put_contents('errors.log','');
 	
-	$log_message='';
+	$log_message='['.date(DATE_RFC2822).']:';
 	
 	if($error_level==1) $log_message='[PHP_ERROR]';
 	else if($error_level==2) $log_message='[PHP_WARNING]';

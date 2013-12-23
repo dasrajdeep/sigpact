@@ -4,6 +4,11 @@
 	
 	define('SYSTEM_STARTED', TRUE);
 	
+	require_once('app/environment.php');
+	
+	setlocale(LC_ALL,$env_locale);
+	date_default_timezone_set($env_time_zone);
+	
 	require_once('core/bootstrap.php');
 	
 	if(PRODUCTION) ini_set('display_errors',false);

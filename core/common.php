@@ -23,6 +23,7 @@
 	function shutdown_system() {
 		
 		if(class_exists('DataStore',false)) DataStore::disconnectFromDatabase();
+		
 	}
 	
 	function build_view_registry() {
@@ -70,62 +71,6 @@
 		$helper_registry.=implode("\n",$functionMap);
 		
 		file_put_contents($registry_file,$helper_registry);
-	}
-	
-	function add_libraries() {
-		
-		global $libraries;
-		
-		$libraryNames=array('jquery');
-		
-		if(isset($GLOBALS['view_config'])) $libraryNames=array_merge($libraryNames,$GLOBALS['view_config']['lib']);
-		
-		foreach($libraryNames as $lib) {
-			if(isset($libraries[$lib])) {
-				$lib_link=$libraries[$lib];
-				
-				if(PRODUCTION) $lib_link=$lib_link['cdn'];
-				else $lib_link=$lib_link['local'];
-				
-				foreach($lib_link as $link) {
-					$info=pathinfo($link);
-					if($info['extension']==='js') echo sprintf('<script type="text/javascript" src="%s"></script>',$link);
-					else if($info['extension']==='css') echo sprintf('<link rel="stylesheet" href="%s" />',$link);
-				}
-			}
-		}
-	}
-	
-	function add_dependancies() {
-		
-		if(!isset($GLOBALS['view_config'])) return;
-		
-		$view_config=$GLOBALS['view_config'];
-		
-		foreach($view_config['styles'] as $dep) {
-			
-			if(!file_exists(PATH_STYLES.$dep)) continue;
-			
-			echo sprintf('<link rel="stylesheet" href="%s" />',$dep);
-		}
-		
-		foreach($view_config['scripts'] as $dep) {
-			
-			if(!file_exists(PATH_SCRIPTS.$dep)) continue;
-			
-			echo sprintf('<script type="text/javascript" src="%s"></script>',$dep);
-		}
-	}
-	
-	function add_bootscript() {
-		
-		$bootScript="
-			var baseURI='%s';
-		";
-		
-		$bootScript=sprintf($bootScript,BASE_URI);
-		
-		echo sprintf('<script type="text/javascript">%s</script>',$bootScript);
 	}
 	
 ?>

@@ -10,10 +10,10 @@
 	
 	define('DS',DIRECTORY_SEPARATOR);
 	
-	define('PRODUCTION',false);
+	define('PRODUCTION',$env_production_mode);
 	
 	define('BASE_DIR',getcwd().'/');
-	define('BASE_URI','http://localhost/stream_arch/');	
+	define('BASE_URI',$env_base_uri);	
 	
 	define('PATH_SYSTEM','system/');
 	define('PATH_MODULES','app/modules/');

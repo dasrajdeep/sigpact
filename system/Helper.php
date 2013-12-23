@@ -24,7 +24,7 @@ class Helper {
 		
 		$rel_link=ContentManager::getResourceLink($contentName);
 		
-		if($rel_link) return BASE_URI.$rel_link;
+		if($rel_link) return $rel_link;
 		else return $rel_link;
 	}
 

@@ -7,9 +7,9 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo Registry::lookupConfig('app_title'); ?></title>
-	<?php add_bootscript(); ?>
-	<?php add_libraries(); ?>
-	<?php add_dependancies(); ?>
+	<?php ViewManager::add_bootscript(); ?>
+	<?php ViewManager::add_libraries(); ?>
+	<?php ViewManager::add_dependancies(); ?>
 </head>
 
 <body>
