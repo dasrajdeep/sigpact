@@ -2,6 +2,13 @@ app/external/*
 !app/external/readme.txt
 data/*
 !data/readme.txt
+app/views/*
+!app/views/readme.txt
+app/controllers/*.php
+app/modules/*.php
+app/helpers/*.php
+app/styles/*.css
+app/scripts/*.js
 cache/*
 app/app.ini
 
@@ -14,6 +21,7 @@ app/app.ini
 *.bmp
 *.svg
 
+.helpers
 .views
 .audit
 
