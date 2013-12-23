@@ -20,7 +20,7 @@ class Helper {
 		} else trigger_error('Called helper method does not exist.',512);
 	}
 	
-	public static function get_content_link($contentName) {
+	public static function getContentLink($contentName) {
 		
 		$rel_link=ContentManager::getResourceLink($contentName);
 		
@@ -28,7 +28,7 @@ class Helper {
 		else return $rel_link;
 	}
 
-	public static function add_view_component($componentName) {
+	public static function addViewComponent($componentName) {
 		
 		if(!isset($GLOBALS['view_registry'])) {
 			$reg=parse_ini_file(PATH_VIEWS.'.views',true);
@@ -45,7 +45,7 @@ class Helper {
 		} else return false;
 	}
 
-	public static function add_dependancy($dependancyName) {
+	public static function addDependancy($dependancyName) {
 		
 		$pathInfo=pathinfo($dependancyName);
 		
@@ -60,7 +60,7 @@ class Helper {
 		}
 	}
 	
-	public static function set_complete_view()  {
+	public static function setCompleteView()  {
 		
 		$GLOBALS['view_type']='complete';
 	}
