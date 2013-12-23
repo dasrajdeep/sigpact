@@ -25,8 +25,7 @@
 	 * Explicitly set command for default view.
 	 */
 	if(count($uriParams)==0) {
-		$action='view';
-		$uriParams=array('default');
+		$action=Registry::lookupConfig('default_port');
 	} else {
 		$action=$uriParams[0];
 		$uriParams=array_slice($uriParams,1);
