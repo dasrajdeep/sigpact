@@ -41,7 +41,7 @@
 		),
 		'bootstrap'=>array(
 			'local'=>array(
-				BASE_URI.'lib/bootstrap-3.0.3/packed/boostrap.complete.min.css',
+				BASE_URI.'lib/bootstrap-3.0.3/packed/bootstrap.complete.min.css',
 				BASE_URI.'lib/bootstrap-3.0.3/packed/bootstrap.min.js',
 				BASE_URI.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.eot',
 				BASE_URI.'lib/bootstrap-3.0.3/fonts/glyphicons-halflings-regular.svg',

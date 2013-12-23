@@ -76,10 +76,9 @@
 		
 		global $libraries;
 		
-		if(!isset($GLOBALS['view_config'])) $libraryNames=array();
-		else $libraryNames=$GLOBALS['view_config']['lib'];
+		$libraryNames=array('jquery');
 		
-		array_push($libraryNames,'jquery');
+		if(isset($GLOBALS['view_config'])) $libraryNames=array_merge($libraryNames,$GLOBALS['view_config']['lib']);
 		
 		foreach($libraryNames as $lib) {
 			if(isset($libraries[$lib])) {
