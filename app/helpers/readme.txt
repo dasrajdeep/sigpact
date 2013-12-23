@@ -1,0 +1,1 @@
+Contains helper files customly defined for your application. This directory may contain multiple helper files. Note that you cannot define any classes here. You may only define methods/functions inside each helper file at your convenience.

@@ -1,8 +1,20 @@
 <?php
+
+defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+
+class Helper {
 	
-	defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.');
+	public static function __callStatic($name, $arguments) {
+		
+		$registry=parse_ini_file(PATH_HELPERS.'.helpers',true);
+		
+		if(isset($registry['helper_registry'][$name])) {
+			require_once(PATH_HELPERS.$registry['helper_registry'][$name]);
+			return call_user_func_array($name,$arguments);
+		} else trigger_error('Called helper method does not exist.',512);
+	}
 	
-	function get_content_link($contentName) {
+	public static function get_content_link($contentName) {
 		
 		$rel_link=ContentManager::getResourceLink($contentName);
 		
@@ -10,7 +22,7 @@
 		else return $rel_link;
 	}
 
-	function add_view_component($componentName) {
+	public static function add_view_component($componentName) {
 		
 		if(!isset($GLOBALS['view_registry'])) {
 			$reg=parse_ini_file(PATH_VIEWS.'.views',true);
@@ -27,7 +39,7 @@
 		} else return false;
 	}
 
-	function add_dependancy($dependancyName) {
+	public static function add_dependancy($dependancyName) {
 		
 		$pathInfo=pathinfo($dependancyName);
 		
@@ -42,9 +54,11 @@
 		}
 	}
 	
-	function set_complete_view()  {
+	public static function set_complete_view()  {
 		
 		$GLOBALS['view_type']='complete';
 	}
+	
+}
 
 ?>

@@ -42,6 +42,36 @@
 		file_put_contents($registry_file,$view_registry);
 	}
 	
+	function build_helper_registry() {
+		
+		$dir_listing=scandir(PATH_HELPERS);
+		
+		$registry_file=PATH_HELPERS.'.helpers';
+		
+		$helper_registry="[helper_registry]\n\n";
+		
+		$functionMap=array();
+		
+		foreach($dir_listing as $entry) {
+			if(is_file(PATH_VIEWS.$entry) || $entry==='.' || $entry==='..') continue;
+			if(strpos($entry,'.php')>0) {
+				$tokens=token_get_all(file_get_contents(PATH_HELPERS.$entry));
+				$stateFlag=false;
+				foreach($tokens as $token) {
+					if($token[0]==307 && $stateFlag) {
+						array_push($functionMap,$token[1].'='.$entry);
+						$stateFlag=false;
+					}
+					if($token[0]==334) $stateFlag=true;
+				}
+			}
+		}
+		
+		$helper_registry.=implode("\n",$functionMap);
+		
+		file_put_contents($registry_file,$helper_registry);
+	}
+	
 	function add_libraries() {
 		
 		global $libraries;

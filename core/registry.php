@@ -35,6 +35,10 @@
 			'local'=>array(BASE_URI.'lib/jquery-ui-1.10.3.js'),
 			'cdn'=>array('//code.jquery.com/ui/1.10.3/jquery-ui.js')
 		),
+		'jquery-form'=>array(
+			'local'=>array(BASE_URI.'lib/jquery.form.js'),
+			'cdn'=>array('')
+		),
 		'bootstrap'=>array(
 			'local'=>array(
 				BASE_URI.'lib/bootstrap-3.0.3/packed/boostrap.complete.min.css',
