@@ -22,16 +22,16 @@ class ContentManager {
 		$ext=$contentInfo['extension'];
 		
 		if(in_array($ext,self::$contentTypes['graphics'])) {
-			if($GLOBALS['production']) return self::$cdn_url.'graphics/'.$resourceName;
+			if(PRODUCTION) return self::$cdn_url.'graphics/'.$resourceName;
 			else return Registry::lookupGraphics($resourceName);
 		} else if(in_array($ext,self::$contentTypes['stylesheets'])) {
-			if($GLOBALS['production']) return self::$cdn_url.'stylesheets/'.$resourceName;
+			if(PRODUCTION) return self::$cdn_url.'stylesheets/'.$resourceName;
 			else return Registry::lookupStyle($resourceName);
 		} else if(in_array($ext,self::$contentTypes['scripts'])) {
-			if($GLOBALS['production']) return self::$cdn_url.'scripts/'.$resourceName;
+			if(PRODUCTION) return self::$cdn_url.'scripts/'.$resourceName;
 			else return Registry::lookupScript($resourceName);
 		} else if(in_array($ext,self::$contentTypes['fonts'])) {
-			if($GLOBALS['production']) return self::$cdn_url.'fonts/'.$resourceName;
+			if(PRODUCTION) return self::$cdn_url.'fonts/'.$resourceName;
 			else return BASE_URI.PATH_FONTS.$resourceName;
 		} else return '';
 	}
