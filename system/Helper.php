@@ -4,12 +4,18 @@ defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.
 
 class Helper {
 	
+	private static $registry=array();
+	
+	public static function init() {
+		
+		self::$registry=parse_ini_file(PATH_HELPERS.'.helpers',true);
+		
+	}
+	
 	public static function __callStatic($name, $arguments) {
 		
-		$registry=parse_ini_file(PATH_HELPERS.'.helpers',true);
-		
-		if(isset($registry['helper_registry'][$name])) {
-			require_once(PATH_HELPERS.$registry['helper_registry'][$name]);
+		if(isset(self::$registry['helper_registry'][$name])) {
+			require_once(PATH_HELPERS.self::$registry['helper_registry'][$name]);
 			return call_user_func_array($name,$arguments);
 		} else trigger_error('Called helper method does not exist.',512);
 	}
