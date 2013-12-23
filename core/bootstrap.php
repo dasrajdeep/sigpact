@@ -16,19 +16,11 @@
 	spl_autoload_register('load_system');
 	spl_autoload_register('load_module');
 	spl_autoload_register('load_controller');
+	spl_autoload_register('_load_redbean');
 	
 	register_shutdown_function('shutdown_system');
 
 	if(!PRODUCTION) build_view_registry();
 	if(!PRODUCTION) build_helper_registry();
-	
-	require_once($GLOBALS['php_libraries']['redbean'][0]);
-	
-	$db_host=Registry::lookupConfig('database_host');
-	$db_user=Registry::lookupConfig('database_username');
-	$db_pass=Registry::lookupConfig('database_password');
-	$db_name=Registry::lookupConfig('database_name');
-	
-	R::setup(sprintf('mysql:host=%s;dbname=%s',$db_host,$db_name),$db_user,$db_pass);
 	
 ?>
