@@ -15,6 +15,7 @@
 	define('BASE_DIR',getcwd().'/');
 	define('BASE_URI',$env_base_uri);	
 	
+	define('PATH_CACHE','cache/');
 	define('PATH_SYSTEM','system/');
 	define('PATH_MODULES','app/modules/');
 	define('PATH_HELPERS','app/helpers/');

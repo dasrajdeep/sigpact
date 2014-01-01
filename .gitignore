@@ -10,7 +10,6 @@ app/helpers/*.php
 app/styles/*.css
 app/scripts/*.js
 cache/*
-app/app.ini
 
 *.log
 *.ini
@@ -21,6 +20,7 @@ app/app.ini
 *.bmp
 *.svg
 
+.cache
 .helpers
 .views
 .audit
