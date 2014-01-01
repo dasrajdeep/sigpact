@@ -59,8 +59,8 @@ class ContentManager {
 			}
 		}
 		
-		if($resourceLink && !file_exists(self::$cache_location.$resourceName) && file_exists(BASE_DIR.$resourceLink)) {
-			copy($resourceLink,self::$cache_location.$resourceName);
+		if($resourceLink && file_exists(BASE_DIR.$resourceLink)) {
+			CacheManager::moveToCache($resourceName);
 			$resourceLink=BASE_URI.self::$cache_location.$resourceName;
 		} else if($resourceLink && !file_exists(BASE_DIR.$resourceLink)) $resourceLink='';
 		
@@ -78,13 +78,8 @@ class ContentManager {
 			return;
 		}
 		
-		$contentFound=true;
-		
-		if(!file_exists(self::$cache_location.$contentName)) {
-			$location=self::getResourceLink($contentName);
-			if($location && file_exists($location)) copy($location,self::$cache_location.$contentName);
-			else $contentFound=false; 
-		}
+		if(CacheManager::lookupCache($contentName)) $contentFound=true;
+		else $contentFound=CacheManager::moveToCache($contentName);
 		
 		if($contentFound) header('Location: '.BASE_URI.self::$cache_location.$contentName);
 		else header('HTTP/1.1 404 Not Found');
