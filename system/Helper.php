@@ -28,7 +28,7 @@ class Helper {
 		else return $rel_link;
 	}
 
-	public static function addViewComponent($componentName) {
+	public static function addViewComponent($componentName,$view_vars=null) {
 		
 		if(!isset($GLOBALS['view_registry'])) {
 			$reg=parse_ini_file(PATH_VIEWS.'.views',true);
