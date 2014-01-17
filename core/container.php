@@ -7,6 +7,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo Registry::lookupConfig('app_title'); ?></title>
+	<?php
+		if(file_exists(BASE_DIR.'favicon.ico')) {
+			echo sprintf('<link rel="shortcut icon" href="%sfavicon.ico" type="image/x-icon">',BASE_URI);
+			echo sprintf('<link rel="icon" href="%sfavicon.ico" type="image/x-icon">',BASE_URI);
+		}
+	?>
 	<?php ViewManager::add_bootscript(); ?>
 	<?php ViewManager::add_libraries(); ?>
 	<?php ViewManager::add_dependancies(); ?>
