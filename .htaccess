@@ -2,5 +2,6 @@
     Options +FollowSymLinks
     IndexIgnore */*
     RewriteEngine On
+	RewriteRule ^favicon.ico$ $0 [L]
     RewriteRule . index.php
 </IfModule>
