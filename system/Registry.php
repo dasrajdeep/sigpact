@@ -48,8 +48,13 @@ class Registry {
 	
 	public static function init() {
 		
-		$config_app=parse_ini_file('app/app.ini',true);
-		$config_content=parse_ini_file('app/content.ini',true);
+		$app_config_file = (PRODUCTION) ? 'app/app.ini' : 'app/app_dev.ini';
+		$content_config_file = 'app/content.ini';
+		
+		if(!PRODUCTION && !file_exists($app_config_file)) file_put_contents($app_config_file, file_get_contents('app/app.ini'));
+		
+		$config_app=parse_ini_file($app_config_file, true);
+		$config_content=parse_ini_file($content_config_file, true);
 		
 		$routes=$config_app['ports'];
 		foreach(array_keys($routes) as $command) {

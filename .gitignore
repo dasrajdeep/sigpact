@@ -1,24 +1,9 @@
-app/external/*
-!app/external/readme.txt
 data/*
 !data/readme.txt
-app/views/*
-!app/views/readme.txt
-app/controllers/*.php
-app/modules/*.php
-app/helpers/*.php
-app/styles/*.css
-app/scripts/*.js
 cache/*
 
 *.log
-*.ini
-*.png
-*.gif
-*.jpeg
-*.jpg
-*.bmp
-*.svg
+app_dev.ini
 
 .cache
 .helpers
