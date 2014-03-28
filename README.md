@@ -1,4 +1,5 @@
-stream_arch
-===========
+=======
+sigpact
+=======
 
-Fast and efficient web application archtecture.
+SiGPACT @IIT Kanpur.
