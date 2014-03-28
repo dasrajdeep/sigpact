@@ -1,0 +1,18 @@
+@font-face {
+	font-family: 'PoiretOne';
+	src: url('PoiretOne-Regular.ttf');
+}
+
+body {
+	background-color: #EEEEEE;
+	color: #003048;
+	font-family: PoiretOne;
+}
+
+h1 {
+	font-family: PoiretOne;
+}
+
+.navbar-collapse {
+	background-color: #FFFFFF;
+}
