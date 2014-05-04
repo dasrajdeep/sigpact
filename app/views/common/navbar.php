@@ -3,7 +3,7 @@
 	<div class="navbar-header">
 		<a class="navbar-brand" href="<?php echo BASE_URI; ?>">
 			<img height="30px" alt=" " src="<?php echo Helper::getContentLink('iitk_logo_50.png'); ?>" />
-			<b>RESEARCHERS</b>
+			<b>SiGPACT</b>
 			<small><i>@IITK</i></small>
 		</a>
 	</div>
@@ -46,7 +46,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="<?php echo BASE_URI; ?>rpc/logoutUser">
+						<a href="<?php echo BASE_URI; ?>logout">
 							<span class="glyphicon glyphicon-off"></span>
 							Logout
 						</a>

@@ -22,7 +22,16 @@ class AuthController {
 		
 		$success = $accounts->authenticateUser($username, $password);
 		
+		if($success) $accounts->startUserSession($username);
+		
 		return $success;
+	}
+	
+	public function logout() {
+		
+		Session::stop();
+		
+		header('Location: '.BASE_URI);
 	}
 	
 	public function activateAccount($args) {
@@ -62,6 +71,7 @@ class AuthController {
 		$success = $accounts->createPassword($hash, $password);
 		
 		if($success) {
+			$accounts->startUserSession($success);
 			header('Location: '.BASE_URI);
 		} else {
 			ViewManager::renderView('firstrun-failed');

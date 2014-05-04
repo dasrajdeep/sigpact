@@ -16,3 +16,7 @@ h1 {
 .navbar-collapse {
 	background-color: #FFFFFF;
 }
+
+.navbar {
+	font-family: arial, sans-seriff;
+}

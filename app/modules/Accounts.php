@@ -4,6 +4,32 @@ class Accounts {
 	
 	private $salt = 'sgsgfy34tpi34hti8poh90hp9i67';
 	
+	// Returns TRUE if the session could be started or FALSE otherwise
+	public function startUserSession($userid) {
+		
+		if(is_numeric($userid)) {
+			
+			$account = R::load('account', $userid);
+			
+			if(!$account) return FALSE;
+			
+			Session::start($userid);
+			Session::setVar('name', $account->full_name);
+			
+			return TRUE;
+		} else {
+			
+			$account = r::findOne('account', 'email=?', array($userid));
+			
+			if(!$account) return FALSE;
+			
+			Session::start($account->id);
+			Session::setVar('name', $account->full_name);
+			
+			return TRUE;
+		}
+	}
+	
 	// Returns TRUE on success or FALSE on failure
 	public function updateUserAccount($acc_no, $password = null, $full_name = null) {
 		
@@ -95,16 +121,9 @@ class Accounts {
 		
 		if(!$user) return FALSE;
 		
-		$account = R::dispense('account');
+		$profile = new Profile();
 		
-		$account->email = $email;
-		$account->password = null;
-		$account->roll = $user['roll_no'];
-		$account->full_name = $user['full_name'];
-		$account->first_name = $user['first_name'];
-		$account->status = 0;
-		
-		$acc_id = R::store($account);
+		$acc_id = $profile->createUserAccount($user);
 		
 		if($acc_id) {
 			$users = R::find('account', 'status=?', array(2));
@@ -158,43 +177,9 @@ class Accounts {
 	// Returns FALSE on failure or the user details on success
 	public function verifyEmail($email) {
 		
-		$institute_id = substr($email, 0, strpos($email, '@'));
+		$iitk = new IITK();
 		
-		$oa_url = 'http://oa.cc.iitk.ac.in:8181/Oa/Jsp/OAServices/IITK_SrchStudMail.jsp?selstudmail='.$institute_id;
-		
-		$con = curl_init();
-		curl_setopt($con, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($con, CURLOPT_URL, $oa_url);
-		$content = curl_exec($con);
-		
-		$success = preg_match("/numtxt=([A-Za-z]*[0-9]+)/", $content, $results);
-		
-		if(!$success) {
-			return FALSE;
-		}
-		
-		$roll_no = $results[1];
-		
-		$success = preg_match("/<td class=\"TableText\">\\s+([a-zA-Z. ]+)\\s*</", $content, $results);
-		
-		if(!$success) {
-			return FALSE;
-		}
-		
-		$full_name = trim($results[1]);
-		
-		$name_parts = explode(" ", $full_name);
-		
-		$first_name = $name_parts[0];
-		
-		$user = array(
-			'email' => $email,
-			'roll_no' => $roll_no,
-			'full_name' => $full_name,
-			'first_name' => $first_name
-		);
-		
-		return $user;
+		return $iitk->verifyEmailID($email);
 	}
 	
 	// Returns TRUE if hash exists or FALSE otherwise
