@@ -78,9 +78,14 @@ class Profile {
 		else return FALSE;
 	}
 	
-	public function getCompleteProfileInfo($email) {
+	public function getCompleteProfileInfo($id) {
 		
-		$account = R::find('account', 'email=:email', array(':email' => $email));
+		if(is_numeric($id)) {
+			$account = R::load('account', $id);
+		} else {
+			$account = R::find('account', 'email=:email', array(':email' => $email));
+		}
+		
 		$photo = R::load('photo', $account->photo_id);
 		
 		return array($account, $photo);
@@ -88,10 +93,26 @@ class Profile {
 	
 	public function getPreviewProfileInfo($email) {
 		
-		$profile_info = R::getRow("SELECT full_name,first_name,department,programme,sex FROM account WHERE email=:email", 
+		$profile_info = R::getRow("SELECT full_name,first_name,department,programme,sex,photo_id FROM account WHERE email=:email", 
 			array(':email'=>$email));
 			
 		return $profile_info;
+	}
+	
+	public function fetchAllProfiles() {
+		
+		$profiles = R::getAll('SELECT first_name,photo_id,email,id_no FROM account');
+		
+		$photos = array();
+		
+		foreach($profiles as $profile) {
+			if($profile['photo_id'] != null) {
+				$photo = R::load('photo', $profile['photo_id']);
+				$photos[$profile['id_no']] = $photo;
+			} else $photos[$profile['id_no']] = null;
+		}
+		
+		return array($profiles, $photos);
 	}
 	
 }

@@ -13,6 +13,10 @@ h1 {
 	font-family: PoiretOne;
 }
 
+img {
+	border-radius: 5px;
+}
+
 .navbar-collapse {
 	background-color: #FFFFFF;
 }

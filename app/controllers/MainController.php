@@ -13,20 +13,39 @@ class MainController {
 	
 	public function showHomePage() {
 		
-		ViewManager::renderView('home-main');
+		$profiles = new Profile();
+		
+		$profile_data = $profiles->fetchAllProfiles();
+		
+		ViewManager::renderView('home-main', $profile_data);
 		
 	}
 	
 	public function showProfilePage($args) {
 		
-		if(count($args) > 0) {
-			// Render public profile
-			ViewManager::renderView('profile-public-main');
-		} else if(Session::isRunning()) {
-			ViewManager::renderView('profile-self-main');
+		if(count($args) > 0) $args = $args[0];
+		else $args = null;
+		
+		$profile = new Profile();
+		
+		if($args) $user_profile = $profile->getCompleteProfileInfo($args);
+		else $user_profile = $profile->getCompleteProfileInfo(Session::getUserID());
+		
+		if(Session::isRunning()) {
+			ViewManager::renderView('profile-main', $user_profile);
 		} else {
 			header('Location: '.BASE_URI);
 		}
+	}
+	
+	public function showMeetingsPage() {
+		
+		$meetings = new Meeting();
+		
+		$all_meetings = $meetings->getUserMeetings(Session::getUserID());
+		
+		ViewManager::renderView('meetings-main', $all_meetings);
+		
 	}
 	
 }    

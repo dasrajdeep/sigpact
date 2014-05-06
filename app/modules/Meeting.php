@@ -2,11 +2,12 @@
 
 class Meeting {
 	
-	// Includes venue, date & time, duration, description
-	public function createNewMeeting($venue, $datetime, $duration, $description = null) {
+	// Includes creator, venue, date & time, duration, description
+	public function createNewMeeting($creator_id, $venue, $datetime, $duration, $description = null) {
 		
 		$meeting = R::dispense('meeting');
 		
+		$meeting->creator = $creator_id;
 		$meeting->venue = $venue;
 		$meeting->datetime = $datetime;
 		$meeting->duration = $duration;
@@ -22,30 +23,33 @@ class Meeting {
 		$inviter_profile = R::load('account', $inviter);
 		$meeting = R::load('meeting', $meeting_id);
 		
-		// Need to take participants into account
+		// Create list of guests.
 		if($guests == null) {
+			$guests = array();
 			$guest_emails = R::getAll('SELECT email FROM account');
-			// Invite all guests
-			foreach($guest_emails as $email) {
-				$account = R::findOne('account', 'email=?', array($email));
-				$mail_content = Utilities::generateMailContent(Utilities::MAIL_CONFIG_MEETING_INVITATION, 
-					array('first_name'=>$account->first_name, 'date'=>date('l,jS F',$meeting->datetime), 'time'=>date('h:i A',$meeting->datetime),
-					'inviter'=>$inviter_profile->first_name, 'description'=>$meeting->description));
-				$mailer->spoolMail($email, $mail_content[0], $mail_content[1], 'SiGPACT Meeting Invitation');
-			}
-		} else {
-			// Invite selected guests
-			foreach($guests as $email) {
-				$account = R::findOne('account', 'email=?', array($email));
-				$mail_content = Utilities::generateMailContent(Utilities::MAIL_CONFIG_MEETING_INVITATION, 
-					array('first_name'=>$account->first_name, 'date'=>date('l,jS F',$meeting->datetime), 'time'=>date('h:i A',$meeting->datetime),
-					'inviter'=>$inviter_profile->first_name, 'description'=>$meeting->description));
-				$mailer->spoolMail($email, $mail_content[0], $mail_content[1], 'SiGPACT Meeting Invitation');
-			}
+			foreach($guest_emails as $email) array_push($guests, $guest_emails['email']);
+		}
+		
+		// Invite selected guests.
+		foreach($guests as $email) {
+			
+			$account = R::findOne('account', 'email=?', array($email));
+			
+			$participant = R::dispense('participant');
+			
+			$participant->meeting_id = $meeting_id;
+			$participant->participant = $account->id;
+			
+			R::store($participant);
+			
+			$mail_content = Utilities::generateMailContent(Utilities::MAIL_CONFIG_MEETING_INVITATION, 
+				array('first_name'=>$account->first_name, 'date'=>date('l,jS F',$meeting->datetime), 'time'=>date('h:i A',$meeting->datetime),
+				'inviter'=>$inviter_profile->first_name, 'description'=>$meeting->description));
+			$mailer->spoolMail($email, $mail_content[0], $mail_content[1], 'SiGPACT Meeting Invitation');
 		}
 	}
 	
-	public function updateMeetingMinutes($meeting_id, $minutes = null, $files = array()) {
+	public function updateMeetingMinutes($acc_no, $meeting_id, $minutes = null, $files = array()) {
 		
 		$meeting = R::load('meeting', $meeting_id);
 		
@@ -57,15 +61,14 @@ class Meeting {
 		
 		$dest_path = PATH_APPDATA.'meeting/meeting_'.$meeting_id.'/';
 		
+		$crumbs = new Crumbs();
+		
 		foreach($files as $file) {
+			
 			$filename = pathinfo($file, PATHINFO_BASENAME);
 			move_uploaded_file($file, $dest_path.$filename);
-			$crumb = R::dispense('crumb');
-			$crumb->filename = $filename;
-			$crumb->crumbtype = 'MEETING';
-			$crumb->refid = $meeting_id;
-			$crumb->timestamp = time();
-			R::store($crumb);
+			
+			$crumbs->addCrumb($acc_no, $meeting_id, $filename, 'MEETING');
 		}
 		
 		return R::store($meeting);
@@ -87,15 +90,20 @@ class Meeting {
 	
 	public function addComment($meeting_id, $commenter, $comment) {
 		
-		$comment = R::dispense('comment');
+		$comments = new Comments();
 		
-		$comment->nodetype = 'MEETING';
-		$comment->nodeid = $meeting_id;
-		$comment->commenter = $commenter;
-		$comment->comment = $comment;
-		$comment->timestamp = time();
+		return $comments->addComment('MEETING', $meeting_id, $commenter, $comment);
+	}
+	
+	public function getUserMeetings($acc_no) {
 		
-		return R::store($comment);
+		$query = 'SELECT * FROM meeting WHERE meeting_id IN (SELECT meeting_id FROM participant WHERE participant=:participant)';
+		
+		$meetings = R::getAll($query, array(':participant'=>$acc_no));
+		
+		$meetings = R::convertToBeans('meeting', $meetings);
+		
+		return $meetings;
 	}
 	
 }

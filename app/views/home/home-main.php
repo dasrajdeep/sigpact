@@ -10,9 +10,13 @@
 <div style="padding-top: 70px;"></div>
 
 <div id="home-sidebar" class="col-md-2">
-	
+	<?php Helper::addViewComponent('home-sidebar'); ?>
 </div>
 
-<div id="home-content" class="col-md-10">
-	
+<div id="home-feed" class="col-md-6">
+	<?php Helper::addViewComponent('home-feed'); ?>
+</div>
+
+<div id="home-people" class="col-md-4">
+	<?php Helper::addViewComponent('home-people', $view_vars); ?>
 </div>

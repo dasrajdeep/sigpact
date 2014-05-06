@@ -18,6 +18,13 @@
 			</li>
 			
 			<li>
+				<a href="<?php echo BASE_URI; ?>notifications">
+					<span class="glyphicon glyphicon-globe"></span>
+					Notifications
+				</a>
+			</li>
+			
+			<li>
 				<form class="navbar-form navbar-left" role="search">
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Search">
@@ -39,12 +46,12 @@
 					<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">
-					<li>
+					<!--<li>
 						<a href="<?php echo BASE_URI; ?>settings">
 							<span class="glyphicon glyphicon-wrench"></span>
 							Account Settings
 						</a>
-					</li>
+					</li>-->
 					<li>
 						<a href="<?php echo BASE_URI; ?>logout">
 							<span class="glyphicon glyphicon-off"></span>

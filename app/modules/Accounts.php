@@ -13,7 +13,10 @@ class Accounts {
 			
 			if(!$account) return FALSE;
 			
+			$email = $account->email;
+			
 			Session::start($userid);
+			Session::setVar('email', $email);
 			Session::setVar('name', $account->full_name);
 			
 			return TRUE;
@@ -23,7 +26,10 @@ class Accounts {
 			
 			if(!$account) return FALSE;
 			
+			$email = $account->email;
+			
 			Session::start($account->id);
+			Session::setVar('email', $email);
 			Session::setVar('name', $account->full_name);
 			
 			return TRUE;
