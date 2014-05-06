@@ -1,0 +1,198 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<HTML>
+
+	<HEAD>
+
+		<META HTTP-EQUIV="Content-Type"
+			CONTENT="text/html; charset=WINDOWS-1252">
+
+		<META NAME="GENERATOR" CONTENT="Oracle JDeveloper">
+
+		<META HTTP-EQUIV="cache-control" CONTENT="no-cache">
+
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+
+		<META HTTP-EQUIV="Expires" CONTENT="0">
+
+		<TITLE>Search_name</TITLE>
+				<LINK rel="Stylesheet" type="text/css" href="oasback.css">
+<script language="javascript" type="text/javascript">
+
+  
+
+  var s1;
+
+function nextpg1(x,s1)
+
+ {
+
+ 
+
+  document.Srchfrm.recpos.value = x;
+
+  document.Srchfrm.method="post";
+
+
+
+  document.Srchfrm.action = "IITk_SrchStffMail.jsp?selstffmail="+s1+"&sort=stffmail";
+
+  document.Srchfrm.submit();
+
+ }
+
+
+
+function prevpg1(x,s1)
+
+{
+
+ document.Srchfrm.recpos.value = x;
+
+ //document.Srchfrm.recpos.value = s1;
+
+ document.Srchfrm.method="post";
+
+ document.Srchfrm.action = "IITk_SrchStffMail.jsp?selstffmail="+s1+"&sort=stffmail";
+
+ document.Srchfrm.submit();
+
+}
+
+ function IsEmptyString(str)
+
+{
+
+	nLen = str.length;
+
+	for(i=0; i<nLen; ++i)
+
+	{
+
+		if(str.charAt(i) != " ")
+
+		{
+
+			return false;
+
+		}
+
+	}
+
+	return true;
+
+}
+
+</script>
+
+	</HEAD>
+	<BODY leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
+<p>&nbsp;</p>
+		<form name="Srchfrm" action="">
+
+			<input type="hidden" name="recpos" value="0">
+				<table width="100%" border="0" align="center">
+					<tr>
+						<td class="tablehead" align="center">
+						Staff Search - By Email ID
+						</td>
+					</tr>
+
+				</table>
+			<br>
+
+			
+			<table border="0" cellpadding="1" cellspacing="1" width="100%">
+				<tr>
+					<th align="left" class="TableHead">
+						PF No.
+					</th>
+
+					<th align="left" class="TableHead">
+						Name
+					</th>
+
+					<th align="left" class="TableHead">
+						Department
+					</th>
+
+					<th align="left" class="TableHead">
+						Designation
+					</th>
+
+				</tr>
+
+				
+
+				<tr>
+
+					<td class="TableText">
+						<a
+							href="IITk_SrchRes1.jsp?typ=stff&amp;numtxt=05383&amp;sbm=Y">05383
+						</a>
+					</td>
+
+					<td class="TableText">
+						AMEY  KARKARE
+					</td>
+
+					<td class="TableText">
+						COMPUTER SCI. & ENGG.
+					</td>
+
+					<td class="TableText">
+						ASSISTANT PROFESSOR
+					</td>
+
+				</tr>
+
+				
+
+
+
+			</table>
+
+			<table align="right">
+
+				<tr>
+
+					
+
+					
+
+				</tr>
+
+			</table>
+
+			
+		</form>
+	</BODY>
+</HTML>
+
+
+
+
+
+
+

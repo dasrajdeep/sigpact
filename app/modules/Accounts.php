@@ -100,11 +100,12 @@ class Accounts {
 			$activation->hash = $hash;
 			R::store($activation);
 			
-			$text = sprintf("Hi %s, \n\nWelcome to SiGPACT @IIT Kanpur! Your account has been activated. You may now access your account using this link: %s .\n\n Happy researching! :)",
-				$account->first_name, $activation_url);
+			$mail_content = Utilities::generateMailContent(Utilities::MAIL_CONFIG_ACCOUNT_ACTIVATED, 
+				array('first_name'=>$account->first_name, 'link'=>$activation_url));
 			
 			$mailer = new Mailer();
-			$mailer->sendMail($email, $text, 'Account Activated.');
+			
+			$mailer->spoolMail($email, $mail_content[0], $mail_content[1], 'SiGPACT Account Activated');
 		}
 		
 		return $acc_no;
@@ -138,13 +139,14 @@ class Accounts {
 			$activation->hash = $hash;
 			if(!R::store($activation)) return $acc_id;
 			
+			$profile = R::load('account', $acc_id);
+			
 			$mailer = new Mailer();
 			
-			$text = sprintf('An account has been requested by %s (%s). Click on the following link to confirm/activate this account: %s .', 
-				$user['full_name'], $email, $confirmation_url);
-			
 			foreach($users as $admin) {
-				$mailer->sendMail($admin->email, $text, 'New Account Request');
+				
+				$mail_content = Utilities::generateMailContent(Utilities::MAIL_CONFIG_ACCOUNT_REQUESTED, array('link'=>$confirmation_url, 'profile'=>$profile));
+				$mailer->spoolMail($admin->email, $mail_content[0], $mail_content[1], 'Request to join SiGPACT');
 			}
 		}
 		
@@ -168,6 +170,7 @@ class Accounts {
 		
 		if($acc_no) {
 			R::trash($firstrun);
+			Event::trigger('USER_REGISTER', $account->id, null);
 			return $account->id;
 		}
 		
@@ -190,6 +193,7 @@ class Accounts {
 		if($firstrun) return TRUE;
 		else return FALSE;
 	}
+	
 }
 
 ?>

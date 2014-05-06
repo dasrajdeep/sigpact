@@ -9,7 +9,7 @@ class Profile {
 		
 		$account->email = $email;
 		$account->password = null;
-		$account->roll = $userData['roll_no'];
+		$account->id_no = $userData['id_no'];
 		$account->full_name = $userData['full_name'];
 		$account->first_name = $userData['first_name'];
 		$account->department = $userData['department'];
@@ -86,7 +86,13 @@ class Profile {
 		return array($account, $photo);
 	}
 	
-	public function getPreviewProfileInfo($email) {}
+	public function getPreviewProfileInfo($email) {
+		
+		$profile_info = R::getRow("SELECT full_name,first_name,department,programme,sex FROM account WHERE email=:email", 
+			array(':email'=>$email));
+			
+		return $profile_info;
+	}
 	
 }
 
