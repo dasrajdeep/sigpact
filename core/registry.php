@@ -52,6 +52,17 @@
 				'//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css',
 				'//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js'
 			)
+		),
+		'summernote'=>array(
+			'local'=>array(
+				BASE_URI.'lib/summernote-0.5.1/summernote.css',
+				BASE_URI.'lib/summernote-0.5.1/summernote.js'
+			)
+		),
+		'font-awesome'=>array(
+			'local'=>array(
+				BASE_URI.'lib/font-awesome-4.0.3/css/font-awesome.css'
+			)
 		)
 	);
 	

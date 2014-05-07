@@ -10,7 +10,7 @@
 <div style="padding-top: 70px;"></div>
 
 <div id="home-sidebar" class="col-md-2">
-	<?php Helper::addViewComponent('home-sidebar'); ?>
+	<?php Helper::addViewComponent('home-sidebar', 0); ?>
 </div>
 
 <div id="home-feed" class="col-md-6">

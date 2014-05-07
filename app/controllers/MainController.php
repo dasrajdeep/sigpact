@@ -48,6 +48,21 @@ class MainController {
 		
 	}
 	
+	public function showArticlesPage() {
+		
+		ViewManager::renderView('articles-main');
+	}
+
+	public function showCodePage() {
+		
+		ViewManager::renderView('code-main');
+	}
+	
+	public function showNotificationsPage() {
+		
+		ViewManager::renderView('notifications-main');
+	}
+	
 }    
 
 ?>

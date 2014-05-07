@@ -1,7 +1,9 @@
 <?php
 	Helper::setCompleteView();
 	Helper::addDependancy('bootstrap');
+	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
+	Helper::addDependancy('meetings.js');
 ?>
 
 <?php Helper::addViewComponent('navbar'); ?>
@@ -10,7 +12,11 @@
 
 <div class="container">
 	<h1>YOUR MEETINGS</h1>
-	<a href="#"><h4><span class="glyphicon glyphicon-phone-alt"></span> Arrange a Meeting</h4></a>
+	<a href="javascript:showArrangeMeetingDialog()"><h4><span class="glyphicon glyphicon-phone-alt"></span> Arrange a Meeting</h4></a>
+	
+	<div>
+		<?php Helper::addViewComponent('meetings-create'); ?>
+	</div>
 	
 	<div>
 		<?php Helper::addViewComponent('meetings-list', $view_vars); ?>
