@@ -26,9 +26,9 @@ class Profile {
 		return $acc_id;
 	}
 	
-	public function updatePhoto($email, $photoFile) {
+	public function updatePhoto($acc_no, $photoFile) {
 		
-		$account = R::find('account', 'email=:email', array(':email' => $email));
+		$account = R::load('account', $acc_no);
 		
 		if(!$account) return FALSE;
 		
@@ -64,9 +64,9 @@ class Profile {
 		else return FALSE;
 	}
 	
-	public function updateAboutInfo($email, $info) {
+	public function updateAboutInfo($acc_no, $info) {
 		
-		$account = R::find('account', 'email=:email', array(':email' => $email));
+		$account = R::load('account', $acc_no);
 		
 		if(!$account) return FALSE;
 		
@@ -99,9 +99,10 @@ class Profile {
 		return $profile_info;
 	}
 	
-	public function fetchAllProfiles() {
+	public function fetchAllProfiles($limit = null) {
 		
-		$profiles = R::getAll('SELECT first_name,photo_id,email,id_no FROM account');
+		if($limit) $profiles = R::getAll('SELECT id,first_name,photo_id,email,id_no FROM account LIMIT '.$limit);
+		else $profiles = R::getAll('SELECT id,first_name,photo_id,email,id_no FROM account');
 		
 		$photos = array();
 		

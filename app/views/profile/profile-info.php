@@ -4,7 +4,7 @@
 ?>
 
 <div class="col-md-5" style="text-align: right">
-	<?php if(Session::getUserID() == $profile->id) { ?><a href="#"><?php } ?>
+	<?php if(Session::getUserID() == $profile->id) { ?><a href="javascript:changeProfilePhoto()"><?php } ?>
 		<img id="profile_pic" width="200px" height="200px" src="<?php 
 			if($profile->photo_id == null) echo Helper::getContentLink('default_profile_photo.jpg');
 			else echo 'data:'.$photo->mime.';base64,'.$photo->standard; 
@@ -17,11 +17,4 @@
 	<h4><?php echo $profile->programme; ?></h4>
 	<h3><?php echo $profile->department; ?></h3>
 	<a href="mailto:<?php echo $profile->email; ?>"><h5><?php echo $profile->email; ?></h5></a>
-	<!--<form class="form-horizontal" name="profile-update-form" method="post" action="">
-		<div class="form-group" style="display: none;">
-			<div class="col-sm-10">
-				<input type="text" class="form-control" name="" value="" placeholder="">
-			</div>
-		</div>
-	</form>-->
 </div>

@@ -15,7 +15,7 @@ class MainController {
 		
 		$profiles = new Profile();
 		
-		$profile_data = $profiles->fetchAllProfiles();
+		$profile_data = $profiles->fetchAllProfiles(5);
 		
 		ViewManager::renderView('home-main', $profile_data);
 		
@@ -61,6 +61,16 @@ class MainController {
 	public function showNotificationsPage() {
 		
 		ViewManager::renderView('notifications-main');
+	}
+	
+	public function showSettingsPage() {
+		
+		ViewManager::renderView('settings-main');
+	}
+	
+	public function showPeoplePage() {
+		
+		ViewManager::renderView('people-main');
 	}
 	
 }    
