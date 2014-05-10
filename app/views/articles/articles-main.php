@@ -12,14 +12,19 @@
 
 <div style="padding-top: 70px;"></div>
 
-<div class="container">
+<?php Helper::addViewComponent('progress-view'); ?>
+<?php Helper::addViewComponent('alert-dialog'); ?>
+
+<div class="col-md-2" data-spy="affix"><?php Helper::addViewComponent('home-sidebar', 2); ?></div>
+
+<div class="container col-md-10 col-md-offset-2">
 	
 	<div id="set-a">
 		<h1>ARTICLES from SiGPACT</h1>
 		<a href="javascript:showCreateArticleDialog()"><h4><span class="glyphicon glyphicon-edit"></span> Write an Article</h4></a>
 	</div>
 	
-	<form class="form-horizontal" id="article-form" method="post" action="">
+	<form class="form-horizontal" id="article-form" method="post" action="<?php echo BASE_URI.'rpc/publishArticle'; ?>">
 		<h1>Create an Article</h1>
 		
 		<div class="form-group">
@@ -29,18 +34,20 @@
 		</div>
 		
 		<div style=" background-color: #FFFFFF">
-			<textarea id="articles-editor" style="overflow:scroll; max-height:300px;"></textarea>
+			<textarea name="article" id="articles-editor" style="overflow:scroll; max-height:300px;"></textarea>
 		</div>
 		
 		<br/>
 		
 		<div class="form-group">
 			<div class="col-sm-10">
-				<button type="button" class="btn btn-default">Save Changes</button>
 				<button type="button" class="btn btn-default" onclick="restoreArticleView()">Cancel</button>
+				<button type="button" class="btn btn-primary" onclick="createArticle()">Save Changes</button>
 			</div>
 		</div>
 	</form>
 	
-	<div id="published-articles"></div>
+	<div id="published-articles" class="col-md-8">
+		<?php Helper::addViewComponent('articles-published', $view_vars); ?>
+	</div>
 </div>

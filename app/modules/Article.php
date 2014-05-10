@@ -4,11 +4,18 @@ class Article {
 	
 	public function createArticle($acc_no, $title, $content) {
 		
+		require_once(PATH_THIRD_PARTY.'htmlpurifier/library/HTMLPurifier.auto.php');
+		
 		$article = R::dispense('article');
 		
+		$purifier = new HTMLPurifier(HTMLPurifier_Config::createDefault());
+		$content = $purifier->purify($content);
+		$title = $purifier->purify($title);
+		
 		$article->creator_id = $acc_no;
-		$article->title = htmlentities($title);
-		$article->content = htmlentities($content);
+		$article->title = $title;
+		$article->content = $content;
+		$article->timestamp = time();
 		
 		return R::store($article);
 	}
@@ -34,11 +41,20 @@ class Article {
 		return $article;
 	}
 	
-	public function fetchAllArticles($acc_no) {
+	public function fetchAllArticlesByCreator($acc_no) {
 		
 		$articles = R::find('article', 'creator_id=:id', array(':id' => $acc_no));
 		
 		return $articles;
+	}
+	
+	public function fetchAllPublishedArticles($limit) {
+		
+		$query = "SELECT * FROM article ORDER BY timestamp DESC LIMIT :limit";
+		
+		$results = R::getAll($query, array(':limit'=>$limit));
+		
+		return R::convertToBeans('article', $results);
 	}
 	
 }

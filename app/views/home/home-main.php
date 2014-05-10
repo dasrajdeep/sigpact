@@ -9,11 +9,11 @@
 
 <div style="padding-top: 70px;"></div>
 
-<div id="home-sidebar" class="col-md-2">
+<div id="home-sidebar" class="col-md-2" data-spy="affix">
 	<?php Helper::addViewComponent('home-sidebar', 0); ?>
 </div>
 
-<div id="home-feed" class="col-md-6">
+<div id="home-feed" class="col-md-6 col-md-offset-2">
 	<?php Helper::addViewComponent('home-feed'); ?>
 </div>
 

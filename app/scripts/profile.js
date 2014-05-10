@@ -60,3 +60,18 @@ function showDialog(title, body) {
 	$('#notify-title').html(title);
 	$('#alert-dialog').modal('show');
 }
+
+function changeTab(tabID) {
+	
+	$('.tab-content').hide();
+	$('.pill').removeClass('active');
+	$('#pill-'+tabID).addClass('active');
+	
+	if(tabID == 1) {
+		$('#content-aboutme').show();
+	} else if(tabID == 2) {
+		$('#content-code').show();
+	} else if(tabID == 3) {
+		$('#content-articles').show();
+	}
+}

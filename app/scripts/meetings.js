@@ -8,6 +8,19 @@ $(document).ready(function() {
 			//
 		}
     });
+    
+    $('.attend-radio').click(function() {
+    	if($(this).attr('id') === 'radio-sel') {
+    		$('#alt-selected').show();
+    	} else {
+    		$('#alt-selected').hide();
+    	}
+    });
+    
+    $('#attendee-names').typeahead({
+    	name: 'participants',
+    	remote: baseURI+'rpc/helpAutoComplete?query=%QUERY'
+    });
 });
 
 function showArrangeMeetingDialog() {

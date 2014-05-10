@@ -27,9 +27,17 @@ class MainController {
 		else $args = null;
 		
 		$profile = new Profile();
+		$article = new Article();
 		
-		if($args) $user_profile = $profile->getCompleteProfileInfo($args);
-		else $user_profile = $profile->getCompleteProfileInfo(Session::getUserID());
+		if($args) {
+			$user_profile = $profile->getCompleteProfileInfo($args);
+			$articles = $article->fetchAllArticlesByCreator($args);
+		} else {
+			$user_profile = $profile->getCompleteProfileInfo(Session::getUserID());
+			$articles = $article->fetchAllArticlesByCreator(Session::getUserID());
+		}
+		
+		$user_profile = array_merge($user_profile, array($articles));
 		
 		if(Session::isRunning()) {
 			ViewManager::renderView('profile-main', $user_profile);
@@ -50,7 +58,11 @@ class MainController {
 	
 	public function showArticlesPage() {
 		
-		ViewManager::renderView('articles-main');
+		$article = new Article();
+		
+		$articles = $article->fetchAllPublishedArticles(20);
+		
+		ViewManager::renderView('articles-main', $articles);
 	}
 
 	public function showCodePage() {

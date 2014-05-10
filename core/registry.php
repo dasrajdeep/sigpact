@@ -63,6 +63,9 @@
 			'local'=>array(
 				BASE_URI.'lib/font-awesome-4.0.3/css/font-awesome.css'
 			)
+		),
+		'typeahead'=>array(
+			'local'=>array(BASE_URI.'lib/typeahead.js')
 		)
 	);
 	
