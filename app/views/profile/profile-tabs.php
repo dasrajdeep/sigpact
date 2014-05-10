@@ -31,7 +31,7 @@
 				else $content = $article->content;
 		?>
 		<li class="list-group-item">
-			<h4><a href="#"><?php echo $article->title; ?></a></h4>
+			<h4><a href="<?php echo BASE_URI.'article/'.$article->id; ?>"><?php echo $article->title; ?></a></h4>
 			<div><?php echo $content; ?></div>
 			<i><b>Posted on <?php echo date('l, jS F', $article->timestamp); ?> at <?php echo date('g:i A', $article->timestamp); ?></b></i>
 		</li>

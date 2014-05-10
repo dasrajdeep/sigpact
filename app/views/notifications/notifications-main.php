@@ -10,7 +10,7 @@
 <div style="padding-top: 70px;"></div>
 
 <div class="container" style="text-align: center">
-	<h1>YOUR NOTIFICATIONS</h1>
+	<h1><span class="glyphicon glyphicon-globe"></span> NOTIFICATIONS</h1>
 	
 	<div class="jumbotron">
 		<div class="panel panel-default">

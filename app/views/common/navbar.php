@@ -36,7 +36,7 @@
 			<li>
 				<a href="<?php echo BASE_URI.'profile'; ?>">
 					<span class="glyphicon glyphicon-user"></span>
-					<?php echo Session::getVar('name'); ?>
+					<?php echo Session::getVar('first_name'); ?>
 				</a>
 			</li>
 			

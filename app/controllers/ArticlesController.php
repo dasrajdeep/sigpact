@@ -17,6 +17,19 @@ class ArticlesController {
 		} else return FALSE;
 	}
 	
+	public function displayArticle($args) {
+		
+		$article_id = $args[0];
+		
+		$articles = new Article();
+		$profiles = new Profile();
+		
+		$article = $articles->getArticle($article_id);
+		$profile = $profiles->getCompleteProfileInfo($article->creator_id);
+		
+		ViewManager::renderView('articles-full-main', array_merge(array($article), $profile));
+	} 
+	
 }
  
 ?>

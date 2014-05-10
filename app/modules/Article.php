@@ -20,6 +20,13 @@ class Article {
 		return R::store($article);
 	}
 	
+	public function deleteArticle($article_id) {
+		
+		$article = R::load('article', $article_id);
+		
+		R::trash($article);
+	}
+	
 	public function updateArticle($article_id, $content) {
 		
 		$article = R::load('article', $article_id);
