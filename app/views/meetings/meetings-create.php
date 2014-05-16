@@ -23,7 +23,8 @@
 							</div>
 						</div>
 						<div id="alt-selected" class="col-sm-10" style="display: none">
-							<input id="attendee-names" type="text" class="form-control" name="participants" placeholder="Name of participants" />
+							<input id="attendee-names" type="text" class="form-control" name="participants" placeholder="Name of participants" autocomplete="off" />
+							<input type="hidden" name="user_ids" value="" />
 						</div>
 					</div>
 					

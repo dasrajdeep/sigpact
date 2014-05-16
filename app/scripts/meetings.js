@@ -1,3 +1,5 @@
+var completions = [];
+
 $(document).ready(function() {
 	
 	$('#meeting-form').ajaxForm(function(data) { 
@@ -19,9 +21,36 @@ $(document).ready(function() {
     
     $('#attendee-names').typeahead({
     	name: 'participants',
+    	displayKey: 'full_name',
     	remote: baseURI+'rpc/helpAutoComplete?query=%QUERY'
+    	/*source: function(query, process) {
+    		
+    		alert(query);
+			$.get(baseURI + 'rpc/helpAutoComplete', {'query':query}, function(data) {
+				
+				completions = [];
+				
+				var results = eval( '(' + data + ')' );
+				
+				alert(data);
+			});
+		},
+		updater: function(item) {}*/
     });
 });
+
+function autocomplete(query, process) {
+	
+	// Encode query
+	$.get(baseURI + 'rpc/helpAutoComplete', {'query':query}, function(data) {
+		
+		completions = [];
+		
+		var results = eval( '(' + data + ')' );
+		
+		alert(data);
+	});
+}
 
 function showArrangeMeetingDialog() {
 	$('#createMeetingDialog').modal();

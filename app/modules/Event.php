@@ -36,6 +36,19 @@ class Event {
 
         return $all;
     }
+	
+	public function fetchPresentableGlobalEvents($limit = 100) {
+		
+		
+		$query = "SELECT account.id AS acc_no,`event`.id AS event_id,photo_id,full_name,`name` AS event_name,`timestamp`,mime,standard,thumbnail 
+			FROM account INNER JOIN `event` INNER JOIN photo 
+			ON `event`.source=account.id AND account.photo_id=photo.id
+			ORDER BY `timestamp` DESC";
+		
+		$results = R::getAll($query);
+		
+		return $results;
+	}
 
 }
 

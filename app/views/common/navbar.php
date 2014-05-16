@@ -18,6 +18,13 @@
 			</li>
 			
 			<li>
+				<a href="<?php echo BASE_URI; ?>messages">
+					<span class="glyphicon glyphicon-envelope"></span>
+					Messages
+				</a>
+			</li>
+			
+			<li>
 				<a href="<?php echo BASE_URI; ?>notifications">
 					<span class="glyphicon glyphicon-globe"></span>
 					Notifications

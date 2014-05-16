@@ -24,7 +24,9 @@ class Article {
 		
 		$article = R::load('article', $article_id);
 		
-		R::trash($article);
+		//Delete corresponding event
+		
+		return R::trash($article);
 	}
 	
 	public function updateArticle($article_id, $content) {

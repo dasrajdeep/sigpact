@@ -30,6 +30,27 @@ class ArticlesController {
 		ViewManager::renderView('articles-full-main', array_merge(array($article), $profile));
 	} 
 	
+	public function deleteArticle() {
+		
+		$article_id = $_POST['article_id'];
+		
+		$articles = new Article();
+		
+		$articles->deleteArticle($article_id);
+		
+		return TRUE;
+	}
+	
+	public function editArticle() {
+		
+		$article_id = $_POST['article_id'];
+		$content = $_POST['content'];
+		
+		$articles = new Article();
+		
+		return $articles->updateArticle($article_id, $content);
+	}
+	
 }
  
 ?>

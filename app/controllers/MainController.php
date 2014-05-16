@@ -13,12 +13,17 @@ class MainController {
 	
 	public function showHomePage() {
 		
-		$profiles = new Profile();
-		
-		$profile_data = $profiles->fetchAllProfiles(5);
-		
-		ViewManager::renderView('home-main', $profile_data);
-		
+		if(Session::isRunning()) {
+			$profiles = new Profile();
+			$profile_data = $profiles->fetchAllProfiles(5);
+			
+			$events = new Event();
+			$all_events = $events->fetchPresentableGlobalEvents();
+			
+			ViewManager::renderView('home-main', array($profile_data, $all_events));
+		} else {
+			ViewManager::renderView('landing-main');
+		}
 	}
 	
 	public function showProfilePage($args) {
@@ -68,6 +73,16 @@ class MainController {
 	public function showCodePage() {
 		
 		ViewManager::renderView('code-main');
+	}
+	
+	public function showForumPage() {
+		
+		ViewManager::renderView('forum-main');
+	}
+	
+	public function showMessagesPage() {
+		
+		ViewManager::renderView('messages-main');
 	}
 	
 	public function showNotificationsPage() {

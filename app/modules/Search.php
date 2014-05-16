@@ -11,7 +11,7 @@ class Search {
 		$found_names = array();
 		
 		foreach($results as $row) {
-			array_push($found_names, $row['full_name']);
+			array_push($found_names, array('acc_no'=>$row['id'], 'full_name'=>$row['full_name']));
 		}
 		
 		return $found_names;

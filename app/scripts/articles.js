@@ -26,7 +26,7 @@ $(document).ready(function() {
 });
 
 function showCreateArticleDialog() {
-	$('#article-form').show(500);
+	$('#article-form').fadeIn(500);
 	$('#set-a').hide();
 	$('#published-articles').hide();
 }
