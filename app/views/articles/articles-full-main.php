@@ -21,6 +21,7 @@
 	$article = $view_vars[0];
 	$profile = $view_vars[1];
 	$photo = $view_vars[2]; 
+	$comments = $view_vars[3];
 	if($photo == null) $src = Helper::getContentLink('default_profile_photo.jpg');
 	else $src = 'data:'.$photo->mime.';base64,'.$photo->thumbnail;
 ?>
@@ -55,19 +56,34 @@
 			
 			<h3>Comments</h3>
 			<div class="panel panel-default" id="comments-section">
-				<div class="panel-body"></div>
+				<div class="panel-body">
+					<?php if(count($comments) == 0) echo 'No comments as yet.'; ?>
+					<?php foreach($comments as $comment) {
+						if(!$comment['thumbnail']) $comment_src = Helper::getContentLink('default_profile_photo.jpg');
+						else $comment_src = 'data:'.$comment['mime'].';base64,'.$comment['thumbnail']; 
+					?>
+						<div style="margin: 5px" class="comment">
+							<img width="50px" height="50px" src="<?php echo $comment_src; ?>" />
+							<h4 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$comment['acc_no']; ?>"><?php echo $comment['full_name']; ?></a></h4>
+							<br/><span><?php echo $comment['comment']; ?></span><br/>
+							<i>Posted on <?php echo date('l jS F,', $comment['timestamp']); ?> at <?php echo date('g:i A', $comment['timestamp']); ?></i>
+						</div>
+						<hr style="background-color: #566569;height: 1px;"/>
+					<?php } ?>
+				</div>
 			</div>
 			
-			<form class="form-horizontal" method="post" role="comment" action="">
+			<form id="comment-form" class="form-horizontal" method="post" role="comment" action="<?php echo BASE_URI.'rpc/commentOnArticle'; ?>">
 				<h4>Write a Comment</h4>
 				<div class="form-group">
 					<div class="col-sm-10">
 						<textarea class="form-control" cols="60" name="comment"></textarea>
 					</div>
 				</div>
+				<input type="hidden" name="article_id" value="<?php echo $article->id; ?>" />
 				<div class="form-group">
 					<div class="col-sm-10">
-						<button type="submit" class="btn btn-default">Post Comment</button>
+						<button type="button" class="btn btn-default" onclick="postComment()">Post Comment</button>
 					</div>
 				</div>
 			</form>

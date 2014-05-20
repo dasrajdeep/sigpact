@@ -19,6 +19,16 @@ $(document).ready(function() {
 			window.location.reload();
 		}
     });
+    
+    $('#comment-form').ajaxForm(function(data) { 
+		
+		if(data === 'false') {
+			hideProgressDialog();
+			showDialog('Unable to post comment', 'Something went wrong. We were unable to post your comment.');
+		} else if(data === 'true') {
+			window.location.reload();
+		}
+    });
 	
 	$('#articles-editor').summernote({
 		height: 300,
@@ -77,4 +87,10 @@ function saveChanges() {
 	showProgressDialog();
 	$('#articles-editor').html($('#articles-editor').code());
 	$('#article-edit-form').submit();
+}
+
+function postComment() {
+	
+	showProgressDialog();
+	$('#comment-form').submit();
 }

@@ -9,4 +9,54 @@
 		<h1>Oops! Looks like you haven't attended any meetings as yet.</h1>
 		<h3>You might consider <a href="javascript:showArrangeMeetingDialog()">arranging</a> for a meeting.</h3>
 	</div>
+<?php } else { ?>
+	<h2>UPCOMING</h2>
+	<div id="upcoming-meetings">
+		<?php
+			foreach($meetings as $meeting) {
+				if($meeting['datetime'] > time()) {
+					?>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3><?php echo '@'.strtoupper($meeting['venue']); ?></h3>
+							<h3 style="display: inline">On </h3><?php echo date('l jS F,', $meeting['datetime']); ?>
+							<b><?php echo date('g:i A', $meeting['datetime']).' to '.date('g:i A', $meeting['datetime']+($meeting['duration']*60)); ?></b>
+							<div style="font-size: large" class="alert alert-info"><i>"<?php echo $meeting['description']; ?>"</i></div>
+							<h4>Called by</h4>
+							<?php
+							if(!$meeting['thumbnail']) $meeting_src = Helper::getContentLink('default_profile_photo.jpg');
+							else $meeting_src = 'data:'.$meeting['mime'].';base64,'.$meeting['thumbnail'];  
+							?>
+							<img width="50px" height="50px" src="<?php echo $meeting_src; ?>" />
+							<h2 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$meeting['acc_no']; ?>"><?php echo $meeting['full_name']; ?></a></h2>
+						</div>
+					</div>
+				<?php }} ?>
+	</div>
+	
+	<hr style="background-color: #566569;height: 1px;"/>
+	
+	<h2>PAST MEETINGS</h2>
+	<div id="past-meetings">
+		<?php
+			foreach($meetings as $meeting) {
+				if($meeting['datetime'] <= time()) {
+		?>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<h3><?php echo '@'.strtoupper($meeting['venue']); ?></h3>
+					<h3 style="display: inline">On </h3><?php echo date('l jS F,', $meeting['datetime']); ?>
+					<b><?php echo date('g:i A', $meeting['datetime']).' to '.date('g:i A', $meeting['datetime']+($meeting['duration']*60)); ?></b>
+					<div style="font-size: large" class="alert alert-info"><i>"<?php echo $meeting['description']; ?>"</i></div>
+					<h4>Called by</h4>
+					<?php
+					if(!$meeting['thumbnail']) $meeting_src = Helper::getContentLink('default_profile_photo.jpg');
+					else $meeting_src = 'data:'.$meeting['mime'].';base64,'.$meeting['thumbnail'];  
+					?>
+					<img width="50px" height="50px" src="<?php echo $meeting_src; ?>" />
+					<h2 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$meeting['acc_no']; ?>"><?php echo $meeting['full_name']; ?></a></h2>
+				</div>
+			</div>
+		<?php }} ?>
+	</div>
 <?php } ?>

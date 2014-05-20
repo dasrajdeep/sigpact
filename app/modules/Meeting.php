@@ -35,6 +35,8 @@ class Meeting {
 			
 			$account = R::findOne('account', 'email=?', array($email));
 			
+			if(!$account) continue;
+			
 			$participant = R::dispense('participant');
 			
 			$participant->meeting_id = $meeting_id;
@@ -44,7 +46,7 @@ class Meeting {
 			
 			$mail_content = Utilities::generateMailContent(Utilities::MAIL_CONFIG_MEETING_INVITATION, 
 				array('first_name'=>$account->first_name, 'date'=>date('l,jS F',$meeting->datetime), 'time'=>date('h:i A',$meeting->datetime),
-				'inviter'=>$inviter_profile->first_name, 'description'=>$meeting->description));
+				'inviter'=>$inviter_profile->first_name, 'venue'=>$meeting->venue, 'description'=>$meeting->description));
 			$mailer->spoolMail($email, $mail_content[0], $mail_content[1], 'SiGPACT Meeting Invitation');
 		}
 	}
@@ -97,11 +99,13 @@ class Meeting {
 	
 	public function getUserMeetings($acc_no) {
 		
-		$query = 'SELECT * FROM meeting WHERE meeting_id IN (SELECT meeting_id FROM participant WHERE participant=:participant)';
+		$query = "SELECT meeting.id AS meeting_id,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
+			FROM meeting INNER JOIN account INNER JOIN photo 
+			ON meeting.creator=account.id AND account.photo_id=photo.id
+			WHERE meeting.id IN (SELECT meeting_id FROM participant WHERE participant=:participant) 
+			ORDER BY datetime DESC";
 		
 		$meetings = R::getAll($query, array(':participant'=>$acc_no));
-		
-		$meetings = R::convertToBeans('meeting', $meetings);
 		
 		return $meetings;
 	}

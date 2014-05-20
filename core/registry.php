@@ -65,7 +65,11 @@
 			)
 		),
 		'typeahead'=>array(
-			'local'=>array(BASE_URI.'lib/typeahead.js')
+			'local'=>array(
+				BASE_URI.'lib/typeahead/typeahead.js',
+				//BASE_URI.'lib/typeahead/typeahead.jquery.js',
+				BASE_URI.'lib/typeahead/bloodhound.js'
+			)
 		)
 	);
 	

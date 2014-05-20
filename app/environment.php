@@ -16,7 +16,7 @@
 	 * 
 	 * Default is 0 (current locale).
 	 */
-	$env_locale					 = '0';
+	$env_locale					 = 'en_EN';
 	
 	/**
 	 * Set the timezone to a standard timezone string.

@@ -7,24 +7,26 @@
 			</div>
 			
 			<div class="modal-body">
-				<form class="form-horizontal" id="meeting-form" method="post" action="">
+				<form class="form-horizontal" id="meeting-form" method="post" action="<?php echo BASE_URI.'rpc/createMeeting'; ?>">
 					<div class="form-group">
 						<div class="col-sm-10">Participants (Meeting with)</div>
 						<div class="col-sm-10">
 							<div class="radio-inline">
 								<label>
-									<input class="attend-radio" id="radio-all" type="radio" name="num-participants" /> Everyone
+									<input class="attend-radio" id="radio-all" type="radio" name="num_participants" value="all" /> Everyone
 								</label>
 							</div>
 							<div class="radio-inline">
 								<label>
-									<input class="attend-radio" id="radio-sel" type="radio" name="num-participants" /> Selected
+									<input class="attend-radio" id="radio-sel" type="radio" name="num_participants" value="few" /> Selected
 								</label>
 							</div>
 						</div>
 						<div id="alt-selected" class="col-sm-10" style="display: none">
 							<input id="attendee-names" type="text" class="form-control" name="participants" placeholder="Name of participants" autocomplete="off" />
-							<input type="hidden" name="user_ids" value="" />
+							<br/>
+							<ul id="attendees"></ul>
+							<input id="attendee-form-data" type="hidden" name="attendee_list" value="" />
 						</div>
 					</div>
 					

@@ -40,8 +40,8 @@ class Utilities {
 			$mail_text = file_get_contents($template_path.'meeting_invitation.txt');
 			$mail_html = file_get_contents($template_path.'meeting_invitation.html');
 			
-			$mail_text = sprintf($mail_text, $data['first_name'], $data['date'], $data['time'], $data['inviter'], $data['description']);
-			$mail_html = sprintf($mail_html, $data['first_name'], $data['date'], $data['time'], $data['inviter'], $data['description']);
+			$mail_text = sprintf($mail_text, $data['first_name'], $data['date'], $data['time'], $data['inviter'], $data['venue'], $data['description']);
+			$mail_html = sprintf($mail_html, $data['first_name'], $data['date'], $data['time'], $data['inviter'], $data['venue'], $data['description']);
 		}
 		
 		return array($mail_text, $mail_html);
