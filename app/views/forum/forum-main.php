@@ -3,6 +3,7 @@
 	Helper::addDependancy('bootstrap');
 	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
+	Helper::addDependancy('forum.js');
 ?>
 
 <?php Helper::addViewComponent('navbar'); ?>
@@ -16,4 +17,8 @@
 
 <div class="container col-md-10 col-md-offset-2">
 	<h1>FORUM @SiGPACT</h1>
+	
+	<h3><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Start a new thread</a></h3>
+	
+	<h2>THREADS</h2>
 </div>

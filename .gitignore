@@ -3,7 +3,6 @@ data/*
 cache/*
 
 *.log
-app_dev.ini
 
 .cache
 .helpers

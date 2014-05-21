@@ -70,9 +70,9 @@ class MainController {
 		ViewManager::renderView('articles-main', $articles);
 	}
 
-	public function showCodePage() {
+	public function showRepoPage() {
 		
-		ViewManager::renderView('code-main');
+		ViewManager::renderView('repo-main');
 	}
 	
 	public function showForumPage() {
