@@ -1,0 +1,13 @@
+Dear Sir,
+
+%s has requested to join the SiGPACT community. %s will have student access privileges, once %s request is approved. The full details of %s are:
+
+%s 
+
+In order to approve the request, please click on the following link:
+
+%s
+
+Thanks and Regards,
+SiGPACT Team
+IIT Kanpur

@@ -1,0 +1,13 @@
+Dear %s,
+
+Welcome to SiGPACT @IIT Kanpur!
+
+Your account has been activated. You may now start using your account right away by clicking on the following link:
+
+%s
+
+Happy Researching! :)
+
+Thanks and Regards,
+SiGPACT Team
+IIT Kanpur 

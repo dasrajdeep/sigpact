@@ -1,0 +1,11 @@
+Dear %s,
+
+You have been invited to a meeting on %s at %s by %s. The venue for the meeting will be %s. A short description of the meeting is given below.
+
+"%s"
+
+Hope to see you there! :)
+
+Thanks and Regards,
+SiGPACT Team
+IIT Kanpur 
