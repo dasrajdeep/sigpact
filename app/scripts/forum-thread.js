@@ -1,9 +1,9 @@
 $(document).ready(function() {
 	
-	$('#thread-form').ajaxForm(function(data) { 
+	$('#comment-form').ajaxForm(function(data) { 
 		
 		if(data === 'false') {
-			showDialog('Unable to create thread', 'Something went wrong. We were unable to start your thread.');
+			showDialog('Unable to post comment', 'Something went wrong. We were unable to post your comment.');
 		} else if(data === 'true') {
 			window.location.reload();
 		}
@@ -11,14 +11,14 @@ $(document).ready(function() {
 	
 });
 
-function startThread() {
-	$('#createThreadDialog').modal();
+function showCommentForm() {
+	$('#comment-link').hide();
+	$('#comment-form').fadeIn(500);
 }
 
-function createThread() {
-	$('#createThreadDialog').modal('hide');
+function postComment() {
 	showProgressDialog();
-	$('#thread-form').submit();
+	$('#comment-form').submit();
 }
 
 function showProgressDialog() {

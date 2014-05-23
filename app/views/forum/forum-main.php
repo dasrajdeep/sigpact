@@ -12,13 +12,18 @@
 
 <?php Helper::addViewComponent('progress-view'); ?>
 <?php Helper::addViewComponent('alert-dialog'); ?>
+<?php Helper::addViewComponent('forum-new-thread'); ?>
 
 <div class="col-md-2" data-spy="affix"><?php Helper::addViewComponent('home-sidebar', 4); ?></div>
 
-<div class="container col-md-10 col-md-offset-2">
+<div class="container col-md-8 col-md-offset-2">
 	<h1>FORUM @SiGPACT</h1>
 	
-	<h3><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Start a new thread</a></h3>
+	<h3><a href="javascript:startThread()"><span class="glyphicon glyphicon-plus-sign"></span> Start a new thread</a></h3>
 	
 	<h2>THREADS</h2>
+	
+	<div id="threads">
+		<?php Helper::addViewComponent('forum-threads', $view_vars); ?>
+	</div>
 </div>

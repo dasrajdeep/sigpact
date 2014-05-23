@@ -77,7 +77,11 @@ class MainController {
 	
 	public function showForumPage() {
 		
-		ViewManager::renderView('forum-main');
+		$forum = new Forum();
+		
+		$threads = $forum->fetchAllThreads();
+		
+		ViewManager::renderView('forum-main', $threads);
 	}
 	
 	public function showMessagesPage() {
