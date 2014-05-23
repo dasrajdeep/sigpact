@@ -11,7 +11,11 @@ class Forum {
 		$thread->description = $description;
 		$thread->timestamp = time();
 		
-		return R::store($thread);
+		$thread_id = R::store($thread);
+		
+		if($thread_id) Event::trigger('FORUM_THREAD_CREATED', Session::getUserID(), $thread_id);
+		
+		return $thread_id; 
 	}
 	
 	public function fetchAllThreads() {

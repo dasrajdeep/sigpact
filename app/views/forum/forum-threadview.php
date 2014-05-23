@@ -29,7 +29,7 @@
 		else $src = 'data:'.$thread['mime'].';base64,'.$thread['thumbnail'];  
 	?>
 	
-	<img style="vertical-align: bottom" width="35px" height="35px" src="<?php echo $src; ?>" />
+	<img class="img-circle" style="vertical-align: bottom" width="35px" height="35px" src="<?php echo $src; ?>" />
 	<h3 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$thread['acc_no']; ?>"><?php echo $thread['full_name']; ?></a></h3>
 	
 	<hr style="background-color: #566569;height: 1px;"/>

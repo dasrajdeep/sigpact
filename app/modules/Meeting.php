@@ -13,7 +13,11 @@ class Meeting {
 		$meeting->duration = $duration;
 		$meeting->description = $description;
 		
-		return R::store($meeting);
+		$meeting_id = R::store($meeting);
+		
+		if($meeting_id) Event::trigger('MEETING_CREATED', $creator_id, $meeting_id); 
+		
+		return $meeting_id;
 	}
 	
 	public function inviteToMeeting($meeting_id, $inviter, $guests = null) {
@@ -73,7 +77,11 @@ class Meeting {
 			$crumbs->addCrumb($acc_no, $meeting_id, $filename, 'MEETING');
 		}
 		
-		return R::store($meeting);
+		$success = R::store($meeting);
+		
+		if($success) Event::trigger('MEETING_UPDATED', $acc_no, $meeting_id);
+		
+		return $success;
 	}
 	
 	public function updateMeeting($meeting_id, $venue = null, $datetime = null, $duration = null, $description = null) {

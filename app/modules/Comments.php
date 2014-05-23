@@ -12,6 +12,8 @@ class Comments {
 		$comment->comment = $comment_content;
 		$comment->timestamp = time();
 		
+		Event::trigger('COMMENTED_'.$node_type, $commenter, $node_id);
+		
 		return R::store($comment);
 	}
 	

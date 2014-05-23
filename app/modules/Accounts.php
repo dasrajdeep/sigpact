@@ -17,8 +17,8 @@ class Accounts {
 			
 			Session::start($userid);
 			Session::setVar('email', $email);
-			Session::setVar('name', $account->full_name);
-			Session::setVar('first_name', $account->first_name);
+			Session::setVar('name', Utilities::convertToCapitalCase($account->full_name));
+			Session::setVar('first_name', Utilities::convertToCapitalCase($account->first_name));
 			
 			return TRUE;
 		} else {
@@ -31,8 +31,8 @@ class Accounts {
 			
 			Session::start($account->id);
 			Session::setVar('email', $email);
-			Session::setVar('name', $account->full_name);
-			Session::setVar('first_name', $account->first_name);
+			Session::setVar('name', Utilities::convertToCapitalCase($account->full_name));
+			Session::setVar('first_name', Utilities::convertToCapitalCase($account->first_name));
 			
 			return TRUE;
 		}

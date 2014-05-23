@@ -39,8 +39,10 @@ class Article {
 		
 		$id = R::store($article);
 		
-		if($id) return TRUE;
-		else return FALSE;
+		if($id) {
+			Event::trigger('ARTICLE_UPDATED', Session::getUserID(), $article_id);
+			return TRUE;
+		} else return FALSE;
 	}
 	
 	public function getArticle($article_id) {

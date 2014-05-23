@@ -47,6 +47,21 @@ class Utilities {
 		return array($mail_text, $mail_html);
 	}
 	
+	public static function convertToCapitalCase($text) {
+		
+		$parts = array_filter(explode(' ', $text));
+		
+		$convertedPieces = array();
+		
+		foreach($parts as $part) {
+			$part = trim($part);
+			$converted = strtoupper(substr($part, 0, 1)).strtolower(substr($part, 1));
+			array_push($convertedPieces, $converted);
+		}
+		
+		return implode(' ', $convertedPieces);
+	}
+	
 }
 
 ?>

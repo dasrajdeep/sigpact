@@ -60,8 +60,10 @@ class Profile {
 		
 		$id = R::store($account);
 		
-		if($id) return TRUE;
-		else return FALSE;
+		if($id) {
+			Event::trigger('PROFILE_UPDATE_PHOTO', $acc_no, null);
+			return TRUE;
+		} else return FALSE;
 	}
 	
 	public function updateAboutInfo($acc_no, $info) {
@@ -74,8 +76,10 @@ class Profile {
 		
 		$id = R::store($account);
 		
-		if($id) return TRUE;
-		else return FALSE;
+		if($id) {
+			Event::trigger('PROFILE_UPDATE_ABOUTME', $acc_no, null);
+			return TRUE;
+		} else return FALSE;
 	}
 	
 	public function getCompleteProfileInfo($id) {
