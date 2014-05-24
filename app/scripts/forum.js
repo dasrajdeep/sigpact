@@ -8,8 +8,20 @@ $(document).ready(function() {
 			window.location.reload();
 		}
     });
+    
+    updateTimeAgo();
 	
 });
+
+function updateTimeAgo() {
+	
+	$('.timeago').each(function() {
+    	var time = moment($(this).attr('value'), 'DDMMYYYYHHmmss').fromNow();
+    	$(this).html(time);
+    });
+    
+    setTimeout("updateTimeAgo()", 1000);
+}
 
 function startThread() {
 	$('#createThreadDialog').modal();

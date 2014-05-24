@@ -5,6 +5,8 @@
 	Helper::addDependancy('theme.css');
 	Helper::addDependancy('font-awesome');
 	Helper::addDependancy('summernote');
+	Helper::addDependancy('moment.min.js');
+	Helper::addDependancy('utilities.js');
 	Helper::addDependancy('articles-full.js');
 ?>
 
@@ -32,7 +34,7 @@
 		<br/>
 		<h4><i>Posted by</i></h4>
 		<h4><a href="<?php echo BASE_URI.'profile/'.$profile->id; ?>"><?php echo $profile->full_name; ?></a></h4>
-		<i>On <?php echo date('l jS F,', $article->timestamp); ?> at <?php echo date('g:i A', $article->timestamp); ?></i>
+		<i>On <?php echo Utilities::convertToFullDate($article->timestamp); ?></i>
 		
 		<?php if($article->creator_id == Session::getUserID()) { ?>
 			<div class="btn-group">
@@ -66,7 +68,10 @@
 							<img width="50px" height="50px" src="<?php echo $comment_src; ?>" />
 							<h4 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$comment['acc_no']; ?>"><?php echo $comment['full_name']; ?></a></h4>
 							<br/><span><?php echo $comment['comment']; ?></span><br/>
-							<i>Posted on <?php echo date('l jS F,', $comment['timestamp']); ?> at <?php echo date('g:i A', $comment['timestamp']); ?></i>
+							<h5><i>
+								Posted
+								<span title="<?php echo Utilities::convertToFullDate($comment['timestamp']); ?>" value="<?php echo Utilities::getFormatForTimeago($comment['timestamp']); ?>" class="timeago"></span> 
+							</i></h5>
 						</div>
 						<hr style="background-color: #566569;height: 1px;"/>
 					<?php } ?>

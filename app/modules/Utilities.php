@@ -62,6 +62,29 @@ class Utilities {
 		return implode(' ', $convertedPieces);
 	}
 	
+	public static function shortenText($text, $maxLength) {
+		
+		if(strlen($text) <= $maxLength) return $text;
+		
+		$snip = strip_tags(substr($text, 0, $maxLength), '<b><br>');
+		
+		if(strlen($snip) < $maxLength) $snip = substr($text, 0, 2*$maxLength - strlen($snip)).'...';
+		
+		return $snip;
+	}
+	
+	public static function convertToFullDate($timestamp) {
+		
+		return sprintf('%s, at %s', date('l jS F Y', $timestamp), date('g:i A', $timestamp));
+		
+	}
+	
+	public static function getFormatForTimeago($timestamp) {
+		
+		return date('dmYGis', $timestamp);
+		
+	}
+	
 }
 
 ?>

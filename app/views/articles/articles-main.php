@@ -17,11 +17,11 @@
 
 <div class="col-md-2" data-spy="affix"><?php Helper::addViewComponent('home-sidebar', 2); ?></div>
 
-<div class="container col-md-10 col-md-offset-2">
+<div class="container col-md-8 col-md-offset-2">
 	
 	<div id="set-a">
 		<h1>ARTICLES from SiGPACT</h1>
-		<a href="javascript:showCreateArticleDialog()"><h4><span class="glyphicon glyphicon-edit"></span> Write an Article</h4></a>
+		<a class="col-md-4" href="javascript:showCreateArticleDialog()"><h4><span class="glyphicon glyphicon-edit"></span> Write an Article</h4></a>
 	</div>
 	
 	<form class="form-horizontal" id="article-form" method="post" action="<?php echo BASE_URI.'rpc/publishArticle'; ?>">
@@ -47,7 +47,7 @@
 		</div>
 	</form>
 	
-	<div id="published-articles" class="col-md-8">
+	<div id="published-articles" class="col-md-12">
 		<?php Helper::addViewComponent('articles-published', $view_vars); ?>
 	</div>
 </div>

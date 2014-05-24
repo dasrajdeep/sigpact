@@ -3,6 +3,7 @@
 	Helper::addDependancy('bootstrap');
 	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
+	Helper::addDependancy('moment.min.js');
 	Helper::addDependancy('forum.js');
 ?>
 

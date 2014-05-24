@@ -3,6 +3,8 @@
 	Helper::addDependancy('bootstrap');
 	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
+	Helper::addDependancy('moment.min.js');
+	Helper::addDependancy('utilities.js');
 	Helper::addDependancy('forum-thread.js');
 ?>
 
@@ -22,7 +24,7 @@
 	
 	<div><?php echo $thread['description']; ?></div>
 	
-	<h5><i>Created on <?php echo date('l jS F,', $thread['timestamp']); ?> at <?php echo date('g:i A', $thread['timestamp']); ?> by</i></h5>
+	<h5><i>Created on <?php echo Utilities::convertToFullDate($thread['timestamp']); ?> by</i></h5>
 	
 	<?php
 		if(!$thread['thumbnail']) $src = Helper::getContentLink('default_profile_photo.jpg');
@@ -38,9 +40,11 @@
 		<?php foreach($comments as $comment) { ?>
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<div style="font-size: large" class="alert alert-info"><?php echo $comment['comment']; ?></div>
+					<div style="font-size: large"><?php echo $comment['comment']; ?></div>
 					<h5><i>
-						Posted on <?php echo date('l jS F,', $comment['timestamp']); ?> at <?php echo date('g:i A', $comment['timestamp']); ?> by
+						Posted 
+						<span title="<?php echo Utilities::convertToFullDate($comment['timestamp']); ?>" value="<?php echo Utilities::getFormatForTimeago($comment['timestamp']); ?>" class="timeago"></span>
+						by 
 						<a href="<?php echo BASE_URI.'profile/'.$comment['acc_no']; ?>"><?php echo $comment['full_name']; ?></a>
 					</i></h5>
 				</div>
