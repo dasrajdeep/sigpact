@@ -29,7 +29,7 @@
 							</div>
 						</div>
 						<div id="alt-selected" class="col-sm-10" style="display: none">
-							<input id="attendee-names" type="text" class="form-control" name="participants" placeholder="Name of participants" autocomplete="off" />
+							<input id="attendee-names" type="text" class="form-control" name="participants" placeholder="Name of participants (Hit enter after typing each name)" autocomplete="off" />
 							<br/>
 							<ul id="attendees"></ul>
 							<input id="attendee-form-data" type="hidden" name="attendee_list" value="" />

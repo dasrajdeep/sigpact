@@ -18,7 +18,6 @@ class MeetingsController {
 		$guests = array();
 		
 		if($num_participants === 'few') {
-			$guests[trim($_POST['participants'])] = 1;
 			$list = array_filter(explode(',', $_POST['attendee_list']));
 			foreach($list as $guest) $guests[trim($guest)] = 1;
 		}
@@ -40,8 +39,7 @@ class MeetingsController {
 		
 		if($meeting_id) {
 			$guest_emails = array();
-			foreach(array_keys($guests) as $guest) {
-				$email = substr($guest, strpos($guest, '(') + 1, -1);
+			foreach(array_keys($guests) as $email) {
 				array_push($guest_emails, $email);
 			}
 			

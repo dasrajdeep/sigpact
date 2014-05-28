@@ -1,11 +1,4 @@
-/*var completionEngine = new Bloodhound({
-	name: 'participants',
-	remote: baseURI+'rpc/helpAutoComplete?query=%QUERY',
-	queryTokenizer: Bloodhound.tokenizers.whitespace,
-	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
-});*/
-
-var participants = [];
+var participants = new Object();
 
 $(document).ready(function() {
 	
@@ -16,6 +9,8 @@ $(document).ready(function() {
 			showDialog('Unable to create a meeting', 'Something went wrong. We were unable to arrange your meeting.');
 		} else if(data === 'true') {
 			window.location.reload();
+		} else {
+			showDialog('Error', data);
 		}
     });
     
@@ -26,8 +21,6 @@ $(document).ready(function() {
     		$('#alt-selected').hide();
     	}
     });
-    
-    //completionEngine.initialize();
     
     $('#attendee-names').keyup(function(event) {
     	var data = $(this).val();
@@ -43,7 +36,6 @@ $(document).ready(function() {
     $('#attendee-names').typeahead({
     	name: 'participants',
     	displayKey: 'full_name',
-    	//source: completionEngine.ttAdapter()
     	remote: baseURI+'rpc/helpAutoComplete?query=%QUERY'
     });
     
@@ -54,14 +46,26 @@ function addParticipant() {
 	var data = $('#attendee-names').val();
 	if(data.indexOf(',') == data.length-1) data = data.substr(0,data.length-1);
 	if(data.length == 0 || data.indexOf(')') != data.length-1) return;
-	$('<li>' + data + ' <span onclick="removeParticipant(\''+data+'\')" style="cursor: pointer" class="glyphicon glyphicon-remove-circle"></span></li>').appendTo('#attendees');
-	$('#attendee-form-data').val( $('#attendee-form-data').val() + data + ',' );
-	//participants.push(data);
+	$('<li value="'+getEmail(data)+'">' + data + ' <span onclick="removeParticipant(this)" style="cursor: pointer" class="glyphicon glyphicon-remove-circle"></span></li>').appendTo('#attendees');
+	participants[getEmail(data)] = true;
 	$('#attendee-names').val('');
 }
 
-function removeParticipant(data) {
-	//
+function removeParticipant(obj) {
+	var email = $(obj).parent().attr('value');
+	delete participants[email];
+	$(obj).parent().remove();
+}
+
+function getEmail(person) {
+	var email = person.substring(person.indexOf('(') + 1, person.indexOf(')'));	
+	return email;
+}
+
+function getEmails() {
+	for(var email in participants) {
+		$('#attendee-form-data').val( $('#attendee-form-data').val() + email + ',' );
+	}
 }
 
 function showArrangeMeetingDialog() {
@@ -71,6 +75,7 @@ function showArrangeMeetingDialog() {
 function createMeeting() {
 	$('#createMeetingDialog').modal('hide');
 	showProgressDialog();
+	getEmails();
 	$('#meeting-form').submit();
 }
 
