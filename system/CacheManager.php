@@ -27,7 +27,8 @@ class CacheManager {
 		if(file_exists(PATH_CACHE.$info['basename'])) {
 			$modifyTime=filemtime($filePath);
 			$copyTime=filemtime(PATH_CACHE.$info['basename']);
-			if($modifyTime>$copyTime) copy($filePath,PATH_CACHE.$info['basename']);
+			$copied = FALSE;
+			if($modifyTime >= $copyTime) $copied = copy($filePath,PATH_CACHE.$info['basename']);
 		} else {
 			copy($filePath,PATH_CACHE.$info['basename']);
 		}

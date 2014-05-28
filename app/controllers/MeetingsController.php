@@ -62,6 +62,25 @@ class MeetingsController {
 		
 		ViewManager::renderView('meetings-view', $meeting);
 	}
+
+	public function addMinutes() {
+		
+		$meeting_id = $_POST['meeting_id'];
+		$file_paths = $_FILES['attachments']['tmp_name'];
+		$file_names = $_FILES['attachments']['name'];
+		$minutes = $_POST['minutes'];
+		
+		$meetings = new Meeting();
+		
+		$file_list = array();
+		
+		for($index = 0;$index < count($file_names);$index++) $file_list[$file_names[$index]] = $file_paths[$index];
+		
+		$result = $meetings->updateMeetingMinutes(Session::getUserID(), $meeting_id, $minutes, $file_list);
+		
+		if($result) return TRUE;
+		else return FALSE;
+	}
 	
 }
  

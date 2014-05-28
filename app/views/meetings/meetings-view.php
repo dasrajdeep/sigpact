@@ -3,6 +3,8 @@
 	Helper::addDependancy('bootstrap');
 	Helper::addDependancy('typeahead');
 	Helper::addDependancy('jquery-form');
+	Helper::addDependancy('font-awesome');
+	Helper::addDependancy('summernote');
 	Helper::addDependancy('theme.css');
 	Helper::addDependancy('moment.min.js');
 	Helper::addDependancy('utilities.js');
@@ -10,9 +12,14 @@
 	
 	Helper::addViewComponent('progress-view');
 	Helper::addViewComponent('alert-dialog');
+	Helper::addViewComponent('meetings-add-minutes', $view_vars['meeting']['meeting_id']);
 	
 	$meeting = $view_vars['meeting'];
 	$people  =$view_vars['participants'];
+	$files = $view_vars['files'];
+	
+	if($meeting['datetime'] < time()) $old = true;
+	else $old = false;;
 ?>
 
 <?php Helper::addViewComponent('navbar'); ?>
@@ -31,23 +38,41 @@
 			else $meeting_src = 'data:'.$meeting['mime'].';base64,'.$meeting['thumbnail']; 
 		?>
 		<img class="img-circle" style="vertical-align: middle" width="50px" height="50px" src="<?php echo $meeting_src; ?>" />
-		<a href="<?php echo BASE_URI.'profile/'.$meeting['acc_no']; ?>"><?php echo $meeting['full_name']; ?></a>
+		<a href="<?php echo BASE_URI.'profile/'.$meeting['acc_no']; ?>">
+			<?php if(Session::getUserID() == $meeting['acc_no']) echo 'You'; else echo $meeting['full_name']; ?>
+		</a>
 	</h2>
 	
 	<div class="jumbotron">
 		<div class="panel panel-default">
 			<div class="panel-body">
+				<?php if($old) { ?>
+				<a href="#" onclick="showMinutesDialog()"><h3><span class="glyphicon glyphicon-dashboard"></span> Add Minutes of Meeting</h3></a>
+				<div>
+					<?php echo $meeting['minutes']; ?>
+				</div>
+				<?php } else { ?>
 				<blockquote>
-					<?php echo $meeting['description']; ?>
+					<?php 
+						if(strlen($meeting['description']) > 0) echo $meeting['description'];
+						else echo $meeting['agenda']; 
+					?>
 				</blockquote>
+				<?php } ?>
 			</div>
 		</div>
 		<h2>DATE: <small><?php echo date('l, jS F Y', $meeting['datetime']); ?></small></h2>
+		<?php if(!$old) { ?>
 		<h2>VENUE: <small><?php echo strtoupper($meeting['venue']); ?></small></h2>
 		<h2>TIMING: <small><?php echo date('g:i A', $meeting['datetime']).' to '.date('g:i A', $meeting['datetime']+($meeting['duration']*60)); ?></small></h2>
+		<?php } ?>
 	</div>
 	
+	<?php if($old) { ?>
+	<h2>Who all attended</h2>
+	<?php } else { ?>
 	<h2>Who all are attending</h2>
+	<?php } ?>
 	
 	<div>
 		<?php

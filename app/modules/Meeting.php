@@ -70,10 +70,11 @@ class Meeting {
 		
 		$crumbs = new Crumbs();
 		
-		foreach($files as $file) {
+		foreach(array_keys($files) as $file) {
 			
-			$filename = pathinfo($file, PATHINFO_BASENAME);
-			move_uploaded_file($file, $dest_path.$filename);
+			$filename = $file;
+			$filepath = $files[$file];
+			move_uploaded_file($filepath, $dest_path.$filename);
 			
 			$crumbs->addCrumb($acc_no, $meeting_id, $filename, 'MEETING');
 		}
@@ -121,7 +122,7 @@ class Meeting {
 	
 	public function getMeeting($meeting_id) {
 		
-		$query = "SELECT meeting.id AS meeting_id,agenda,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
+		$query = "SELECT meeting.id AS meeting_id,minutes,agenda,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
 			FROM meeting INNER JOIN account INNER JOIN photo 
 			ON meeting.creator=account.id AND account.photo_id=photo.id
 			WHERE meeting.id=:meeting_id";
@@ -138,7 +139,11 @@ class Meeting {
 		
 		$participants = R::getAll($query, array(':meeting_id'=>$meeting_id));
 		
-		return array('meeting'=>$meeting, 'participants'=>$participants);
+		$query = "SELECT filename FROM crumb WHERE crumbtype='MEETING' AND refid=:meeting_id";
+		
+		$crumbs = R::getAll($query, array(':meeting_id'=>$meeting_id));
+		
+		return array('meeting'=>$meeting, 'participants'=>$participants, 'files'=>$crumbs);
 	}
 	
 }

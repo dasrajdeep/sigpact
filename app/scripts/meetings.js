@@ -5,6 +5,8 @@
 	datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value')
 });*/
 
+var participants = [];
+
 $(document).ready(function() {
 	
 	$('#meeting-form').ajaxForm(function(data) { 
@@ -27,14 +29,15 @@ $(document).ready(function() {
     
     //completionEngine.initialize();
     
-    $('#attendee-names').keyup(function() {
+    $('#attendee-names').keyup(function(event) {
     	var data = $(this).val();
-    	if(data.indexOf(',') == data.length-1) {
-    		data = data.substr(0,data.length-1);
-    		$('<li>' + data + '</li>').appendTo('#attendees');
-    		$('#attendee-form-data').val( $('#attendee-form-data').val() + data + ',' );
-    		$(this).val('');
+    	if(data.indexOf(',') == data.length-1 || event.keyCode == '13') {
+    		addParticipant();
     	}
+    });
+    
+    $('#attendee-names').blur(function() {
+    	addParticipant();
     });
     
     $('#attendee-names').typeahead({
@@ -46,6 +49,20 @@ $(document).ready(function() {
     
     updateTimeAgo();
 });
+
+function addParticipant() {
+	var data = $('#attendee-names').val();
+	if(data.indexOf(',') == data.length-1) data = data.substr(0,data.length-1);
+	if(data.length == 0 || data.indexOf(')') != data.length-1) return;
+	$('<li>' + data + ' <span onclick="removeParticipant(\''+data+'\')" style="cursor: pointer" class="glyphicon glyphicon-remove-circle"></span></li>').appendTo('#attendees');
+	$('#attendee-form-data').val( $('#attendee-form-data').val() + data + ',' );
+	//participants.push(data);
+	$('#attendee-names').val('');
+}
+
+function removeParticipant(data) {
+	//
+}
 
 function showArrangeMeetingDialog() {
 	$('#createMeetingDialog').modal();

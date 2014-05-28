@@ -2,12 +2,15 @@
 	font-family: 'PoiretOne';
 	src: url('PoiretOne-Regular.ttf');
 }
+@font-face {
+	font-family: 'Cabin';
+	src: url('Cabin-Regular.ttf');
+}
 
 body {
 	background-color: #EEEEEE;
 	color: #003048;
-	font-family: PoiretOne;
-	font-size:medium;
+	font-family: Cabin;
 }
 
 h1 {
@@ -24,4 +27,8 @@ img {
 
 .navbar {
 	font-family: arial, sans-seriff;
+}
+
+li {
+	margin:3px;
 }
