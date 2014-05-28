@@ -31,6 +31,7 @@ $(document).ready(function() {
 });
 
 function showMinutesDialog() {
+	$('#minutes-editor').code($('#minutes-text').html());
 	$('#addMinutesDialog').modal('show');
 }
 

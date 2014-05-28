@@ -139,7 +139,7 @@ class Meeting {
 		
 		$participants = R::getAll($query, array(':meeting_id'=>$meeting_id));
 		
-		$query = "SELECT filename FROM crumb WHERE crumbtype='MEETING' AND refid=:meeting_id";
+		$query = "SELECT id,filename FROM crumb WHERE crumbtype='MEETING' AND refid=:meeting_id";
 		
 		$crumbs = R::getAll($query, array(':meeting_id'=>$meeting_id));
 		

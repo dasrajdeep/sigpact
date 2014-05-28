@@ -47,10 +47,20 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<?php if($old) { ?>
-				<a href="#" onclick="showMinutesDialog()"><h3><span class="glyphicon glyphicon-dashboard"></span> Add Minutes of Meeting</h3></a>
-				<div>
+				<a href="#" onclick="showMinutesDialog()"><h3><span class="glyphicon glyphicon-dashboard"></span> Edit Minutes of Meeting</h3></a>
+				<blockquote><div id="minutes-text">
 					<?php echo $meeting['minutes']; ?>
+				</div></blockquote>
+				<?php if(count($files) > 0) { ?>
+				<div id="minutes-files">
+					<h2>Files</h2>
+					<ul>
+						<?php foreach($files as $file) { ?>
+							<li><a href="#"><?php echo $file['filename']; ?></a></li>
+						<?php } ?>
+					</ul>
 				</div>
+				<?php } ?>
 				<?php } else { ?>
 				<blockquote>
 					<?php 

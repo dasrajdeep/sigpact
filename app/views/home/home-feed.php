@@ -5,7 +5,8 @@
 		'FORUM_THREAD_CREATED',
 		'COMMENTED_FORUM',
 		'MEETING_CREATED',
-		'COMMENTED_ARTICLE'
+		'COMMENTED_ARTICLE',
+		'MEETING_UPDATED'
 	); 
 ?>
 
@@ -18,7 +19,7 @@
 		else $src = 'data:'.$event['mime'].';base64,'.$event['thumbnail'];
 ?>
 <div class="panel panel-default">
-	<div class="panel-body">
+	<div class="panel-body" style="font-size: large">
 		<div class="col-md-1">
 			<img class="img-rounded" width="50px" height="50px" src="<?php echo $src; ?>" alt="Photo" />
 		</div>
@@ -40,6 +41,8 @@
 						echo sprintf(' created a new <a href="%s">meeting</a> at %s', BASE_URI.'meetings', $event['venue']);
 					} else if($event_name === 'COMMENTED_ARTICLE') {
 						echo sprintf(' commented on <a href="%s">%s</a> ', BASE_URI.'article/'.$event['target'], $event['title']);
+					} else if($event_name === 'MEETING_UPDATED') {
+						echo sprintf(' updated meeting &quot;<a href="%s">%s</a>&quot; ', BASE_URI.'meeting/'.$event['target'], $event['agenda']);
 					}
 				?>
 				<h5><i>
