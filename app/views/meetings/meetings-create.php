@@ -9,6 +9,12 @@
 			<div class="modal-body">
 				<form class="form-horizontal" id="meeting-form" method="post" action="<?php echo BASE_URI.'rpc/createMeeting'; ?>">
 					<div class="form-group">
+						<div class="col-sm-10">
+							Agenda
+							<input type="text" class="form-control" name="agenda" value="" placeholder="eg. Thesis discussion">
+						</div>
+					</div>
+					<div class="form-group">
 						<div class="col-sm-10">Participants (Meeting with)</div>
 						<div class="col-sm-10">
 							<div class="radio-inline">

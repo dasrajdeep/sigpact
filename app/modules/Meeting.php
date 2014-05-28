@@ -3,11 +3,12 @@
 class Meeting {
 	
 	// Includes creator, venue, date & time, duration, description
-	public function createNewMeeting($creator_id, $venue, $datetime, $duration, $description = null) {
+	public function createNewMeeting($creator_id, $agenda, $venue, $datetime, $duration, $description = null) {
 		
 		$meeting = R::dispense('meeting');
 		
 		$meeting->creator = $creator_id;
+		$meeting->agenda = $agenda;
 		$meeting->venue = $venue;
 		$meeting->datetime = $datetime;
 		$meeting->duration = $duration;
@@ -31,7 +32,7 @@ class Meeting {
 		if($guests == null) {
 			$guests = array();
 			$guest_emails = R::getAll('SELECT email FROM account');
-			foreach($guest_emails as $email) array_push($guests, $guest_emails['email']);
+			foreach($guest_emails as $email) array_push($guests, $email['email']);
 		}
 		
 		// Invite selected guests.
@@ -107,7 +108,7 @@ class Meeting {
 	
 	public function getUserMeetings($acc_no) {
 		
-		$query = "SELECT meeting.id AS meeting_id,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
+		$query = "SELECT meeting.id AS meeting_id,agenda,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
 			FROM meeting INNER JOIN account INNER JOIN photo 
 			ON meeting.creator=account.id AND account.photo_id=photo.id
 			WHERE meeting.id IN (SELECT meeting_id FROM participant WHERE participant=:participant) 
@@ -116,6 +117,28 @@ class Meeting {
 		$meetings = R::getAll($query, array(':participant'=>$acc_no));
 		
 		return $meetings;
+	}
+	
+	public function getMeeting($meeting_id) {
+		
+		$query = "SELECT meeting.id AS meeting_id,agenda,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
+			FROM meeting INNER JOIN account INNER JOIN photo 
+			ON meeting.creator=account.id AND account.photo_id=photo.id
+			WHERE meeting.id=:meeting_id";
+		
+		$row = R::getAssocRow($query, array(':meeting_id'=>$meeting_id));
+		
+		$meeting = $row[0];
+		
+		$query = "SELECT thumbnail,mime,first_name,account.id AS acc_no 
+			FROM account INNER JOIN photo 
+			ON account.photo_id=photo.id 
+			WHERE account.id IN 
+			(SELECT participant FROM participant WHERE meeting_id=:meeting_id)";
+		
+		$participants = R::getAll($query, array(':meeting_id'=>$meeting_id));
+		
+		return array('meeting'=>$meeting, 'participants'=>$participants);
 	}
 	
 }

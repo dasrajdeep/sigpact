@@ -19,7 +19,9 @@
 ?>
 <div class="panel panel-default">
 	<div class="panel-body">
-		<img class="img-rounded pull-left" style="margin-right: 5px" width="50px" height="50px" src="<?php echo $src; ?>" alt="Photo" />
+		<div class="col-md-1">
+			<img class="img-rounded" width="50px" height="50px" src="<?php echo $src; ?>" alt="Photo" />
+		</div>
 		<div class="col-md-8 col-md-offset-1">
 			<h3 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$event['acc_no']; ?>"><?php echo $event['full_name']; ?></a></h3>
 			<span>
@@ -40,7 +42,9 @@
 						echo sprintf(' commented on <a href="%s">%s</a> ', BASE_URI.'article/'.$event['target'], $event['title']);
 					}
 				?>
-				<h5><i><?php echo 'on '.date('l jS F,', $event['timestamp']).' at '.date('g:i A', $event['timestamp']); ?></i></h5>
+				<h5><i>
+					<span title="<?php echo Utilities::convertToFullDate($event['timestamp']); ?>" value="<?php echo Utilities::getFormatForTimeago($event['timestamp']); ?>" class="timeago"></span>
+				</i></h5>
 			</span>
 		</div>
 	</div>

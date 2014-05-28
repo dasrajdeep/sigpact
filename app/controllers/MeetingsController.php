@@ -23,6 +23,7 @@ class MeetingsController {
 			foreach($list as $guest) $guests[trim($guest)] = 1;
 		}
 		
+		$agenda = $_POST['agenda'];
 		$venue = $_POST['venue'];
 		$date = $_POST['date'];
 		$time = $_POST['time'];
@@ -35,7 +36,7 @@ class MeetingsController {
 		$datetime = strtotime($date.' '.$time);
 		//echo date(DATE_RFC2822, $datetime);
 		
-		$meeting_id = $meetings->createNewMeeting(Session::getUserID(), $venue, $datetime, $duration, $description);
+		$meeting_id = $meetings->createNewMeeting(Session::getUserID(), $agenda, $venue, $datetime, $duration, $description);
 		
 		if($meeting_id) {
 			$guest_emails = array();
@@ -49,6 +50,17 @@ class MeetingsController {
 			
 			return TRUE;
 		} else return FALSE;
+	}
+
+	public function showMeeting($args) {
+		
+		$meeting_id = $args[0];
+		
+		$meetings = new Meeting();
+		
+		$meeting = $meetings->getMeeting($meeting_id);
+		
+		ViewManager::renderView('meetings-view', $meeting);
 	}
 	
 }

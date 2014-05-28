@@ -43,6 +43,8 @@ $(document).ready(function() {
     	//source: completionEngine.ttAdapter()
     	remote: baseURI+'rpc/helpAutoComplete?query=%QUERY'
     });
+    
+    updateTimeAgo();
 });
 
 function showArrangeMeetingDialog() {

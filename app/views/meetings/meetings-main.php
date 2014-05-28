@@ -4,6 +4,8 @@
 	Helper::addDependancy('typeahead');
 	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
+	Helper::addDependancy('moment.min.js');
+	Helper::addDependancy('utilities.js');
 	Helper::addDependancy('meetings.js');
 ?>
 

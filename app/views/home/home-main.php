@@ -3,6 +3,9 @@
 	Helper::addDependancy('bootstrap');
 	Helper::addDependancy('theme.css');
 	Helper::addDependancy('home.css');
+	Helper::addDependancy('moment.min.js');
+	Helper::addDependancy('utilities.js');
+	Helper::addDependancy('home.js');
 ?>
 
 <?php Helper::addViewComponent('navbar'); ?>
