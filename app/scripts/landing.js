@@ -1,5 +1,11 @@
 $(document).ready(function() {
 	
+	$('.carousel').carousel({
+		interval: false
+	});
+	
+	$('.carousel').css('height',window.innerHeight);
+	
 	$('#login-form').ajaxForm(function(data) { 
 		
 		if(data === 'false') {
@@ -35,14 +41,12 @@ $(document).ready(function() {
 
 function signIn() {
 	
-	$('#request-form').hide();
-	$('#login-form').show();
+	$('.carousel').carousel(0);
 }
 
 function requestAccount() {
 	
-	$('#login-form').hide();
-	$('#request-form').show();
+	$('.carousel').carousel(2);
 }
 
 function showDialog(title, body) {

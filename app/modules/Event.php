@@ -7,7 +7,7 @@ class Event {
 		'ARTICLE_CREATED'=>"SELECT title FROM article WHERE id=:id",
 		'FORUM_THREAD_CREATED'=>"SELECT title FROM forumthread WHERE id=:id",
 		'COMMENTED_FORUM'=>"SELECT title FROM forumthread WHERE id=:id",
-		'MEETING_CREATED'=>"SELECT datetime,venue FROM meeting WHERE id=:id",
+		'MEETING_CREATED'=>"SELECT datetime,agenda FROM meeting WHERE id=:id",
 		'COMMENTED_ARTICLE'=>"SELECT title FROM article WHERE id=:id",
 		'MEETING_UPDATED'=>"SELECT agenda FROM meeting WHERE id=:id"
 	);

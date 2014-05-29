@@ -38,7 +38,7 @@
 					} else if($event_name === 'COMMENTED_FORUM') {
 						echo sprintf(' commented on <a href="%s">%s</a> ', BASE_URI.'thread/'.$event['target'], $event['title']);
 					} else if($event_name === 'MEETING_CREATED') {
-						echo sprintf(' created a new <a href="%s">meeting</a> at %s', BASE_URI.'meetings', $event['venue']);
+						echo sprintf(' created a new meeting &quot;<a href="%s">%s</a>&quot;', BASE_URI.'meeting/'.$event['target'], $event['agenda']);
 					} else if($event_name === 'COMMENTED_ARTICLE') {
 						echo sprintf(' commented on <a href="%s">%s</a> ', BASE_URI.'article/'.$event['target'], $event['title']);
 					} else if($event_name === 'MEETING_UPDATED') {
