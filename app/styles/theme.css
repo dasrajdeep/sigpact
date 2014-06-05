@@ -27,6 +27,12 @@ img {
 
 .navbar {
 	font-family: arial, sans-seriff;
+	min-height:32px !important
+}
+
+.navbar-nav > li > a {
+	padding-top:7px !important; 
+	padding-bottom:7px !important;
 }
 
 li {

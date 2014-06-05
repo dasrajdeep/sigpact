@@ -84,6 +84,13 @@ class Profile {
 	
 	public function getCompleteProfileInfo($id) {
 		
+		/*$query = "SELECT account.id AS acc_no,first_name,last_name,organization,location,
+			(CASE avatar_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM graphic WHERE graphic.id=`profile`.avatar_id) END) AS avatar_thumb,
+			(CASE cover_picture_id WHEN NULL THEN NULL ELSE (SELECT original FROM graphic WHERE graphic.id=`profile`.cover_picture_id) END) AS cover_full  
+		FROM account INNER JOIN `profile`
+		ON account.id=`profile`.id
+		WHERE account.id=:acc_no";*/
+		
 		if(is_numeric($id)) {
 			$account = R::load('account', $id);
 		} else {
