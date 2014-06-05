@@ -35,7 +35,9 @@ $(document).ready(function() {
     		showDialog('Account Already Requested',
     			'You have already requested for an account. Please wait for the administrator to approve your request.'
     		);
-    	}
+    } else {
+    	showDialog('Unable to create account request!', 'Something went wrong. We were unable to create your account request. Contact the administrator regarding this issue.');
+    }
     });
 });
 

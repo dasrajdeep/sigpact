@@ -132,7 +132,7 @@ class Accounts {
 		
 		$profile = new Profile();
 		
-		$acc_id = $profile->createUserAccount($user);
+		$acc_id = $profile->createUserAccount($email, $user);
 		
 		if($acc_id) {
 			$users = R::find('account', 'status=?', array(2));
