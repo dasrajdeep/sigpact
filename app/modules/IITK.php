@@ -82,8 +82,8 @@ class IITK {
 		$user = array(
 			'email' => $email,
 			'id_no' => $roll_no,
-			'full_name' => $full_name,
-			'first_name' => $first_name,
+			'full_name' => Utilities::convertToCapitalCase($full_name),
+			'first_name' => Utilities::convertToCapitalCase($first_name),
 			'sex' => $sex,
 			'department' => $department,
 			'programme' => $programme
