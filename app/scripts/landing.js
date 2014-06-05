@@ -7,7 +7,7 @@ $(document).ready(function() {
 	$('.carousel').css('height',window.innerHeight);
 	
 	$('#login-form').ajaxForm(function(data) { 
-		
+		hideProgressDialog()
 		if(data === 'false') {
 			showDialog('Login Failed',
 				'You have entered invalid credentials. If you have requested for a new account, ' +  
@@ -21,7 +21,7 @@ $(document).ready(function() {
     });
     
     $('#request-form').ajaxForm(function(data) {
-    	
+    	hideProgressDialog();
     	if(data === 'false') {
     		showDialog('Unable To Validate Email ID',
     			 'Your email ID could not be verified. Make sure that you have entered a valid IIT Kanpur email ID. ' + 
@@ -53,9 +53,12 @@ function requestAccount() {
 	$('.carousel').carousel(2);
 }
 
-function showDialog(title, body) {
-	
-	$('#notify-body').html(body);
-	$('#notify-title').html(title);
-	$('#alert-dialog').modal('show');
+function startLogin() {
+	showProgressDialog();
+	$('#login-form').submit();
+}
+
+function startAccountRequest() {
+	showProgressDialog();
+	$('#request-form').submit();
 }

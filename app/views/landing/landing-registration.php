@@ -26,7 +26,7 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-1 col-sm-10">
-			    	<button type="submit" class="btn btn-primary" onclick=""><span class="glyphicon glyphicon-envelope"></span> Request Account</button>
+			    	<button type="button" class="btn btn-primary" onclick="startAccountRequest()"><span class="glyphicon glyphicon-envelope"></span> Request Account</button>
 			    </div>
 			</div>
 			

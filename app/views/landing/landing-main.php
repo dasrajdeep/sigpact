@@ -3,6 +3,7 @@
 	Helper::addDependancy('bootstrap');
 	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
+	Helper::addDependancy('utilities.js');
 	Helper::addDependancy('landing.js');
 ?>
 
@@ -61,4 +62,5 @@
 
 <div id="notifications" style="color: #333333">
 	<?php Helper::addViewComponent('alert-dialog'); ?>
+	<?php Helper::addViewComponent('progress-view'); ?>
 </div>
