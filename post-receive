@@ -1,0 +1,8 @@
+#!/bin/bash
+PROJECT_PATH=/var/www/
+
+echo "Pulling changes..."
+unset $(git rev-parse --local-env-vars)
+cd $PROJECT_PATH
+git pull origin master
+echo "Pulled in changes. You may view the application at http://sigpact.cse.iitk.ac.in/."
