@@ -47,10 +47,11 @@
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<?php if($old) { ?>
-				<a href="#" onclick="showMinutesDialog()"><h3><span class="glyphicon glyphicon-dashboard"></span> Edit Minutes of Meeting</h3></a>
+				<h2><span class="glyphicon glyphicon-dashboard"></span> Minutes of Meeting</h2>
 				<blockquote><div id="minutes-text">
 					<?php echo $meeting['minutes']; ?>
 				</div></blockquote>
+				<button type="button" class="btn btn-primary" onclick="showMinutesDialog()"><span class="glyphicon glyphicon-pencil"></span> Edit</button>
 				<?php if(count($files) > 0) { ?>
 				<div id="minutes-files">
 					<h2>Files</h2>

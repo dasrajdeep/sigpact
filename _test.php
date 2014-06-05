@@ -36,9 +36,7 @@
 	 * ===============================================================================
 	 */
 	 
-	$meeting = new Meeting();
+	$mailer = new Mailer();
 	
-	$dataset = R::getAll('SELECT email FROM account');
-	
-	print_r($dataset);
+	echo $mailer->sendMail('rajdeepd@iitk.ac.in', 'Test Mail', '<h1>Test Mail</h1>', 'Test Mail');
 ?>

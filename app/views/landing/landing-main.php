@@ -8,7 +8,7 @@
 
 <style>
 	body {
-		background-image: url('<?php echo Helper::getContentLink('main-bg.jpg'); ?>');
+		background-image: url('<?php echo Helper::getContentLink('landing-bg.png'); ?>');
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
