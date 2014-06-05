@@ -31,6 +31,8 @@
 					
 					if($event_name === 'USER_REGISTER') {
 						echo ' joined <b>SiGPACT</b> ';
+					} else if($event_name === 'PROFILE_UPDATE_PHOTO') {
+						echo sprintf(' updated %s profile picture ', ($event['sex'] === 'M') ? 'his':'her');
 					} else if($event_name === 'ARTICLE_CREATED') {
 						echo sprintf(' published an article <a href="%s">%s</a> ', BASE_URI.'article/'.$event['target'], $event['title']);
 					} else if($event_name === 'FORUM_THREAD_CREATED') {

@@ -4,6 +4,7 @@ class Event {
 	
 	private $event_map = array(
 		'USER_REGISTER'=>null,
+		'PROFILE_UPDATE_PHOTO'=>"SELECT sex FROM account WHERE id=:id",
 		'ARTICLE_CREATED'=>"SELECT title FROM article WHERE id=:id",
 		'FORUM_THREAD_CREATED'=>"SELECT title FROM forumthread WHERE id=:id",
 		'COMMENTED_FORUM'=>"SELECT title FROM forumthread WHERE id=:id",
@@ -21,6 +22,8 @@ class Event {
         $event->target = $target;
         $event->description = $description;
         $event->timestamp = time();
+		
+		if(!$event->target) $event->target = $event->source;
 
         return R::store($event);
     }
