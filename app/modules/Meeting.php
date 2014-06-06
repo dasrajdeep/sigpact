@@ -109,9 +109,8 @@ class Meeting {
 	
 	public function getUserMeetings($acc_no) {
 		
-		$query = "SELECT meeting.id AS meeting_id,agenda,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
-			FROM meeting INNER JOIN account INNER JOIN photo 
-			ON meeting.creator=account.id AND account.photo_id=photo.id
+		$query = "SELECT meeting.id AS meeting_id,agenda,datetime 
+			FROM meeting 
 			WHERE meeting.id IN (SELECT meeting_id FROM participant WHERE participant=:participant) 
 			ORDER BY datetime DESC";
 		
@@ -122,20 +121,22 @@ class Meeting {
 	
 	public function getMeeting($meeting_id) {
 		
-		$query = "SELECT meeting.id AS meeting_id,minutes,agenda,venue,datetime,duration,description,full_name,mime,thumbnail,account.id AS acc_no 
-			FROM meeting INNER JOIN account INNER JOIN photo 
-			ON meeting.creator=account.id AND account.photo_id=photo.id
+		$query = "SELECT meeting.id AS meeting_id,minutes,agenda,venue,datetime,duration,description,full_name,account.id AS acc_no,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS thumbnail,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime  
+			FROM meeting INNER JOIN account 
+			ON meeting.creator=account.id 
 			WHERE meeting.id=:meeting_id";
 		
 		$row = R::getAssocRow($query, array(':meeting_id'=>$meeting_id));
 		
 		$meeting = $row[0];
 		
-		$query = "SELECT thumbnail,mime,first_name,account.id AS acc_no 
-			FROM account INNER JOIN photo 
-			ON account.photo_id=photo.id 
-			WHERE account.id IN 
-			(SELECT participant FROM participant WHERE meeting_id=:meeting_id)";
+		$query = "SELECT first_name,account.id AS acc_no,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS thumbnail,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime  
+			FROM account 
+			WHERE account.id IN (SELECT participant FROM participant WHERE meeting_id=:meeting_id)";
 		
 		$participants = R::getAll($query, array(':meeting_id'=>$meeting_id));
 		

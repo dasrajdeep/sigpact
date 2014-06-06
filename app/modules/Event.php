@@ -43,18 +43,13 @@ class Event {
         return $all;
     }
 	
-	public function fetchGlobalEvents($limit = 100) {
-
-        $all = R::find('event', 'LIMIT :limit', array(':limit' => $limit));
-
-        return $all;
-    }
-	
 	public function fetchPresentableGlobalEvents($limit = 100) {
 		
-		$query = "SELECT account.id AS acc_no,`event`.id AS event_id,photo_id,full_name,`name` AS event_name,target,`timestamp`,mime,standard,thumbnail 
-			FROM account INNER JOIN `event` INNER JOIN photo 
-			ON `event`.source=account.id AND account.photo_id=photo.id
+		$query = "SELECT account.id AS acc_no,`event`.id AS event_id,photo_id,full_name,`name` AS event_name,target,`timestamp`,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS thumbnail,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime  
+			FROM account INNER JOIN `event`
+			ON `event`.source=account.id
 			ORDER BY `timestamp` DESC";
 		
 		$results = R::getAll($query);

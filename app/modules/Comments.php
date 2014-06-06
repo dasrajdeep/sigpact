@@ -21,9 +21,11 @@ class Comments {
 	
 	public function getCommentsByNode($node_type, $node_id) {
 		
-		$query = "SELECT account.id AS acc_no,full_name,thumbnail,mime,comment.id AS comment_id,comment,timestamp 
-			FROM comment INNER JOIN account INNER JOIN photo 
-			ON comment.commenter=account.id AND account.photo_id=photo.id  
+		$query = "SELECT account.id AS acc_no,full_name,comment.id AS comment_id,comment,timestamp,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS photo,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime  
+			FROM comment INNER JOIN account 
+			ON comment.commenter=account.id   
 			WHERE nodetype=:nodetype AND nodeid=:nodeid ORDER BY `timestamp` DESC";
 		
 		$comments = R::getAll($query, array(':nodetype'=>$node_type, ':nodeid'=>$node_id));

@@ -22,9 +22,8 @@ class ForumController {
 		$forum = new Forum();
 		
 		$thread = $forum->fetchThread($thread_id);
-		$comments = $forum->fetchCommentsForThread($thread_id);
 		
-		ViewManager::renderView('forum-threadview', array($thread, $comments));
+		ViewManager::renderView('forum-threadview', $thread);
 	}
 	
 	public function createThreadComment() {

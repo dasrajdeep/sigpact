@@ -8,7 +8,7 @@
 			
 			<div class="modal-body">
 				<form id="aboutme-form" method="post" enctype="multipart/form-data" action="<?php echo BASE_URI.'rpc/updateAboutMe'; ?>">
-					<textarea rows="10" name="aboutme" style="width: 100%; resize: vertical;"><?php echo $view_vars[0]->about_me; ?></textarea>
+					<textarea rows="10" name="aboutme" style="width: 100%; resize: vertical;"><?php echo $view_vars[0]['about_me']; ?></textarea>
 					<input type="hidden" name="marker" value="aboutme-update" />
 				</form>
 			</div>

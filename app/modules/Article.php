@@ -45,11 +45,25 @@ class Article {
 		} else return FALSE;
 	}
 	
-	public function getArticle($article_id) {
+	public function getCompleteArticle($article_id) {
 		
-		$article = R::load('article', $article_id);
+		$query = "SELECT article.id AS article_id,title,content,timestamp,account.id AS acc_no,full_name,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS photo,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime
+			FROM article INNER JOIN	account 
+			ON article.creator_id=account.id 
+			WHERE article.id=:article_id";
 		
-		return $article;
+		$row = R::getAssocRow($query, array(':article_id'=>$article_id));
+		
+		if(count($row)) $article = $row[0];
+		else $article = null;
+		
+		$commentsManager = new Comments();
+		
+		$comments = $commentsManager->getCommentsByNode('ARTICLE', $article_id);
+		
+		return array('article'=>$article, 'comments'=>$comments);
 	}
 	
 	public function fetchAllArticlesByCreator($acc_no) {

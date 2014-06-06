@@ -17,7 +17,7 @@
 
 <div class="col-md-2" data-spy="affix"><?php Helper::addViewComponent('home-sidebar', 4); ?></div>
 
-<?php $thread = $view_vars[0]; $comments = $view_vars[1]; ?>
+<?php $thread = $view_vars['thread']; $comments = $view_vars['comments']; ?>
 
 <div class="container col-md-8 col-md-offset-2">
 	<h1><?php echo $thread['title']; ?></h1>
@@ -31,7 +31,7 @@
 		else $src = 'data:'.$thread['mime'].';base64,'.$thread['thumbnail'];  
 	?>
 	
-	<img class="img-circle" style="vertical-align: bottom" width="35px" height="35px" src="<?php echo $src; ?>" />
+	<img height="70px" class="img-circle" src="<?php echo $src; ?>" />
 	<h3 style="display: inline"><a href="<?php echo BASE_URI.'profile/'.$thread['acc_no']; ?>"><?php echo $thread['full_name']; ?></a></h3>
 	
 	<hr style="background-color: #566569;height: 1px;"/>
@@ -45,8 +45,17 @@
 						Posted 
 						<span title="<?php echo Utilities::convertToFullDate($comment['timestamp']); ?>" value="<?php echo Utilities::getFormatForTimeago($comment['timestamp']); ?>" class="timeago"></span>
 						by 
-						<a href="<?php echo BASE_URI.'profile/'.$comment['acc_no']; ?>"><?php echo $comment['full_name']; ?></a>
 					</i></h5>
+					<h4>
+						<?php
+						if(!$comment['photo']) $src = Helper::getContentLink('default_profile_photo.jpg');
+						else $src = 'data:'.$comment['mime'].';base64,'.$comment['photo'];   
+						?>
+						<a href="<?php echo BASE_URI.'profile/'.$comment['acc_no']; ?>">
+							<img height="40px" class="img-circle" src="<?php echo $src; ?>" />
+							<?php echo $comment['full_name']; ?>
+						</a>
+					</h4>
 				</div>
 			</div>
 		<?php } ?>

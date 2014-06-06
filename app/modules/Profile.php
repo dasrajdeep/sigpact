@@ -84,47 +84,36 @@ class Profile {
 	
 	public function getCompleteProfileInfo($id) {
 		
-		/*$query = "SELECT account.id AS acc_no,first_name,last_name,organization,location,
-			(CASE avatar_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM graphic WHERE graphic.id=`profile`.avatar_id) END) AS avatar_thumb,
-			(CASE cover_picture_id WHEN NULL THEN NULL ELSE (SELECT original FROM graphic WHERE graphic.id=`profile`.cover_picture_id) END) AS cover_full  
-		FROM account INNER JOIN `profile`
-		ON account.id=`profile`.id
-		WHERE account.id=:acc_no";*/
+		$query = "SELECT account.id AS acc_no,full_name,department,programme,email,about_me,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS photo,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime   
+		FROM account ";
 		
 		if(is_numeric($id)) {
-			$account = R::load('account', $id);
+			$clause = "WHERE account.id=:id";
 		} else {
-			$account = R::find('account', 'email=:email', array(':email' => $email));
+			$clause = "WHERE account.email=:id";
 		}
 		
-		$photo = R::load('photo', $account->photo_id);
+		$query = $query.$clause;
 		
-		return array($account, $photo);
+		$row = R::getAssocRow($query, array(':id'=>$id));
+		
+		if(count($row)) return $row[0];
+		else return null;
 	}
 	
-	public function getPreviewProfileInfo($email) {
+	public function fetchAllProfiles($limit = 1000) {
 		
-		$profile_info = R::getRow("SELECT full_name,first_name,department,programme,sex,photo_id FROM account WHERE email=:email", 
-			array(':email'=>$email));
-			
-		return $profile_info;
-	}
-	
-	public function fetchAllProfiles($limit = null) {
+		$query = "SELECT account.id AS acc_no,full_name,first_name,email,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS photo,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime   
+		FROM account 
+		LIMIT :limit";
 		
-		if($limit) $profiles = R::getAll('SELECT id,first_name,photo_id,email,id_no FROM account LIMIT '.$limit);
-		else $profiles = R::getAll('SELECT id,first_name,photo_id,email,id_no FROM account');
+		$profiles = R::getAll($query, array(':limit'=>$limit));
 		
-		$photos = array();
-		
-		foreach($profiles as $profile) {
-			if($profile['photo_id'] != null) {
-				$photo = R::load('photo', $profile['photo_id']);
-				$photos[$profile['id_no']] = $photo;
-			} else $photos[$profile['id_no']] = null;
-		}
-		
-		return array($profiles, $photos);
+		return $profiles;
 	}
 	
 }

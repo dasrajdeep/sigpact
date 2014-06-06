@@ -29,14 +29,23 @@ class Forum {
 	
 	public function fetchThread($thread_id) {
 		
-		$query = "SELECT forumthread.id AS thread_id,title,description,account.id AS acc_no,full_name,mime,thumbnail,timestamp 
-			FROM forumthread INNER JOIN account INNER JOIN photo 
-			ON forumthread.creator_id=account.id AND account.photo_id=photo.id 
+		$query = "SELECT forumthread.id AS thread_id,title,description,account.id AS acc_no,full_name,timestamp,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS thumbnail,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime 
+			FROM forumthread INNER JOIN account 
+			ON forumthread.creator_id=account.id 
 			WHERE forumthread.id=:thread_id";
 			
-		$result = R::getAssocRow($query, array(':thread_id'=>$thread_id));
+		$row = R::getAssocRow($query, array(':thread_id'=>$thread_id));
 		
-		return $result[0];
+		$commentManager = new Comments();
+		
+		$comments = $commentManager->getCommentsByNode('FORUM', $thread_id);
+		
+		if(count($row)) $thread = $row[0];
+		else $thread = null;
+		
+		return array('thread'=>$thread, 'comments'=>$comments);
 	}
 	
 	public function postComment($thread_id, $comment_text) {
@@ -44,19 +53,6 @@ class Forum {
 		$comments = new Comments();
 		
 		return $comments->addComment('FORUM', $thread_id, Session::getUserID(), $comment_text);
-	}
-	
-	public function fetchCommentsForThread($thread_id) {
-		
-		$query = "SELECT comment.id AS comment_id,comment,timestamp,full_name,account.id AS acc_no 
-			FROM comment INNER JOIN account 
-			ON comment.commenter=account.id 
-			WHERE comment.nodetype='FORUM' AND comment.nodeid=:thread_id 
-			ORDER BY timestamp DESC";
-		
-		$results = R::getAll($query, array(':thread_id'=>$thread_id));
-		
-		return $results;
 	}
 	
 }

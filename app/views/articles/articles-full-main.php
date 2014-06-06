@@ -20,12 +20,11 @@
 <div class="col-md-2" data-spy="affix"><?php Helper::addViewComponent('home-sidebar', 2); ?></div>
 
 <?php
-	$article = $view_vars[0];
-	$profile = $view_vars[1];
-	$photo = $view_vars[2]; 
-	$comments = $view_vars[3];
-	if($photo == null) $src = Helper::getContentLink('default_profile_photo.jpg');
-	else $src = 'data:'.$photo->mime.';base64,'.$photo->thumbnail;
+	$article = $view_vars['article'];
+	$comments = $view_vars['comments'];
+	
+	if($article['photo'] == null) $src = Helper::getContentLink('default_profile_photo.jpg');
+	else $src = 'data:'.$article['mime'].';base64,'.$article['photo'];
 ?>
 
 <div class="container col-md-10 col-md-offset-2">
@@ -33,26 +32,29 @@
 		<img width="100%" src="<?php echo $src; ?>" alt="Photo" />
 		<br/>
 		<h4><i>Posted by</i></h4>
-		<h4><a href="<?php echo BASE_URI.'profile/'.$profile->id; ?>"><?php echo $profile->full_name; ?></a></h4>
-		<i>On <?php echo Utilities::convertToFullDate($article->timestamp); ?></i>
+		<h4><a href="<?php echo BASE_URI.'profile/'.$article['acc_no']; ?>"><?php echo $article['full_name']; ?></a></h4>
+		<i>On <?php echo Utilities::convertToFullDate($article['timestamp']); ?></i>
 		
-		<?php if($article->creator_id == Session::getUserID()) { ?>
-			<div class="btn-group">
-				<button class="btn btn-default" onclick="editArticle()"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-				<button class="btn btn-danger" onclick="deleteArticle()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+		<br/><br/>
+		
+		<?php if($article['acc_no'] == Session::getUserID()) { ?>
+			<div>
+				<button style="width: 100px; margin: 3px;" class="btn btn-default" onclick="editArticle()"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+				<br/>
+				<button style="width: 100px; margin: 3px;" class="btn btn-danger" onclick="deleteArticle()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
 			</div>
 		<?php } ?>
 		<form id="article-delete-form" method="post" action="<?php echo BASE_URI.'rpc/deleteArticle'; ?>">
-			<input type="hidden" name="article_id" value="<?php echo $article->id; ?>" />
+			<input type="hidden" name="article_id" value="<?php echo $article['article_id']; ?>" />
 		</form>
 	</div>
 	<div class="col-md-9">
-		<h1><?php echo $article->title; ?></h1>
+		<h1><?php echo $article['title']; ?></h1>
 		
 		<div id="article-view">
 			<div class="panel panel-default">
 				<div class="panel-body" id="article-content">
-					<?php echo $article->content; ?>
+					<?php echo $article['content']; ?>
 				</div>
 			</div>
 			
@@ -61,8 +63,8 @@
 				<div class="panel-body">
 					<?php if(count($comments) == 0) echo 'No comments as yet.'; ?>
 					<?php foreach($comments as $comment) {
-						if(!$comment['thumbnail']) $comment_src = Helper::getContentLink('default_profile_photo.jpg');
-						else $comment_src = 'data:'.$comment['mime'].';base64,'.$comment['thumbnail']; 
+						if(!$comment['photo']) $comment_src = Helper::getContentLink('default_profile_photo.jpg');
+						else $comment_src = 'data:'.$comment['mime'].';base64,'.$comment['photo']; 
 					?>
 						<div style="margin: 5px" class="comment">
 							<img width="50px" height="50px" src="<?php echo $comment_src; ?>" />
@@ -85,7 +87,7 @@
 						<textarea class="form-control" cols="60" name="comment"></textarea>
 					</div>
 				</div>
-				<input type="hidden" name="article_id" value="<?php echo $article->id; ?>" />
+				<input type="hidden" name="article_id" value="<?php echo $article['article_id']; ?>" />
 				<div class="form-group">
 					<div class="col-sm-10">
 						<button type="button" class="btn btn-default" onclick="postComment()">Post Comment</button>
@@ -99,7 +101,7 @@
 				<textarea name="content" id="articles-editor" style="overflow:scroll; max-height:300px;"></textarea>
 			</div>
 			
-			<input type="hidden" name="article_id" value="<?php echo $article->id; ?>" />
+			<input type="hidden" name="article_id" value="<?php echo $article['article_id']; ?>" />
 			
 			<br/>
 		

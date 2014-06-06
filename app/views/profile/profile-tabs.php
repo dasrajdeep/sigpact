@@ -2,13 +2,13 @@
 
 <div>
 	<div class="tab-content" id="content-aboutme" style="text-align: justify; font-size: 20px;">
-		<?php if($profile->id == Session::getUserID()) { ?>
+		<?php if($profile['acc_no'] == Session::getUserID()) { ?>
 		<button type="button" class="btn btn-primary" onclick="changeAboutMe()"><span class="glyphicon glyphicon-edit"></span> Edit</button>
 		<?php } ?>
 		
 		<div class="jumbotron" style="background-color: #FFFFFF">
 			<blockquote>
-				<?php echo $profile->about_me; ?>
+				<?php echo $profile['about_me']; ?>
 			</blockquote>
 		</div>
 	</div>
@@ -19,7 +19,7 @@
 	
 	<div class="tab-content" id="content-articles" style="display: none">
 		<?php
-			$articles = $view_vars[2];
+			$articles = $view_vars[1];
 			
 			if(count($articles) == 0) echo '<h2>No articles here...</h2>';
 			

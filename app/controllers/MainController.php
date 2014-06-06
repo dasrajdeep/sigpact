@@ -42,7 +42,7 @@ class MainController {
 			$articles = $article->fetchAllArticlesByCreator(Session::getUserID());
 		}
 		
-		$user_profile = array_merge($user_profile, array($articles));
+		$user_profile = array($user_profile, $articles);
 		
 		if(Session::isRunning()) {
 			ViewManager::renderView('profile-main', $user_profile);

@@ -22,14 +22,10 @@ class ArticlesController {
 		$article_id = $args[0];
 		
 		$articles = new Article();
-		$profiles = new Profile();
-		$comments = new Comments();
 		
-		$article = $articles->getArticle($article_id);
-		$profile = $profiles->getCompleteProfileInfo($article->creator_id);
-		$article_comments = $comments->getCommentsByNode('ARTICLE', $article_id);
+		$article = $articles->getCompleteArticle($article_id);
 		
-		ViewManager::renderView('articles-full-main', array_merge(array($article), $profile, array($article_comments)));
+		ViewManager::renderView('articles-full-main', $article);
 	} 
 	
 	public function deleteArticle() {
