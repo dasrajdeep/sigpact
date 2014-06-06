@@ -20,6 +20,8 @@ $(document).ready(function() {
 			showDialog('Error! Something unusual happened.', data);
 		}
    });
+   
+   updateTimeAgo();
 });
 
 function changeProfilePhoto() {

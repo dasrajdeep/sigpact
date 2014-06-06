@@ -1,41 +1,40 @@
 <?php $profile = $view_vars[0]; ?>
 
-<ul class="nav nav-pills nav-justified">
-	<li id="pill-1" class="active pill"><a href="javascript:changeTab(1)">ABOUT <?php ?></a></li>
-	<li id="pill-2" class="pill"><a href="javascript:changeTab(2)">CODE</a></li>
-	<li id="pill-3" class="pill"><a href="javascript:changeTab(3)">ARTICLES</a></li>
-</ul>
-
-<br/>
-
-<p>
+<div>
 	<div class="tab-content" id="content-aboutme" style="text-align: justify; font-size: 20px;">
 		<?php if($profile->id == Session::getUserID()) { ?>
 		<button type="button" class="btn btn-primary" onclick="changeAboutMe()"><span class="glyphicon glyphicon-edit"></span> Edit</button>
 		<?php } ?>
-		<br/>
-		<?php 
-			echo $profile->about_me;
-		?>
+		
+		<div class="jumbotron" style="background-color: #FFFFFF">
+			<blockquote>
+				<?php echo $profile->about_me; ?>
+			</blockquote>
+		</div>
 	</div>
 	
-	<div class="tab-content" id="content-code" style="display: none"></div>
+	<div class="tab-content" id="content-code" style="display: none; text-align: center">
+		<h1>Will be here soon!</h1>
+	</div>
 	
 	<div class="tab-content" id="content-articles" style="display: none">
-		<ul class="list-group">
 		<?php
 			$articles = $view_vars[2];
+			
+			if(count($articles) == 0) echo '<h2>No articles here...</h2>';
 			
 			foreach($articles as $article) {
 				if(strlen($article->content) > 100) $content = substr($article->content, 0, 100).'...';
 				else $content = $article->content;
 		?>
-		<li class="list-group-item">
-			<h4><a href="<?php echo BASE_URI.'article/'.$article->id; ?>"><?php echo $article->title; ?></a></h4>
-			<div><?php echo $content; ?></div>
-			<i><b>Posted on <?php echo date('l, jS F', $article->timestamp); ?> at <?php echo date('g:i A', $article->timestamp); ?></b></i>
-		</li>
+		<div class="col-md-6" style="border-radius: 5px; border: solid; border-width: 1px">
+			<h4 style="border-radius: 5px; background-color: #EEEEEE; padding: 10px"><a href="<?php echo BASE_URI.'article/'.$article->id; ?>"><?php echo $article->title; ?></a></h4>
+			<hr style="background-color: #566569;height: 1px;"/>
+			<div><?php echo Utilities::shortenText($article->content, 250); ?></div>
+			<h4>...
+				<i title="<?php echo Utilities::convertToFullDate($article->timestamp); ?>"  value="<?php echo Utilities::getFormatForTimeago($article->timestamp); ?>" class="timeago"></i>
+			</h4>
+		</div>
 		<?php } ?>
-		</ul>
 	</div>
-</p>
+</div>
