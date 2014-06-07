@@ -29,20 +29,32 @@ class Messaging {
 	
 	public function fetchInbox($acc_no) {
 		
-		$query = "SELECT * FROM message WHERE receiver=:receiver ORDER BY `timestamp` DESC";
+		$query = "SELECT message,timestamp,full_name,account.id AS acc_no,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS photo,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime 
+			FROM message INNER JOIN account 
+			ON message.sender=account.id 
+			WHERE recipient=:receiver 
+			ORDER BY `timestamp` DESC";
 		
 		$results = R::getAll($query, array(':receiver'=>$acc_no));
 		
-		return R::convertToBeans('message', $results);
+		return $results;
 	}
 	
 	public function fetchSentbox($acc_no) {
 		
-		$query = "SELECT * FROM message WHERE sender=:sender ORDER BY `timestamp` DESC";
+		$query = "SELECT message,timestamp,full_name,account.id AS acc_no,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT thumbnail FROM photo WHERE photo.id=account.photo_id) END) AS photo,
+			(CASE photo_id WHEN NULL THEN NULL ELSE (SELECT mime FROM photo WHERE photo.id=account.photo_id) END) AS mime 
+			FROM message INNER JOIN account 
+			ON message.recipient=account.id 
+			WHERE sender=:sender 
+			ORDER BY `timestamp` DESC";
 		
 		$results = R::getAll($query, array(':sender'=>$acc_no));
 		
-		return R::convertToBeans('message', $results);
+		return $results;
 	}
 	
 }

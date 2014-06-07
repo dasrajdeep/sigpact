@@ -21,8 +21,31 @@ $(document).ready(function() {
 		}
    });
    
+   $('#message-form').ajaxForm(function(data) { 
+		
+		hideProgressDialog();
+		
+		if(data === 'false') {
+			showDialog('Message not sent', 'Something went wrong. We were unable to send your message.');
+		} else if(data === 'true') {
+			showDialog('Message Sent.', 'Your message has been sent.');
+		} else {
+			showDialog('Error! Something unusual happened.', data);
+		}
+   });
+   
    updateTimeAgo();
 });
+
+function sendMessage() {
+	$('.modal').modal('hide');
+	showProgressDialog();
+	$('#message-form').submit();
+}
+
+function showSendMessage() {
+	$('#message-dialog').modal('show');
+}
 
 function changeProfilePhoto() {
 	$('#photo-dialog').modal('show');

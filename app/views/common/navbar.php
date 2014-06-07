@@ -31,14 +31,14 @@
 				</a>
 			</li>-->
 			
-			<li>
+			<!--<li>
 				<form class="navbar-form navbar-left" role="search" style="padding: 0px; margin: 0px; margin-top: 4px">
 					<div class="input-group">
 						<input type="text" class="form-control" placeholder="Search" style="height: 25px">
 						<span class="input-group-addon" style="padding: 4px"><span class="glyphicon glyphicon-search"></span></span>
 					</div>
 				</form>
-			</li>
+			</li>-->
 			
 			<li>
 				<a href="<?php echo BASE_URI.'profile'; ?>">

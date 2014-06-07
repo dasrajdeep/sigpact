@@ -26,7 +26,7 @@
 </table>
 
 <script>
-	$(document).ready(function() {
+	/*$(document).ready(function() {
 		
 		var barHeight = window.innerHeight - 70;
 		
@@ -36,5 +36,5 @@
 			placement:'right',
 			trigger:'hover'
 		});
-	});
+	});*/
 </script>

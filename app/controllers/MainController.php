@@ -86,7 +86,12 @@ class MainController {
 	
 	public function showMessagesPage() {
 		
-		ViewManager::renderView('messages-main');
+		$messaging = new Messaging();
+		
+		$inbox = $messaging->fetchInbox(Session::getUserID());
+		$sentbox  =$messaging->fetchSentbox(Session::getUserID());
+		
+		ViewManager::renderView('messages-main', array('inbox'=>$inbox, 'sentbox'=>$sentbox));
 	}
 	
 	public function showNotificationsPage() {

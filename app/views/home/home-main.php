@@ -17,14 +17,18 @@
 	$events = $view_vars[1]; 
 ?>
 
-<div id="home-sidebar" class="col-md-2" data-spy="affix">
-	<?php Helper::addViewComponent('home-sidebar', 0); ?>
+<div class="col-md-7 affix">
+	<div id="menu" style="text-align: center">
+		<?php Helper::addViewComponent('home-menu'); ?>
+	</div>
+	
+	<div class="clearfix"></div>
+	
+	<div class="container" id="people">
+		<?php Helper::addViewComponent('home-people', $people); ?>
+	</div>
 </div>
 
-<div id="home-feed" class="col-md-6 col-md-offset-2">
+<div class="col-md-5 col-md-offset-7">
 	<?php Helper::addViewComponent('home-feed', $events); ?>
-</div>
-
-<div id="home-people" class="col-md-4">
-	<?php Helper::addViewComponent('home-people', $people); ?>
 </div>

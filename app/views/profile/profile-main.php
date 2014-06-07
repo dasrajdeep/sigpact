@@ -15,6 +15,7 @@
 <?php
 	Helper::addViewComponent('progress-view'); 
  	Helper::addViewComponent('profile-photo-dialog');
+	Helper::addViewComponent('profile-message', $view_vars[0]);
  	Helper::addViewComponent('profile-aboutme-dialog', $view_vars);
  	Helper::addViewComponent('alert-dialog');
 	
