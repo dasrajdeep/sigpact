@@ -70,6 +70,28 @@ class ViewManager {
 		}
 	}
 	
+	public static function add_custom_head_content() {
+		
+		if(!isset($GLOBALS['view_config']['custom_head'])) return;
+		
+		foreach($GLOBALS['view_config']['custom_head'] as $custom_head) {
+			
+			if(!isset($GLOBALS['view_registry'])) {
+				$reg=parse_ini_file(PATH_VIEWS.'.views',true);
+				$GLOBALS['view_registry']=$reg['view_registry'];
+			}
+			
+			if(!isset($GLOBALS['view_registry'][$custom_head])) return false;
+			
+			$path=$GLOBALS['view_registry'][$custom_head];
+			
+			if(file_exists($path)) {
+				require_once($path);
+				return true;
+			} else return false;
+		}
+	}
+	
 	public static function add_bootscript() {
 		
 		$bootScript="

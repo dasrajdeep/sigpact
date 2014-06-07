@@ -9,4 +9,5 @@ app_dev.ini
 .helpers
 .views
 .audit
+.project
 

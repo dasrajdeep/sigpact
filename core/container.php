@@ -13,9 +13,12 @@
 			echo sprintf('<link rel="icon" href="%sfavicon.ico" type="image/x-icon">',BASE_URI);
 		}
 	?>
-	<?php ViewManager::add_bootscript(); ?>
-	<?php ViewManager::add_libraries(); ?>
-	<?php ViewManager::add_dependancies(); ?>
+	<?php 
+		ViewManager::add_bootscript();
+		ViewManager::add_libraries();
+		ViewManager::add_dependancies();
+		ViewManager::add_custom_head_content(); 
+	?>
 </head>
 
 <body>

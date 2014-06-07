@@ -60,6 +60,15 @@ class Helper {
 		}
 	}
 	
+	public static function addCustomHeadContent($contentFile) {
+		
+		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array());
+		
+		if(!isset($GLOBALS['view_config']['custom_head'])) $GLOBALS['view_config']['custom_head'] = array();
+		
+		array_push($GLOBALS['view_config']['custom_head'], $contentFile);
+	}
+	
 	public static function setCompleteView()  {
 		
 		$GLOBALS['view_type']='complete';
