@@ -40,7 +40,7 @@ class Helper {
 		$path=$GLOBALS['view_registry'][$componentName];
 		
 		if(file_exists($path)) {
-			require_once($path);
+			include($path);
 			return true;
 		} else return false;
 	}

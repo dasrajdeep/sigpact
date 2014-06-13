@@ -4,6 +4,11 @@ defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.
 
 class Registry {
 	
+	const CONFIG_TYPE_DATABASE = "DATABASE";
+	const CONFIG_TYPE_MAIL = "MAIL";
+	const PORT_TYPE_PUBLIC = "PUBLIC";
+	const PORT_TYPE_PRIVATE = "PRIVATE";
+	
 	/**
 		Contains registry entries of the form:
 		(<script_name>,<script_path>)
@@ -48,40 +53,54 @@ class Registry {
 	
 	public static function init() {
 		
-		$app_config_file = (PRODUCTION) ? 'app/app.ini' : 'app/app_dev.ini';
-		$content_config_file = 'app/content.ini';
-		
-		if(!PRODUCTION && !file_exists($app_config_file)) file_put_contents($app_config_file, file_get_contents('app/app.ini'));
-		
-		$config_app=parse_ini_file($app_config_file, true);
-		$config_content=parse_ini_file($content_config_file, true);
-		
-		$routes=$config_app['ports'];
-		foreach(array_keys($routes) as $command) {
-			$routeConfig=$routes[$command];
-			$routeConfig=explode(':',$routeConfig);
-			self::$port_registry[$command]=array($routeConfig[0],$routeConfig[1]);
+		if(!file_exists(BASE_DIR.'app/config/app.ini')) {
+			copy(BASE_DIR.'app/config/app.ini.default', BASE_DIR.'app/config/app.ini');
 		}
 		
-		self::$rpc_registry=$config_app['rpc'];
+		$config_app = parse_ini_file(BASE_DIR.'app/config/app.ini', TRUE);
+		$config_content = parse_ini_file(BASE_DIR.'app/config/content.ini', TRUE);
+		$config_ports = parse_ini_file(BASE_DIR.'app/config/ports.ini', TRUE);
+		$config_rpc = parse_ini_file(BASE_DIR.'app/config/rpc.ini', FALSE);
+		$config_views = parse_ini_file(BASE_DIR.'app/config/views.ini', FALSE);
+		$config_custom = parse_ini_file(BASE_DIR.'app/config/custom.ini', FALSE);
 		
-		self::$view_registry=$config_app['view'];
+		self::$port_registry = $config_ports;
 		
-		self::$app_config=$config_app['config'];
+		foreach(array_keys($config_ports['PUBLIC']) as $key) {
+			$value = trim($config_ports['PUBLIC'][$key]);
+			if($value) self::$port_registry['PUBLIC'][$key] = explode(':', $value);
+			else self::$port_registry['PUBLIC'][$key] = null;
+		}
 		
-		self::$style_registry=$config_content['stylesheets'];
-		self::$script_registry=$config_content['scripts'];
-		self::$graphics_registry=$config_content['graphics'];
+		foreach(array_keys($config_ports['PRIVATE']) as $key) {
+			$value = trim($config_ports['PRIVATE'][$key]);
+			if($value) self::$port_registry['PRIVATE'][$key] = explode(':', $value);
+			else self::$port_registry['PRIVATE'][$key] = null;
+		}
+		
+		self::$rpc_registry = $config_rpc;
+		
+		self::$view_registry = $config_views;
+		
+		self::$app_config = $config_app;
+		
+		self::$style_registry = $config_content['stylesheets'];
+		self::$script_registry = $config_content['scripts'];
+		self::$graphics_registry = $config_content['graphics'];
 	}
 	
-	public static function getPortNames() {
+	public static function portExists($portName) {
 		
-		return array_keys(self::$port_registry);
+		if(array_key_exists($portName, self::$port_registry['PUBLIC'])) return TRUE;
+		if(array_key_exists($portName, self::$port_registry['PRIVATE'])) return TRUE;
+		
+		return FALSE;
 	}
 	
 	public static function lookupPort($portName) {
 		
-		if(isset(self::$port_registry[$portName])) return self::$port_registry[$portName];
+		if(isset(self::$port_registry['PUBLIC'][$portName])) return array_merge(self::$port_registry[$portName], array('PUBLIC'));
+		else if(isset(self::$port_registry['PRIVATE'][$portName])) return array_merge(self::$port_registry[$portName], array('PRIVATE'));
 		else return null;
 	}
 	
@@ -118,9 +137,9 @@ class Registry {
 		else return null;
 	}
 	
-	public static function lookupConfig($configKey) {
+	public static function lookupConfig($type, $configKey) {
 		
-		if(isset(self::$app_config[$configKey])) return self::$app_config[$configKey];
+		if(isset(self::$app_config[$type][$configKey])) return self::$app_config[$type][$configKey];
 		else return null;
 	}
 	

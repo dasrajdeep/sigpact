@@ -1,0 +1,16 @@
+[DATABASE]
+
+name="kiln"
+host="localhost"
+port="3306"
+username="root"
+password=""
+
+[MAIL]
+
+sender_name=""
+sender_email=""
+smtp_host=""
+smtp_port=""
+smtp_username=""
+smtp_password=""

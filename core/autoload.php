@@ -40,10 +40,10 @@ function _load_redbean($class_name) {
 	
 	require_once($class_path);
 	
-	$db_host=Registry::lookupConfig('database_host');
-	$db_user=Registry::lookupConfig('database_username');
-	$db_pass=Registry::lookupConfig('database_password');
-	$db_name=Registry::lookupConfig('database_name');
+	$db_host=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'host');
+	$db_user=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'username');
+	$db_pass=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'password');
+	$db_name=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'name');
 	
 	R::setup(sprintf('mysql:host=%s;dbname=%s',$db_host,$db_name),$db_user,$db_pass);
 }
