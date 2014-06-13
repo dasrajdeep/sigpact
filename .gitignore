@@ -1,6 +1,5 @@
 data/*
 cache/*
-vendor/*
 
 *.log
 app.ini
