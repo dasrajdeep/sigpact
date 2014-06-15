@@ -1,6 +1,6 @@
 <?php
 	Helper::setCompleteView();
-	Helper::addDependancy('bootstrap');
+	Helper::addDependancy('jquery,bootstrap');
 	Helper::addDependancy('jquery-form');
 	Helper::addDependancy('theme.css');
 	Helper::addDependancy('utilities.js');
