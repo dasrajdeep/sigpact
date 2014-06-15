@@ -22,7 +22,7 @@
 		$info=pathinfo($uriParams[count($uriParams)-1]);
 		if(isset($info['extension'])) {
 			$info['extension']=strtolower($info['extension']);
-			if(in_array($info['extension'],array('js','css','jpg','jpeg','png','gif','bmp','svg','eot','ttf','woff'))) require_once('core/static.php');
+			if(in_array($info['extension'],array('js','css','jpg','jpeg','png','gif','bmp','svg','eot','ttf','woff','otf'))) require_once('core/static.php');
 		}
 	}
 	

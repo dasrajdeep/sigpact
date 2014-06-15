@@ -7,61 +7,84 @@ class ContentManager {
 	private static $cache_location='cache/';
 	
 	private static $contentTypes=array(
-		'graphics'=>array('jpg','jpeg','png','gif','bmp','svg'),
+		'graphics'=>array('jpg','jpeg','png','gif','bmp'),
 		'stylesheets'=>array('css'),
 		'scripts'=>array('js'),
-		'fonts'=>array('eot','ttf','woff'),
+		'fonts'=>array('eot','ttf','woff','svg','otf'),
 		'all'=>array('jpg','jpeg','png','gif','bmp','svg','css','js','eot','ttf','woff')
 	);
 	
 	public static function init() {}
 	
+	public static function getContentType($extension) {
+		
+		$keys = array_keys(self::$contentTypes);
+		
+		foreach($keys as $key) {
+			if(in_array($extension, self::$contentTypes[$key])) return $key;
+		}
+	}
+	
 	public static function getResourceLink($resourceName) {
 		
-		$contentInfo=pathinfo($resourceName);
+		$ext = pathinfo($resourceName, PATHINFO_EXTENSION);
 		
-		if(!isset($contentInfo['extension'])) return '';
+		if(!$ext || !in_array($ext, self::$contentTypes['all'])) return '';
 		
-		$ext=$contentInfo['extension'];
+		$type = self::getContentType($ext);
 		
-		$resourceLink='';
-		
-		if(in_array($ext,self::$contentTypes['all'])) {
-			if(in_array($ext,self::$contentTypes['graphics'])) {
-				$resourceLink=Registry::lookupGraphics($resourceName);
-			} else if(in_array($ext,self::$contentTypes['stylesheets'])) {
-				$resourceLink=Registry::lookupStyle($resourceName);
-			} else if(in_array($ext,self::$contentTypes['scripts'])) {
-				$resourceLink=Registry::lookupScript($resourceName);
-			} else if(in_array($ext,self::$contentTypes['fonts'])) {
-				$resourceLink=PATH_FONTS.$resourceName;
-			}
+		if($type === 'graphics') {
+			$link = PATH_GRAPHICS.$resourceName;
+		} else if($type === 'stylesheets') {
+			$link = PATH_STYLES.$resourceName;
+		} else if($type === 'scripts') {
+			$link = PATH_SCRIPTS.$resourceName;
+		} else if($type === 'fonts') {
+			$link = PATH_FONTS.$resourceName;
+		} else {
+			$link = '';
 		}
 		
-		if($resourceLink && file_exists(BASE_DIR.$resourceLink)) {
-			CacheManager::moveToCache($resourceName);
-			$resourceLink=BASE_URI.self::$cache_location.$resourceName;
-		} else if($resourceLink && !file_exists(BASE_DIR.$resourceLink)) $resourceLink='';
-		
-		return $resourceLink;
+		if($link && file_exists(BASE_DIR.$link)) {
+			CacheManager::moveToCache($link);
+			return BASE_URI.self::$cache_location.$resourceName;
+		} else if($link && !file_exists(BASE_DIR.$link)) {
+			return '';
+		}
 	}
 	
 	public static function serveContent($contentName) {
 		
-		global $vendor_content;
+		global $libraries;
 		
-		$fileInfo=pathinfo($contentName);
+		$link = self::inLibrary($contentName);
 		
-		if(in_array($fileInfo['basename'],array_keys($vendor_content))) {
-			header('Location: '.$vendor_content[$fileInfo['basename']]);
-			return;
+		if($link === FALSE) {
+			$link = self::getResourceLink($contentName);
+			if($link) {
+				if(CacheManager::lookupCache($contentName)) header('Location: '.BASE_URI.PATH_CACHE.$contentName);
+				else header('HTTP/1.1 404 Not Found');
+			} else header('HTTP/1.1 404 Not Found');
+		} else {
+			header('Location: '.BASE_URI.$link);
+		}
+	}
+	
+	public static function inLibrary($contentName) {
+		
+		global $libraries;
+		
+		foreach($libraries as $lib) {
+			if(is_array($lib)) {
+				foreach($lib as $path) {
+					if($contentName === pathinfo($path, PATHINFO_BASENAME)) return $path;
+				}
+			} else {
+				if($contentName === pathinfo($lib, PATHINFO_BASENAME)) return $lib;
+			}
 		}
 		
-		if(CacheManager::lookupCache($contentName)) $contentFound=true;
-		else $contentFound=CacheManager::moveToCache($contentName);
-		
-		if($contentFound) header('Location: '.BASE_URI.self::$cache_location.$contentName);
-		else header('HTTP/1.1 404 Not Found');
+		return FALSE;
 	}
 }
 

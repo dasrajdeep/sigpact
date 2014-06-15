@@ -2,7 +2,6 @@
 	"require": {
 		"monolog/monolog": "1.10.*@dev",
 		"swiftmailer/swiftmailer": "5.2.*@dev",
-		"gabordemooij/redbean": "dev-RedBeanPHP3_5_X",
 		"ezyang/htmlpurifier": "dev-master"
 	}
 }

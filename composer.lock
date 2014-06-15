@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "14b83133a978d6f72a85d30af4b7786f",
+    "hash": "3e8e443d3a2db000d8ce7e13291b4fa4",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -50,49 +50,6 @@
                 "html"
             ],
             "time": "2014-02-04 20:17:24"
-        },
-        {
-            "name": "gabordemooij/redbean",
-            "version": "dev-RedBeanPHP3_5_X",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gabordemooij/redbean.git",
-                "reference": "911add15c9318c40fd630b1afa770a7c18643165"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gabordemooij/redbean/zipball/911add15c9318c40fd630b1afa770a7c18643165",
-                "reference": "911add15c9318c40fd630b1afa770a7c18643165",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "RedBean_": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD"
-            ],
-            "authors": [
-                {
-                    "name": "Gabor de Mooij",
-                    "email": "gabordemooij@gmail.com",
-                    "homepage": "http://www.redbeanphp.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Easy ORM for PHP",
-            "homepage": "http://github.com/gabordemooij/redbean",
-            "keywords": [
-                "Object Relational Mapping",
-                "orm"
-            ],
-            "time": "2014-05-21 18:54:39"
         },
         {
             "name": "monolog/monolog",
@@ -265,7 +222,6 @@
     "stability-flags": {
         "monolog/monolog": 20,
         "swiftmailer/swiftmailer": 20,
-        "gabordemooij/redbean": 20,
         "ezyang/htmlpurifier": 20
     },
     "platform": [
