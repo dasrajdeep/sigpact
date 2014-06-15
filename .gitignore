@@ -4,11 +4,13 @@ vendor/
 lib/
 
 *.log
+*.lock
 app.ini
 lib.json
 !.htaccess
 !readme.txt
 
+.helpers
 .views
 .cache
 .audit
