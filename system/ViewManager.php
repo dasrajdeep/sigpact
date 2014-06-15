@@ -4,6 +4,16 @@ defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.
 
 class ViewManager {
 	
+	private static $locations = array(
+		'js'=>PATH_SCRIPTS,
+		'css'=>PATH_STYLES,
+		'eot'=>PATH_FONTS,
+		'ttf'=>PATH_FONTS,
+		'woff'=>PATH_FONTS,
+		'svg'=>PATH_FONTS,
+		'otf'=>PATH_FONTS
+	);
+	
 	public static function renderView($viewName,$view_vars=null) {
 		
 		$GLOBALS['view_type']='partial';
@@ -16,7 +26,7 @@ class ViewManager {
 			require_once($view_registry[$viewName]);
 			$html_body=ob_get_clean();
 			
-			if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array());
+			if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('dependancies'=>array());
 			
 			if($GLOBALS['view_type']==='complete') require_once('core/container.php');
 			else echo $html_body;
@@ -25,48 +35,69 @@ class ViewManager {
 		} else return false;
 	}
 	
-	public static function add_libraries() {
+	public static function get_tags($name) {
 		
 		global $libraries;
 		
-		$libraryNames=array('jquery');
+		$name = pathinfo($name, PATHINFO_BASENAME);
 		
-		if(isset($GLOBALS['view_config'])) $libraryNames=array_merge($libraryNames,$GLOBALS['view_config']['lib']);
-		
-		foreach($libraryNames as $lib) {
-			if(isset($libraries[$lib])) {
-				$lib_link=$libraries[$lib];
-				
-				if(PRODUCTION) $lib_link=$lib_link['cdn'];
-				else $lib_link=$lib_link['local'];
-				
-				foreach($lib_link as $link) {
-					$info=pathinfo($link);
-					if($info['extension']==='js') echo sprintf('<script type="text/javascript" src="%s"></script>',$link);
-					else if($info['extension']==='css') echo sprintf('<link rel="stylesheet" href="%s" />',$link);
-				}
-			}
+		if(array_key_exists($name, $libraries)) {
+			// A library
+			$paths = $libraries[$name];
+		} else {
+			// Not a library
+			$link = ContentManager::getResourceLink($name);
+			if(!$link) return array();
+			$paths = array($link);
 		}
+		
+		$tags = array();
+		
+		foreach($paths as $path) {
+			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			if(!$ext) continue;
+			
+			if($ext === 'js') array_push($tags, 
+				sprintf('<script type="text/javascript" src="%s"></script>',$path));
+			else if($ext === 'css') array_push($tags, 
+				sprintf('<link rel="stylesheet" href="%s" />',$path));
+		}
+		
+		return $tags;
 	}
 	
 	public static function add_dependancies() {
 		
 		if(!isset($GLOBALS['view_config'])) return;
 		
-		$view_config=$GLOBALS['view_config'];
+		$view_config = $GLOBALS['view_config'];
 		
-		foreach($view_config['styles'] as $dep) {
+		foreach($view_config['dependancies'] as $dep) {
+			$tags = self::get_tags($dep);
 			
-			$resourceLink=ContentManager::getResourceLink($dep);
-			
-			echo sprintf('<link rel="stylesheet" href="%s" />',$resourceLink);
+			foreach($tags as $tag) echo $tag."\n";
 		}
+	}
 		
-		foreach($view_config['scripts'] as $dep) {
+	public static function add_custom_head_content() {
+		
+		if(!isset($GLOBALS['view_config']['custom_head'])) return;
+		
+		foreach($GLOBALS['view_config']['custom_head'] as $custom_head) {
 			
-			$resourceLink=ContentManager::getResourceLink($dep);
+			if(!isset($GLOBALS['view_registry'])) {
+				$reg=parse_ini_file(PATH_VIEWS.'.views',true);
+				$GLOBALS['view_registry']=$reg['view_registry'];
+			}
 			
-			echo sprintf('<script type="text/javascript" src="%s"></script>',$resourceLink);
+			if(!isset($GLOBALS['view_registry'][$custom_head])) return false;
+			
+			$path=$GLOBALS['view_registry'][$custom_head];
+			
+			if(file_exists($path)) {
+				require_once($path);
+				return true;
+			} else return false;
 		}
 	}
 	

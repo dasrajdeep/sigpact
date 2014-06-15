@@ -6,98 +6,85 @@ class ContentManager {
 	
 	private static $cache_location='cache/';
 	
-	/**
-	 * One of:
-	 * 1. proxy
-	 * 2. legacy
-	 * 3. cloudstore
-	 */
-	private static $cdn_type='';
-	
-	private static $cdn_proxy_suffix='';
-	
-	private static $cdn_legacy_url='';
-	
-	private static $cdn_cloud_url='';
-	
 	private static $contentTypes=array(
-		'graphics'=>array('jpg','jpeg','png','gif','bmp','svg'),
+		'graphics'=>array('jpg','jpeg','png','gif','bmp'),
 		'stylesheets'=>array('css'),
 		'scripts'=>array('js'),
-		'fonts'=>array('eot','ttf','woff'),
+		'fonts'=>array('eot','ttf','woff','svg','otf'),
 		'all'=>array('jpg','jpeg','png','gif','bmp','svg','css','js','eot','ttf','woff')
 	);
 	
-	public static function init() {
+	public static function init() {}
+	
+	public static function getContentType($extension) {
 		
-		self::$cdn_type=$GLOBALS['cdn_type'];
-		self::$cdn_proxy_suffix=$GLOBALS['cdn_proxy_domain_suffix'];
-		self::$cdn_legacy_url=$GLOBALS['cdn_legacy_base_url'];
-		self::$cdn_cloud_url=$GLOBALS['cdn_cloud_base_url'];
+		$keys = array_keys(self::$contentTypes);
+		
+		foreach($keys as $key) {
+			if(in_array($extension, self::$contentTypes[$key])) return $key;
+		}
 	}
 	
 	public static function getResourceLink($resourceName) {
 		
-		$contentInfo=pathinfo($resourceName);
+		$ext = pathinfo($resourceName, PATHINFO_EXTENSION);
 		
-		if(!isset($contentInfo['extension'])) return '';
+		if(!$ext || !in_array($ext, self::$contentTypes['all'])) return '';
 		
-		$ext=$contentInfo['extension'];
+		$type = self::getContentType($ext);
 		
-		$resourceLink='';
-		
-		if(PRODUCTION && in_array($ext,self::$contentTypes['all'])) return self::generateCDNLink($resourceName);
-		else if(!PRODUCTION && in_array($ext,self::$contentTypes['all'])) {
-			if(in_array($ext,self::$contentTypes['graphics'])) {
-				$resourceLink=Registry::lookupGraphics($resourceName);
-			} else if(in_array($ext,self::$contentTypes['stylesheets'])) {
-				$resourceLink=Registry::lookupStyle($resourceName);
-			} else if(in_array($ext,self::$contentTypes['scripts'])) {
-				$resourceLink=Registry::lookupScript($resourceName);
-			} else if(in_array($ext,self::$contentTypes['fonts'])) {
-				$resourceLink=PATH_FONTS.$resourceName;
-			}
+		if($type === 'graphics') {
+			$link = PATH_GRAPHICS.$resourceName;
+		} else if($type === 'stylesheets') {
+			$link = PATH_STYLES.$resourceName;
+		} else if($type === 'scripts') {
+			$link = PATH_SCRIPTS.$resourceName;
+		} else if($type === 'fonts') {
+			$link = PATH_FONTS.$resourceName;
+		} else {
+			$link = '';
 		}
 		
-		if($resourceLink && file_exists(BASE_DIR.$resourceLink)) {
-			CacheManager::moveToCache($resourceName);
-			$resourceLink=BASE_URI.self::$cache_location.$resourceName;
-		} else if($resourceLink && !file_exists(BASE_DIR.$resourceLink)) $resourceLink='';
-		
-		return $resourceLink;
+		if($link && file_exists(BASE_DIR.$link)) {
+			CacheManager::moveToCache($link);
+			return BASE_URI.self::$cache_location.$resourceName;
+		} else if($link && !file_exists(BASE_DIR.$link)) {
+			return '';
+		}
 	}
 	
 	public static function serveContent($contentName) {
 		
-		global $vendor_content;
+		global $libraries;
 		
-		$fileInfo=pathinfo($contentName);
+		$link = self::inLibrary($contentName);
 		
-		if(in_array($fileInfo['basename'],array_keys($vendor_content))) {
-			header('Location: '.$vendor_content[$fileInfo['basename']]);
-			return;
+		if($link === FALSE) {
+			$link = self::getResourceLink($contentName);
+			if($link) {
+				if(CacheManager::lookupCache($contentName)) header('Location: '.BASE_URI.PATH_CACHE.$contentName);
+				else header('HTTP/1.1 404 Not Found');
+			} else header('HTTP/1.1 404 Not Found');
+		} else {
+			header('Location: '.BASE_URI.$link);
 		}
-		
-		if(CacheManager::lookupCache($contentName)) $contentFound=true;
-		else $contentFound=CacheManager::moveToCache($contentName);
-		
-		if($contentFound) header('Location: '.BASE_URI.self::$cache_location.$contentName);
-		else header('HTTP/1.1 404 Not Found');
 	}
 	
-	private static function generateCDNLink($resourceName) {
+	public static function inLibrary($contentName) {
 		
-		$url=parse_url(BASE_URI);
+		global $libraries;
 		
-		if(self::$cdn_type==='proxy') {
-			if(!self::$cdn_proxy_suffix) return BASE_URI.$resourceName;
-			$domain=$url['host'].self::$cdn_proxy_suffix;
-			return $url['scheme'].'://'.$domain.$url['path'].$resourceName; 
-		} else if(self::$cdn_type==='legacy') {
-			return self::$cdn_legacy_url.$resourceName;
-		} else if(self::$cdn_type==='cloudstore') {
-			return self::$cdn_cloud_url.$resourceName;
+		foreach($libraries as $lib) {
+			if(is_array($lib)) {
+				foreach($lib as $path) {
+					if($contentName === pathinfo($path, PATHINFO_BASENAME)) return $path;
+				}
+			} else {
+				if($contentName === pathinfo($lib, PATHINFO_BASENAME)) return $lib;
+			}
 		}
+		
+		return FALSE;
 	}
 }
 

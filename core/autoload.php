@@ -32,18 +32,16 @@ function load_controller($class_name) {
 	}
 }
 
-function _load_redbean($class_name) {
+function load_redbean($class_name) {
 	
-	if($class_name!=='R') return;
+	if($class_name !== 'R') return;
 	
-	$class_path=$GLOBALS['php_libraries']['redbean'][0];
+	require_once('vendor/redbeanphp-3.5.4/rb.php');
 	
-	require_once($class_path);
-	
-	$db_host=Registry::lookupConfig('database_host');
-	$db_user=Registry::lookupConfig('database_username');
-	$db_pass=Registry::lookupConfig('database_password');
-	$db_name=Registry::lookupConfig('database_name');
+	$db_host=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'host');
+	$db_user=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'username');
+	$db_pass=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'password');
+	$db_name=Registry::lookupConfig(Registry::CONFIG_TYPE_DATABASE, 'name');
 	
 	R::setup(sprintf('mysql:host=%s;dbname=%s',$db_host,$db_name),$db_user,$db_pass);
 }

@@ -4,36 +4,30 @@ defined('SYSTEM_STARTED') or die('You are not permitted to access this resource.
 
 class CacheManager {
 	
+	const CONTENT_TYPE_GRAPHICS = "GRAPHIC";
+	const CONTENT_TYPE_SCRIPT = "SCRIPT";
+	const CONTENT_TYPE_STYLESHEET = "STYLESHEET";
+	const CONTENT_TYPE_FONT = "FONT";
+	
 	private static $cacheRegistry=array();
 	
 	private static $persistenceTime=1800;
 	
 	public static function init() {}
 	
-	public static function moveToCache($resourceName) {
+	public static function moveToCache($resourcePath) {
 		
-		if(self::getResourceType($resourceName)==='graphics') {
-			$filePath=Registry::lookupGraphics($resourceName);
-		} else if(self::getResourceType($resourceName)==='stylesheet') {
-			$filePath=Registry::lookupStyle($resourceName);
-		} else if(self::getResourceType($resourceName)==='script') {
-			$filePath=Registry::lookupScript($resourceName);
-		} else $filePath=null;
+		$filename = pathinfo($resourcePath, PATHINFO_BASENAME);
 		
-		if(!$filePath) return false;
-		
-		$info=pathinfo($filePath);
-		
-		if(file_exists(PATH_CACHE.$info['basename'])) {
-			$modifyTime=filemtime($filePath);
-			$copyTime=filemtime(PATH_CACHE.$info['basename']);
-			$copied = FALSE;
-			if($modifyTime >= $copyTime) $copied = copy($filePath,PATH_CACHE.$info['basename']);
+		if(file_exists(PATH_CACHE.$filename)) {
+			$modifyTime = filemtime($resourcePath);
+			$copyTime = filemtime(PATH_CACHE.$filename);
+			if($modifyTime >= $copyTime) copy($resourcePath, PATH_CACHE.$filename);
 		} else {
-			copy($filePath,PATH_CACHE.$info['basename']);
+			copy($resourcePath, PATH_CACHE.$filename);
 		}
 		
-		self::$cacheRegistry[$resourceName]=time();
+		self::$cacheRegistry[$filename]=time();
 		
 		return true;
 	}
@@ -65,16 +59,6 @@ class CacheManager {
 		foreach(array_keys(self::$cacheRegistry) as $resource) $regFileData=$resource.','.self::$cacheRegistry[$resource]."\n";
 		
 		file_put_contents(PATH_CACHE.'.cache',$regFileData);
-	}
-	
-	private static function getResourceType($resourceName) {
-	
-		$info=pathinfo($resourceName);
-		
-		if(in_array($info['extension'],array('jpg','jpeg','png','gif','bmp','svg'))) return 'graphics';
-		else if($info['extension']==='css') return 'stylesheet';
-		else if($info['extension']==='js') return 'script';
-		else return 'unknown';
 	}
 }
 

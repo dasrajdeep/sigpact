@@ -4,9 +4,12 @@ data/*
 cache/*
 
 *.log
+*.lock
+app.ini
+lib.json
+!.htaccess
+!readme.txt
 
 .cache
-.helpers
-.views
-.audit
+.project
 

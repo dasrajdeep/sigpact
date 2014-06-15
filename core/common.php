@@ -73,4 +73,80 @@
 		file_put_contents($registry_file,$helper_registry);
 	}
 	
+	function build_library_registry() {
+		
+		if(file_exists('lib.json') && filemtime('bower.json') <= filemtime('lib.json')) {
+			$GLOBALS['libraries'] = json_decode(file_get_contents('lib.json'), TRUE);
+			return;	
+		} 
+		
+		$paths = json_decode(shell_exec("bower list --paths"), TRUE);
+		 
+		$names = array_keys($paths);
+		
+		$libraries = array();
+		
+		foreach($names as $name) {
+			
+			$list_new = array();
+			
+			if(is_array($paths[$name])) {
+				$list_old = $paths[$name];
+				foreach($list_old as $item) {
+					$pathinfo = pathinfo($item);
+					if($pathinfo['basename'] === '*') {
+						$files = scandir($pathinfo['dirname']);
+						foreach($files as $file) {
+							if($file === '.' || $file === '..') continue;
+							array_push($list_new, $pathinfo['dirname'].'/'.$file);
+						}
+					} else {
+						array_push($list_new, $item);
+					}
+				}
+			} else {
+				$item = $paths[$name];
+				$pathinfo = pathinfo($item);
+				if($pathinfo['basename'] === '*') {
+					$files = scandir($pathinfo['dirname']);
+					foreach($files as $file) {
+						if($file === '.' || $file === '..') continue;
+						array_push($list_new, $pathinfo['dirname'].'/'.$file);
+					}
+				} else {
+					array_push($list_new, $item);
+				}
+			}
+			
+			$libraries[$name] = $list_new;
+		} 
+		 
+		$GLOBALS['libraries'] = $libraries;
+		
+		file_put_contents('lib.json', json_encode($libraries));
+	}
+
+	function generate_random_string($length = 25) {
+		
+		if($length < 5) $length = 5;
+		
+		$pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		$chunk_size = 5;
+		
+		$num_chunks = intval($length / $chunk_size);
+		$extra = $length % $chunk_size;
+		
+		$random_string = '';
+		
+		for($index = 0; $index < $num_chunks; $index++) {
+			$chunk = substr(str_shuffle($pool), 0, $chunk_size);
+			$random_string = $random_string.$chunk;
+		}
+		
+		$chunk = substr(str_shuffle($pool), 0, $extra);
+		$random_string = $random_string.$chunk;
+		
+		return $random_string;
+	}
+	
 ?>

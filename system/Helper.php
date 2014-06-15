@@ -24,8 +24,7 @@ class Helper {
 		
 		$rel_link=ContentManager::getResourceLink($contentName);
 		
-		if($rel_link) return $rel_link;
-		else return $rel_link;
+		return $rel_link;
 	}
 
 	public static function addViewComponent($componentName,$view_vars=null) {
@@ -40,24 +39,27 @@ class Helper {
 		$path=$GLOBALS['view_registry'][$componentName];
 		
 		if(file_exists($path)) {
-			require_once($path);
+			include($path);
 			return true;
 		} else return false;
 	}
 
 	public static function addDependancy($dependancyName) {
 		
-		$pathInfo=pathinfo($dependancyName);
+		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config'] = array('dependancies'=>array());
 		
-		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('lib'=>array(),'scripts'=>array(),'styles'=>array());
+		$dependancies = array_filter(explode(',', $dependancyName));
 		
-		if(!isset($pathInfo['extension'])) {
-			array_push($GLOBALS['view_config']['lib'],$dependancyName);
-		} else if($pathInfo['extension']==='js') {
-			array_push($GLOBALS['view_config']['scripts'],$dependancyName);
-		} else if($pathInfo['extension']==='css') {
-			array_push($GLOBALS['view_config']['styles'],$dependancyName);
-		}
+		foreach($dependancies as $dep) array_push($GLOBALS['view_config']['dependancies'], $dep);
+	}
+	
+	public static function addCustomHeadContent($contentFile) {
+		
+		if(!isset($GLOBALS['view_config'])) $GLOBALS['view_config']=array('dependancies'=>array());
+		
+		if(!isset($GLOBALS['view_config']['custom_head'])) $GLOBALS['view_config']['custom_head'] = array();
+		
+		array_push($GLOBALS['view_config']['custom_head'], $contentFile);
 	}
 	
 	public static function setCompleteView()  {
