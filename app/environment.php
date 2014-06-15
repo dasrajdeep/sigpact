@@ -42,7 +42,7 @@
 	 * your domain, then you must change this value to the 
 	 * appropriate name of the sub-directory.
 	 */
-	$env_base_uri 				 = 'http://stage8.x64.me/researchers/';
+	$env_base_uri 				 = 'http://stage8.x64.me/sigpact/';
 	
 	/**
 	 * Set the type of CDN to be used by your app.
